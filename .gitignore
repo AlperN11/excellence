@@ -18,3 +18,7 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
+
+# pnpm bunu yerelde (build script onayı için) yeniden üretebilir;
+# tek paketli repoda 'packages' alanı olmadığı için CI'da store path'i kırıyor
+pnpm-workspace.yaml
