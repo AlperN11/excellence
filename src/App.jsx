@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { content, LANG_KEY } from './content.js'
 
 function Logo({ light }) {
@@ -128,6 +128,9 @@ function ProductCard({ p, details, onOpen }) {
 
 function ProductModal({ p, ui, onClose }) {
   const [sel, setSel] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [isFull, setIsFull] = useState(false)
+  const mediaRef = useRef(null)
   useEffect(() => {
     if (!p) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -138,19 +141,42 @@ function ProductModal({ p, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [p, onClose])
-  useEffect(() => { setSel(0) }, [p?.id])
+  useEffect(() => { setSel(0); setZoom(1) }, [p?.id])
+  useEffect(() => {
+    const onFs = () => setIsFull(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onFs)
+    return () => document.removeEventListener('fullscreenchange', onFs)
+  }, [])
   if (!p) return null
   const gallery = p.gallery?.length ? p.gallery : [p.img].filter(Boolean)
+  const toggleFull = () => {
+    if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
+    else document.exitFullscreen()
+  }
+  const zoomBox = (src, alt) => (
+    <div
+      className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
+      onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+    >
+      <img className="gallery__main" src={src} alt={alt} style={{ transform: `scale(${zoom})` }} />
+    </div>
+  )
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel" style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
-        <div className="modal__media">
+        <div className="modal__media" ref={mediaRef}>
+          <div className="gallery__toolbar">
+            <button className="gtool" onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+            <span className="gzoom">{Math.round(zoom * 100)}%</span>
+            <button className="gtool" onClick={() => setZoom((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+            <button className="gtool" onClick={toggleFull} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+          </div>
           <div className="gallery__viewer">
             {gallery.length > 1 && (
               <button className="garrow" onClick={() => setSel((sel - 1 + gallery.length) % gallery.length)} aria-label={ui.prev}>‹</button>
             )}
-            <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} ${ui.photo} ${sel + 1}`} />
+            {zoomBox(gallery[sel] ?? gallery[0], `${p.name} ${ui.photo} ${sel + 1}`)}
             {gallery.length > 1 && (
               <button className="garrow" onClick={() => setSel((sel + 1) % gallery.length)} aria-label={ui.next}>›</button>
             )}
@@ -211,6 +237,9 @@ function Products({ t, ui }) {
 }
 
 function ConceptModal({ c, t, ui, onClose }) {
+  const [zoom, setZoom] = useState(1)
+  const [isFull, setIsFull] = useState(false)
+  const mediaRef = useRef(null)
   useEffect(() => {
     if (!c) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -221,13 +250,34 @@ function ConceptModal({ c, t, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [c, onClose])
+  useEffect(() => { setZoom(1) }, [c?.name])
+  useEffect(() => {
+    const onFs = () => setIsFull(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onFs)
+    return () => document.removeEventListener('fullscreenchange', onFs)
+  }, [])
   if (!c) return null
+  const toggleFull = () => {
+    if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
+    else document.exitFullscreen()
+  }
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
-        <div className="modal__media">
-          <img className="gallery__main" src={c.img} alt={c.name} />
+        <div className="modal__media" ref={mediaRef}>
+          <div className="gallery__toolbar">
+            <button className="gtool" onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+            <span className="gzoom">{Math.round(zoom * 100)}%</span>
+            <button className="gtool" onClick={() => setZoom((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+            <button className="gtool" onClick={toggleFull} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+          </div>
+          <div
+            className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
+            onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+          >
+            <img className="gallery__main" src={c.img} alt={c.name} style={{ transform: `scale(${zoom})` }} />
+          </div>
         </div>
         <div className="modal__info modal__info--concept">
           <p className="kicker">{t.kicker}</p>

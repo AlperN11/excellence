@@ -199,6 +199,15 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .gallery__main { border-radius: 12px; max-height: 52vh; }
 .gallery__viewer { display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
 .gallery__viewer .gallery__main { flex: 1; min-width: 0; }
+.gallery__toolbar { display: flex; gap: 8px; align-items: center; align-self: flex-end; }
+.gtool { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.1); color: #fff; font-size: 1.15rem; line-height: 1; cursor: pointer; transition: background .2s; display: grid; place-items: center; padding: 0 0 2px; }
+.gtool:hover { background: rgba(255,255,255,0.25); }
+.gzoom { color: #fff; font-size: 0.8rem; min-width: 44px; text-align: center; }
+.gallery__zoombox { flex: 1; min-width: 0; overflow: auto; display: grid; place-items: center; border-radius: 12px; cursor: zoom-in; max-height: 52vh; }
+.gallery__zoombox.zoomed { cursor: zoom-out; }
+.gallery__zoombox .gallery__main { width: 100%; transition: transform .25s ease; }
+.modal__media:fullscreen { width: 100%; height: 100%; }
+.modal__media:fullscreen .gallery__zoombox { max-height: 76vh; }
 .garrow { flex: none; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.1); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; transition: background .2s; display: grid; place-items: center; padding: 0 0 3px; }
 .garrow:hover { background: rgba(255,255,255,0.25); }
 .gallery__thumbs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
