@@ -18,7 +18,7 @@ export const products = [
     fabricCode: 'GYTTEX-İNCİ 03 / KARACA 02',
     firmness: 3,
     heights: { baslik: '120 cm', baza: '27 cm', ayak: '12 cm', yatak: '32 cm (±2)' },
-    sizes: ['150x200', '160x200', '180x200'],
+    sizes: ['120x200', '150x200', '160x200', '180x200'],
     tags: ['Pocket Spring', 'Soft Sünger', 'Soft Kumaş', 'Omurga Dostu', 'Anti Stres', 'Nefes Alan'],
     desc:
       'Ozone Therapy kumaşı, doğada bulunan ve belli bir enerjiye sahip minerallerin özel bir geometrik yapıda bir araya getirilmesiyle elde edilir. Günlük stres, yoğun iş temposu ve yorgunluğun sebep olduğu vücuttaki iletişim bozukluğunun uyku esnasında düzenlenmesine yardımcı olur. İçerdiği kolajen, cildin elastikiyetini destekler.',
@@ -42,7 +42,7 @@ export const products = [
     fabricCode: 'MBLTX-ASYA 13',
     firmness: 2,
     heights: { baslik: '130 cm', baza: '27 cm', ayak: '12 cm', yatak: '32 cm (±2)' },
-    sizes: ['150x200', '160x200', '180x200'],
+    sizes: ['120x200', '150x200', '160x200', '180x200'],
     tags: ['Pocket Spring', 'Sert Sünger', 'Soft Kumaş', 'Sabit Ped Katmanı', 'Omurga Dostu', 'Anti Stres'],
     desc:
       'BodyBalance yatağının merkezinde özel mineral teknolojili kumaş yer alır. Doğanın eşsiz minerallerinin bilimsel bir yaklaşımla bir araya getirilmesiyle elde edilen bu kumaş; konsantrasyona destek olmayı, güne daha zinde başlamanızı ve vücudun doğal dengesini korumayı amaçlar. Sadece bir uyku alanı değil, kendinizi daha iyi hissetmenize katkı sağlayan bir teknoloji.',
@@ -65,7 +65,7 @@ export const products = [
     fabricCode: 'MBLTX-ASYA 04',
     firmness: 3,
     heights: { baslik: '130 cm', baza: '27 cm', ayak: '12 cm', yatak: '32 cm (±2)' },
-    sizes: ['150x200', '160x200', '180x200'],
+    sizes: ['120x200', '150x200', '160x200', '180x200'],
     tags: ['Pocket Spring', 'Soft Sünger', 'Soft Kumaş', 'Sabit Ped Katmanı', 'Omurga Dostu', 'Nefes Alan'],
     desc:
       'Provitamin B5 içeren Panthenol Yatak Kumaşı, cilt dostu özel bir kumaştır. Siz uyurken cildinizin bariyerini güçlendirmeye yardımcı olur, derinlemesine nemlenmesine destek verir ve doğal yenilenme sürecine katkı sağlar. Uykunuz sadece dinlendirici olmakla kalmaz, cildiniz için destekleyici bir ritüele dönüşür.',
@@ -88,7 +88,7 @@ export const products = [
     fabricCode: 'BYTX-TEDY 328',
     firmness: 3,
     heights: { baslik: '120 cm', baza: '27 cm', ayak: '12 cm', yatak: '32 cm (±2)' },
-    sizes: ['150x200', '160x200', '180x200'],
+    sizes: ['120x200', '150x200', '160x200', '180x200'],
     tags: ['Pocket Spring', 'Soft Sünger', 'Lavender Kumaş', 'Omurga Dostu', 'Anti Stres', 'Nefes Alan'],
     desc:
       'Lavanta ve lavanta yağının aromatik karakterinden ilham alan özel kumaş, Lavender yatağın merkezinde yer alır. Yüzeye entegre edilen mikrokapsüller, lavanta esintisinin kullanım sırasında kademeli olarak hissedilmesini destekler. Nefes alabilen yapısı ve yumuşak dokusuyla günün yoğunluğundan uzaklaşabileceğiniz sakin bir dinlenme ortamı sunar.',
@@ -111,7 +111,7 @@ export const products = [
     fabricCode: 'MBLTX-ASYA 03',
     firmness: 3,
     heights: { baslik: '—', baza: '27 cm', ayak: '12 cm', yatak: '32 cm (±2)' },
-    sizes: ['150x200', '160x200', '180x200'],
+    sizes: ['120x200', '150x200', '160x200', '180x200'],
     tags: ['Pocket Spring', 'Soft Sünger', 'Anti-Aging Kumaş', 'Omurga Dostu', 'Anti Stres', 'Nefes Alan'],
     desc:
       'Anti-Aging Supreme yatak kumaşı, doğada bulunan enerji yüklü minerallerin özel bir geometrik düzenle bir araya getirilmesiyle geliştirilmiştir. İçerdiği vitamin kompleksi ile cildi nemlendirir, serbest radikallerden korur ve hücre yenilenmesini destekler. Uyku sırasında vücudun yenilenmesine yardımcı olmak için özel olarak tasarlanmıştır.',
