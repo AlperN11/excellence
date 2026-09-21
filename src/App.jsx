@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { products, fabrics, conceptFeatures, conceptProducts, contact } from './data.js'
+import { content, LANG_KEY } from './content.js'
 
 function Logo({ light }) {
   return (
@@ -9,15 +9,7 @@ function Logo({ light }) {
   )
 }
 
-const nav = [
-  ['#hakkimizda', 'Hakkımızda'],
-  ['#teknoloji', 'Uyku Teknolojileri'],
-  ['#urunler', 'Yatak Koleksiyonu'],
-  ['#konsept', 'Bahçe Konsepti'],
-  ['#iletisim', 'İletişim'],
-]
-
-function Header() {
+function Header({ nav, menuLabel, lang, onLang }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -35,7 +27,11 @@ function Header() {
             <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
           ))}
         </nav>
-        <button className="burger" aria-label="Menü" onClick={() => setOpen((v) => !v)}>
+        <div className="langswitch" role="group" aria-label="Language">
+          <button className={lang === 'tr' ? 'on' : ''} onClick={() => onLang('tr')}>TR</button>
+          <button className={lang === 'en' ? 'on' : ''} onClick={() => onLang('en')}>EN</button>
+        </div>
+        <button className="burger" aria-label={menuLabel} onClick={() => setOpen((v) => !v)}>
           <span /><span /><span />
         </button>
       </div>
@@ -43,49 +39,33 @@ function Header() {
   )
 }
 
-function Hero() {
+function Hero({ t }) {
   return (
     <section id="top" className="hero">
       <img className="hero__bg" src="/assets/hero-feather.jpeg" alt="" />
       <div className="hero__scrim" />
       <div className="hero__content">
-        <h1 className="hero__title">Sağlıklı uykunun<br /><em>zarafetle</em> buluştuğu yer</h1>
-        <p className="hero__lead">
-          30 yıllık tecrübe, kesintisiz Ar-Ge ve hijyeni ön planda tutan tasarım anlayışıyla
-          Excellence Bedding; en konforlu uyku deneyimini yaşam alanlarınıza taşıyor.
-        </p>
+        <h1 className="hero__title">{t.titleA}<br /><em>{t.titleEm}</em>{t.titleB ? ` ${t.titleB}` : ''}</h1>
+        <p className="hero__lead">{t.lead}</p>
         <div className="hero__cta">
-          <a className="btn btn--ghost" href="#urunler">Yatak Koleksiyonunu Keşfet</a>
-          <a className="btn btn--primary" href="#konsept">Bahçe Konseptini Keşfet</a>
+          <a className="btn btn--ghost" href="#urunler">{t.primary}</a>
+          <a className="btn btn--primary" href="#konsept">{t.ghost}</a>
         </div>
       </div>
     </section>
   )
 }
 
-function About() {
-  const stats = [
-    ['30+', 'Yıllık Tecrübe'],
-    ['7', 'Yatak Koleksiyonu'],
-    ['2', 'Üretim & Merkez'],
-    ['∞', 'Kesintisiz Ar-Ge'],
-  ]
+function About({ t }) {
   return (
     <section id="hakkimizda" className="about section">
         <div className="about__text">
-          <p className="kicker">Hakkımızda</p>
-          <h2>Teknolojiyi ve <em>doğal konforu</em> aynı yatakta buluşturuyoruz</h2>
-          <p>
-            Excellence Bedding olarak, 30+ yıllık tecrübemiz ve ürün kalitemizle sizlere en iyi hizmeti
-            sunmaktan gurur duyuyoruz. Müşterilerimize daha kaliteli ürünler sağlamak adına teknolojiyi
-            her zaman yakından takip ediyor, Ar-Ge çalışmalarımıza kesintisiz devam ediyor ve sürekli yenileniyoruz.
-          </p>
-          <p>
-            Yataklarımızı tasarlarken hijyen ve konforu ön planda tutuyoruz. Amacımız; sizlere sağlıklı ve
-            en konforlu uyku deneyiminin yanı sıra, yaşam alanlarınız için estetik ve rahat çözümler sunmaktır.
-          </p>
+          <p className="kicker">{t.kicker}</p>
+          <h2>{t.titleA}<em>{t.titleEm}</em>{t.titleB}</h2>
+          <p>{t.p1}</p>
+          <p>{t.p2}</p>
           <div className="about__stats">
-            {stats.map(([n, l]) => (
+            {t.stats.map(([n, l]) => (
               <div key={l} className="stat">
                 <strong>{n}</strong>
                 <span>{l}</span>
@@ -97,15 +77,15 @@ function About() {
   )
 }
 
-function Fabrics() {
+function Fabrics({ t }) {
   return (
     <section id="teknoloji" className="fabrics section">
       <div className="section__head">
-        <p className="kicker">Kumaş Teknolojileri</p>
-        <h2>Teninizle uyum içinde</h2>
+        <p className="kicker">{t.kicker}</p>
+        <h2>{t.title}</h2>
       </div>
       <div className="fabrics__grid">
-        {fabrics.map((f) => (
+        {t.items.map((f) => (
           <article key={f.title} className="fabric-card">
             <h3>{f.title}</h3>
             <p>{f.text}</p>
@@ -116,21 +96,21 @@ function Fabrics() {
   )
 }
 
-function Firmness({ level }) {
+function Firmness({ level, soft, hard }) {
   return (
     <div className="firmness">
-      <span className="firmness__label">Yumuşak</span>
+      <span className="firmness__label">{soft}</span>
       <div className="firmness__dots">
         {[5, 4, 3, 2, 1].map((n) => (
           <span key={n} className={`fdot ${n === level ? 'fdot--on' : ''}`} />
         ))}
       </div>
-      <span className="firmness__label">Sert</span>
+      <span className="firmness__label">{hard}</span>
     </div>
   )
 }
 
-function ProductCard({ p, onOpen }) {
+function ProductCard({ p, details, onOpen }) {
   return (
     <button className="pcard" style={{ '--accent': p.accent }} onClick={() => onOpen(p)}>
       <div className="pcard__img">
@@ -140,13 +120,13 @@ function ProductCard({ p, onOpen }) {
       <div className="pcard__body">
         <h3>{p.name}</h3>
         <p className="pcard__tag">{p.tagline}</p>
-        <span className="pcard__more">Detayları gör →</span>
+        <span className="pcard__more">{details}</span>
       </div>
     </button>
   )
 }
 
-function ProductModal({ p, onClose }) {
+function ProductModal({ p, ui, onClose }) {
   const [sel, setSel] = useState(0)
   useEffect(() => {
     if (!p) return
@@ -160,17 +140,17 @@ function ProductModal({ p, onClose }) {
   }, [p, onClose])
   useEffect(() => { setSel(0) }, [p?.id])
   if (!p) return null
-  const gallery = p.gallery?.length ? p.gallery : [p.cut].filter(Boolean)
+  const gallery = p.gallery?.length ? p.gallery : [p.img].filter(Boolean)
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel" style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
-        <button className="modal__close" onClick={onClose} aria-label="Kapat">×</button>
+        <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="modal__media">
-          <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} fotoğraf ${sel + 1}`} />
+          <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} ${ui.photo} ${sel + 1}`} />
           {gallery.length > 1 && (
             <div className="gallery__thumbs">
               {gallery.map((g, i) => (
-                <button key={g} className={`gthumb ${i === sel ? 'gthumb--on' : ''}`} onClick={() => setSel(i)} aria-label={`${p.name} fotoğraf ${i + 1}`}>
+                <button key={g} className={`gthumb ${i === sel ? 'gthumb--on' : ''}`} onClick={() => setSel(i)} aria-label={`${p.name} ${ui.photo} ${i + 1}`}>
                   <img src={g} alt="" loading="lazy" />
                 </button>
               ))}
@@ -183,15 +163,16 @@ function ProductModal({ p, onClose }) {
           <p className="modal__tagline">{p.tagline}</p>
           <p className="modal__desc">{p.desc}</p>
 
-          <Firmness level={p.firmness} />
+          <Firmness level={p.firmness} soft={ui.soft} hard={ui.firm} />
 
           <div className="specs">
-            <div><span>Yatak Yüksekliği</span><strong>{p.heights.yatak}</strong></div>
-            <div><span>Baza / Ayak</span><strong>{p.heights.baza} / {p.heights.ayak}</strong></div>
+            {p.heights.map((h) => (
+              <div key={h.label}><span>{h.label}</span><strong>{h.value}</strong></div>
+            ))}
           </div>
 
           <div className="modal__block">
-            <span className="modal__blocklabel">Üretim Boyutları</span>
+            <span className="modal__blocklabel">{ui.sizes}</span>
             <div className="chips">
               {p.sizes.map((s) => <span key={s} className="chip">{s}</span>)}
             </div>
@@ -202,29 +183,26 @@ function ProductModal({ p, onClose }) {
   )
 }
 
-function Products() {
+function Products({ t, ui }) {
   const [active, setActive] = useState(null)
   return (
     <section id="urunler" className="products section">
       <div className="section__head">
-        <p className="kicker">Koleksiyon</p>
-        <h2>Yatak Serisi</h2>
-        <p className="section__sub">
-          Her biri belirli bir ihtiyaç için tasarlanmış yedi imza yatak. Kartlara dokunarak teknik
-          detayları ve boyutları inceleyin.
-        </p>
+        <p className="kicker">{t.kicker}</p>
+        <h2>{t.title}</h2>
+        <p className="section__sub">{t.sub}</p>
       </div>
       <div className="products__grid">
-        {products.map((p) => (
-          <ProductCard key={p.id} p={p} onOpen={setActive} />
+        {t.items.map((p) => (
+          <ProductCard key={p.id} p={p} details={ui.details} onOpen={setActive} />
         ))}
       </div>
-      <ProductModal p={active} onClose={() => setActive(null)} />
+      <ProductModal p={active} ui={ui} onClose={() => setActive(null)} />
     </section>
   )
 }
 
-function ConceptModal({ c, onClose }) {
+function ConceptModal({ c, t, ui, onClose }) {
   useEffect(() => {
     if (!c) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -239,24 +217,24 @@ function ConceptModal({ c, onClose }) {
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel" onClick={(e) => e.stopPropagation()}>
-        <button className="modal__close" onClick={onClose} aria-label="Kapat">×</button>
+        <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="modal__media">
           <img className="gallery__main" src={c.img} alt={c.name} />
         </div>
         <div className="modal__info modal__info--concept">
-          <p className="kicker">Bahçe Konsepti</p>
+          <p className="kicker">{t.kicker}</p>
           <h3>{c.name}</h3>
           <p className="modal__desc">{c.text}</p>
           <div className="modal__block">
-            <span className="modal__blocklabel">Renk Seçenekleri</span>
+            <span className="modal__blocklabel">{ui.colors}</span>
             <div className="chips">
               {c.colors.map((col) => <span key={col} className="chip chip--soft">{col}</span>)}
             </div>
           </div>
           <div className="modal__block">
-            <span className="modal__blocklabel">Özellikler</span>
+            <span className="modal__blocklabel">{ui.features}</span>
             <ul className="concept__features concept__features--modal">
-              {conceptFeatures.map((f) => <li key={f}>{f}</li>)}
+              {t.features.map((f) => <li key={f}>{f}</li>)}
             </ul>
           </div>
         </div>
@@ -265,23 +243,21 @@ function ConceptModal({ c, onClose }) {
   )
 }
 
-function Concept() {
+function Concept({ t, ui }) {
   const [active, setActive] = useState(null)
   return (
     <section id="konsept" className="concept section--dark">
       <div className="concept__inner">
         <div className="concept__intro">
-          <p className="kicker">Bahçe Konsepti</p>
-          <h2>Konfor, dış mekâna taşınıyor</h2>
-          <p className="section__sub">
-            Metal gövdeli dış mekân koleksiyonu; dayanıklılığı ve konforu her mevsim bir arada sunar.
-          </p>
+          <p className="kicker">{t.kicker}</p>
+          <h2>{t.title}</h2>
+          <p className="section__sub">{t.sub}</p>
           <ul className="concept__features">
-            {conceptFeatures.map((f) => <li key={f}>{f}</li>)}
+            {t.features.map((f) => <li key={f}>{f}</li>)}
           </ul>
         </div>
         <div className="concept__grid">
-          {conceptProducts.map((c) => (
+          {t.items.map((c) => (
             <button key={c.name} className="ccard ccard--btn" onClick={() => setActive(c)}>
               <div className="ccard__img"><img src={c.img} alt={c.name} loading="lazy" /></div>
               <div className="ccard__body">
@@ -290,68 +266,81 @@ function Concept() {
                 <div className="chips">
                   {c.colors.map((col) => <span key={col} className="chip chip--soft">{col}</span>)}
                 </div>
-                <span className="ccard__more">Büyüt →</span>
+                <span className="ccard__more">{ui.enlarge}</span>
               </div>
             </button>
           ))}
         </div>
       </div>
-      <ConceptModal c={active} onClose={() => setActive(null)} />
+      <ConceptModal c={active} t={t} ui={ui} onClose={() => setActive(null)} />
     </section>
   )
 }
 
-function CTA() {
+function CTA({ t }) {
   return (
     <section className="cta">
       <img className="cta__bg" src="/assets/products/lavender/1.jpg" alt="" />
       <div className="cta__scrim" />
       <div className="cta__content">
-        <h2>Kaliteli uyku bir tercih değil,<br /><em>bir yatırımdır.</em></h2>
-        <a className="btn btn--primary" href="#iletisim">Bize Ulaşın</a>
+        <h2>{t.titleA}<br /><em>{t.titleEm}</em></h2>
+        <a className="btn btn--primary" href="#iletisim">{t.button}</a>
       </div>
     </section>
   )
 }
 
-function Contact() {
+function Contact({ t }) {
   return (
     <footer id="iletisim" className="footer">
       <div className="footer__top">
         <div className="footer__brand">
           <Logo light />
-          <p className="footer__muted">
-            Excellence Bedding Ürün özellikleri, fiyatları ve diğer bilgiler önceden bildirilmeksizin değiştirilebilir.
-          </p>
+          <p className="footer__muted">{t.info}</p>
         </div>
         <div className="footer__cols">
-          {contact.offices.map((o) => (
+          {t.offices.map((o) => (
             <div key={o.city} className="footer__col">
               <h4>{o.city}</h4>
               <p>{o.address.split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}</p>
             </div>
           ))}
           <div className="footer__col">
-            <h4>İLETİŞİM</h4>
-            {contact.phones.map((ph) => (
+            <h4>{t.contactTitle}</h4>
+            {t.phones.map((ph) => (
               <p key={ph.no}>{ph.label}:<br /><a href={`tel:${ph.no.replace(/[^+\d]/g, '')}`}>{ph.no}</a></p>
             ))}
-            <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
-            <p><a href={`https://${contact.web}`} target="_blank" rel="noreferrer">{contact.web}</a></p>
+            <p><a href={`mailto:${t.email}`}>{t.email}</a></p>
+            <p><a href={`https://${t.web}`} target="_blank" rel="noreferrer">{t.web}</a></p>
           </div>
         </div>
       </div>
       <div className="footer__bottom">
-        <span>© {new Date().getFullYear()} Excellence Bedding. Tüm hakları saklıdır.</span>
-        <span>Sağlıklı ve konforlu uyku için tasarlandı.</span>
+        <span>© {new Date().getFullYear()} {t.rightsA}</span>
+        <span>{t.rightsB}</span>
       </div>
     </footer>
   )
 }
 
+function LangModal({ ui, onChoose }) {
+  return (
+    <div className="modal">
+      <div className="langmodal__panel">
+        <h3>{ui.chooseTitle}</h3>
+        <p>{ui.chooseSub}</p>
+        <div className="langmodal__btns">
+          <button className="btn btn--primary" onClick={() => onChoose('tr')}>Türkçe</button>
+          <button className="btn btn--ghost btn--dark" onClick={() => onChoose('en')}>English</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text')
+    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .ccard, .stat, .about__media, .about__text')
     els.forEach((el) => el.classList.add('reveal'))
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) } }),
@@ -363,19 +352,35 @@ function useReveal() {
 }
 
 export default function App() {
+  const [lang, setLang] = useState(() => {
+    try { return localStorage.getItem(LANG_KEY) || null } catch { return null }
+  })
+  const [showLang, setShowLang] = useState(() => {
+    try { return !localStorage.getItem(LANG_KEY) } catch { return true }
+  })
+  const t = content[lang || 'tr']
   useReveal()
+  useEffect(() => {
+    document.documentElement.lang = lang === 'en' ? 'en' : 'tr'
+  }, [lang])
+  const choose = (l) => {
+    setLang(l)
+    try { localStorage.setItem(LANG_KEY, l) } catch { /* ignore */ }
+    setShowLang(false)
+  }
   return (
     <>
-      <Header />
+      <Header nav={t.nav} menuLabel={t.ui.menu} lang={lang || 'tr'} onLang={choose} />
       <main>
-        <Hero />
-        <About />
-        <Fabrics />
-        <Products />
-        <Concept />
-        <CTA />
+        <Hero t={t.hero} />
+        <About t={t.about} />
+        <Fabrics t={t.fabrics} />
+        <Products t={t.products} ui={t.ui} />
+        <Concept t={t.concept} ui={t.ui} />
+        <CTA t={t.cta} />
       </main>
-      <Contact />
+      <Contact t={t.contact} />
+      {showLang && <LangModal ui={t.ui} onChoose={choose} />}
     </>
   )
 }
