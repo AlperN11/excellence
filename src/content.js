@@ -65,7 +65,7 @@ const tr = {
           '/assets/products/ozone-therapy/4.jpg',
           '/assets/products/ozone-therapy/5.jpg',
         ],
-        accent: '#6b6fa8',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
@@ -110,7 +110,7 @@ const tr = {
           '/assets/products/panthenol/4.jpg',
           '/assets/products/panthenol/5.jpg',
         ],
-        accent: '#8a8fb8',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
@@ -154,7 +154,7 @@ const tr = {
           '/assets/products/anti-aging/4.jpg',
           '/assets/products/anti-aging/5.jpg',
         ],
-        accent: '#6f74a6',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
@@ -349,7 +349,7 @@ const en = {
           '/assets/products/ozone-therapy/4.jpg',
           '/assets/products/ozone-therapy/5.jpg',
         ],
-        accent: '#6b6fa8',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
@@ -394,7 +394,7 @@ const en = {
           '/assets/products/panthenol/4.jpg',
           '/assets/products/panthenol/5.jpg',
         ],
-        accent: '#8a8fb8',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
@@ -438,7 +438,7 @@ const en = {
           '/assets/products/anti-aging/4.jpg',
           '/assets/products/anti-aging/5.jpg',
         ],
-        accent: '#6f74a6',
+        accent: '#9a7b6a',
         spring: 'Pocket Spring System',
         firmness: 3,
         heights: [
