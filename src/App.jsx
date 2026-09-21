@@ -308,7 +308,7 @@ function Concept() {
 function CTA() {
   return (
     <section className="cta">
-      <img className="cta__bg" src="/assets/bedroom.jpeg" alt="" />
+      <img className="cta__bg" src="/assets/products/lavender/1.jpg" alt="" />
       <div className="cta__scrim" />
       <div className="cta__content">
         <h2>Kaliteli uyku bir tercih değil,<br /><em>bir yatırımdır.</em></h2>
