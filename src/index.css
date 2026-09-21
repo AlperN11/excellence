@@ -56,7 +56,7 @@ em { font-style: italic; }
 }
 .section__head { max-width: 640px; margin-bottom: 56px; }
 .section__head h2 { font-size: clamp(3.4rem, 8vw, 6.2rem); }
-.section__sub { color: var(--muted); margin-top: 18px; font-size: 1.05rem; }
+.section__sub { color: var(--muted); margin-top: 18px; font-size: 0.63rem; }
 .section__head--light .kicker { color: #c9a9a9; }
 .section__head--light h2 { color: #fff; }
 .section__head--light .section__sub { color: rgba(255,255,255,0.68); }
@@ -124,7 +124,7 @@ em { font-style: italic; }
 .about__badge strong { font-family: var(--serif); font-size: 1.9rem; line-height: 1; }
 .about__text h2 { font-size: clamp(3.2rem, 7vw, 5.4rem); margin-bottom: 22px; }
 .about__text h2 em { color: var(--periwinkle); }
-.about__text p { color: var(--muted); margin: 0 0 18px; }
+.about__text p { color: var(--muted); margin: 0 0 18px; font-size: 0.6rem; }
 .about__stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 36px; padding-top: 30px; border-top: 1px solid var(--line); }
 .stat strong { display: block; font-family: var(--serif); font-size: 2.3rem; color: var(--maroon); line-height: 1; }
 .stat span { font-size: 0.82rem; color: var(--muted); }
