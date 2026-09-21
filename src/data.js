@@ -165,19 +165,34 @@ export const products = [
 
 export const technologies = [
   {
+    id: 'pamuk',
+    title: 'Pamuk Kumaş',
+    text: 'Nanoteknolojik örme kumaş vücudunuz ile temas ettiğinde yumuşak ve rahatsız etmeyen bir hissiyat verir. Konforlu ve derin uyku için idealdir. Yatak modeline göre değişiklik gösteren desen ve kapitoneler yatak odanıza estetik bir dokunuş katar.',
+  },
+  {
+    id: 'orme',
+    title: 'Örme Kumaş',
+    text: 'Pamuklu yüzey yaz gecelerini serin geçirmenizi sağlar. Pamuğun doğal olarak nemi absorbe etme özelliği sayesinde terlemeyi önler, yatağın nefes almasını sağlar ve kötü kokuların oluşumunu engelleyerek kaliteli bir uyku konforu sağlar.',
+  },
+  {
+    id: 'viscon',
+    title: 'Viscon Kumaş',
+    text: 'Özel tuşeli viskon kumaş ipeksi ve rahat hissiyatıyla teninizle uyumlu yapısı sayesinde uykuya daha kolay geçiş yapmanıza ve dinlenme sürenizi kaliteli hale getirmenize yardımcı olur.',
+  },
+  {
+    id: 'sunger',
+    title: 'Yüksek Yoğunluklu Sünger',
+    text: 'Yatak içinde kullanılan yüksek dansitedeki sünger ile omurga desteklenir. Sünger yüksekliğinin artması konforu daha da artırır. Yaylardan kısmen ayrılmış ped tabakası ve kalın sünger yapısı daha yumuşak bir zemin hissi verir. Yatağınız size hem dayanıklılık hem konfor sunar.',
+  },
+  {
     id: 'pocket',
     title: 'Pocket Spring System',
-    text: 'Yaylar birbirinden bağımsız torbalar içerisinde yer alır. Her yay ayrı çalışarak vücut basıncını eşit dağıtır, omurganın doğal hizasını korur ve çiftlerin birbirinin hareketlerinden etkilenmesini en aza indirir.',
+    text: 'Yaylar birbirinden bağımsız torbalar içerisinde pakete yerleştirilir. Bu sayede çiftlerin birbirinin hareketlerinden etkilenmesi önlenmiş olur. Bağımsız hareket eden yaylar vücut basıncının yatağa eşit dağıtılmasına yardımcı olarak daha konforlu bir uyku sunar.',
   },
   {
-    id: 'herkul',
-    title: 'Herkül Yay Sistemi',
-    text: 'Excellence Bedding tarafından özel olarak geliştirilen, dayanımı yüksek Hercules yay sistemi doğru omurga desteğini sağlar. Bonel yay yapısı, vücut ağırlığının yoğunlaştığı bölgelerde güçlü bir taşıma sunar.',
-  },
-  {
-    id: 'foam',
-    title: 'Yüksek Yoğunluklu Sünger',
-    text: 'Yüksek dansiteli sünger omurgayı destekler; sünger yüksekliğinin artması konforu artırır. Kalın sünger tabakası daha yumuşak bir zemin hissi verirken yayın dayanıklılığıyla birleşir.',
+    id: 'bonel',
+    title: 'Bonel Yay',
+    text: 'Bonel yay sargıları spiral formdaki teller ile birbirine bağlıdır. Isıl işleme tabi tutulmuş bonel yay sistemi vücut ağırlığının yoğunlaştığı bölgelerde çökme olasılığının azalmasına yardımcı olur. Sert veya orta sert zeminde yatmaktan keyif alan kişiler için idealdir.',
   },
 ]
 
