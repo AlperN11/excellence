@@ -49,7 +49,6 @@ function Hero() {
       <img className="hero__bg" src="/assets/hero-feather.jpeg" alt="" />
       <div className="hero__scrim" />
       <div className="hero__content">
-        <p className="hero__eyebrow">catch the comfort</p>
         <h1 className="hero__title">Sağlıklı uykunun<br /><em>zarafetle</em> buluştuğu yer</h1>
         <p className="hero__lead">
           30 yıllık tecrübe, kesintisiz Ar-Ge ve hijyeni ön planda tutan tasarım anlayışıyla
@@ -59,7 +58,6 @@ function Hero() {
           <a className="btn btn--primary" href="#urunler">Koleksiyonu Keşfet</a>
           <a className="btn btn--ghost" href="#teknoloji">Uyku Teknolojileri</a>
         </div>
-        <span className="hero__catalog">2026 · CATALOG</span>
       </div>
     </section>
   )
