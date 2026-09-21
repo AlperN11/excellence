@@ -72,14 +72,6 @@ function About() {
   ]
   return (
     <section id="hakkimizda" className="about section">
-      <div className="about__grid">
-        <div className="about__media">
-          <img src="/assets/about.jpeg" alt="Doğal pamuk" />
-          <div className="about__badge">
-            <span>est.</span>
-            <strong>1996</strong>
-          </div>
-        </div>
         <div className="about__text">
           <p className="kicker">Hakkımızda</p>
           <h2>Teknolojiyi ve <em>doğal konforu</em> aynı yatakta buluşturuyoruz</h2>
@@ -101,7 +93,6 @@ function About() {
             ))}
           </div>
         </div>
-      </div>
     </section>
   )
 }
