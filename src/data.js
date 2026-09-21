@@ -138,11 +138,6 @@ export const technologies = [
     title: 'Yüksek Yoğunluklu Sünger',
     text: 'Yüksek dansiteli sünger omurgayı destekler; sünger yüksekliğinin artması konforu artırır. Kalın sünger tabakası daha yumuşak bir zemin hissi verirken yayın dayanıklılığıyla birleşir.',
   },
-  {
-    id: 'ozone',
-    title: 'Ozone Therapy',
-    text: 'Doğada bulunan enerji yüklü minerallerin belirli geometrik yapıda bir araya getirilmesiyle elde edilen kumaş teknolojisi. Uyku esnasında vücudun doğal ritmini ve dengesini yeniden bulmasına yardımcı olmayı amaçlar.',
-  },
 ]
 
 export const fabrics = [
