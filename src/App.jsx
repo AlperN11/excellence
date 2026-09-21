@@ -55,8 +55,8 @@ function Hero() {
           Excellence Bedding; en konforlu uyku deneyimini yaşam alanlarınıza taşıyor.
         </p>
         <div className="hero__cta">
-          <a className="btn btn--primary" href="#urunler">Yatak Koleksiyonunu Keşfet</a>
-          <a className="btn btn--ghost" href="#konsept">Bahçe Konseptini Keşfet</a>
+          <a className="btn btn--ghost" href="#urunler">Yatak Koleksiyonunu Keşfet</a>
+          <a className="btn btn--primary" href="#konsept">Bahçe Konseptini Keşfet</a>
         </div>
       </div>
     </section>
