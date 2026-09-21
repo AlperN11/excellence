@@ -273,7 +273,7 @@ function ConceptModal({ c, onClose }) {
         <div className="modal__media">
           <img className="gallery__main" src={c.img} alt={c.name} />
         </div>
-        <div className="modal__info">
+        <div className="modal__info modal__info--concept">
           <p className="kicker">Garden Concept</p>
           <h3>{c.name}</h3>
           <p className="modal__desc">{c.text}</p>
