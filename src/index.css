@@ -112,7 +112,7 @@ em { font-style: italic; }
 /* about */
 .about { padding-top: clamp(24px, 4vw, 56px); }
 .about__text { max-width: 780px; }
-.about__text .kicker { font-family: var(--serif); font-style: italic; text-transform: none; letter-spacing: -0.015em; font-size: clamp(3.4rem, 8vw, 6.2rem); color: var(--periwinkle); }
+.about__text .kicker { color: var(--periwinkle); }
 .about__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
 .about__media { position: relative; }
 .about__media img { width: 100%; border-radius: var(--radius); aspect-ratio: 4/5; object-fit: cover; }
