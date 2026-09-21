@@ -11,7 +11,8 @@ function Logo({ light }) {
 
 const nav = [
   ['#hakkimizda', 'Hakkımızda'],
-  ['#urunler', 'Koleksiyon'],
+  ['#teknoloji', 'Uyku Teknolojileri'],
+  ['#urunler', 'Yatak Koleksiyonu'],
   ['#konsept', 'Bahçe Konsepti'],
   ['#iletisim', 'İletişim'],
 ]
@@ -98,7 +99,7 @@ function About() {
 
 function Fabrics() {
   return (
-    <section className="fabrics section">
+    <section id="teknoloji" className="fabrics section">
       <div className="section__head">
         <p className="kicker">Kumaş Teknolojileri</p>
         <h2>Teninizle uyum içinde</h2>
