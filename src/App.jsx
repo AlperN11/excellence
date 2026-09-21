@@ -84,7 +84,7 @@ function About() {
           <p className="kicker">Hakkımızda</p>
           <h2>Teknolojiyi ve <em>doğal konforu</em> aynı yatakta buluşturuyoruz</h2>
           <p>
-            Excellence Bedding olarak, 30 yıllık tecrübemiz ve ürün kalitemizle sizlere en iyi hizmeti
+            Excellence Bedding olarak, 30+ yıllık tecrübemiz ve ürün kalitemizle sizlere en iyi hizmeti
             sunmaktan gurur duyuyoruz. Müşterilerimize daha kaliteli ürünler sağlamak adına teknolojiyi
             her zaman yakından takip ediyor, Ar-Ge çalışmalarımıza kesintisiz devam ediyor ve sürekli yenileniyoruz.
           </p>
