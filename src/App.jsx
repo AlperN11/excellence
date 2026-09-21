@@ -259,7 +259,7 @@ function Concept() {
     <section id="konsept" className="concept section--dark">
       <div className="concept__inner">
         <div className="concept__intro">
-          <p className="kicker">Excellence Garden Concept</p>
+          <p className="kicker">Garden Concept</p>
           <h2>Konfor, dış mekâna taşınıyor</h2>
           <p className="section__sub">
             Metal gövdeli dış mekân koleksiyonu; dayanıklılığı ve konforu her mevsim bir arada sunar.
