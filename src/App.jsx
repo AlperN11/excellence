@@ -338,6 +338,37 @@ function LangModal({ ui, onChoose }) {
   )
 }
 
+function useSmoothAnchors() {
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const onClick = (e) => {
+      const a = e.target.closest('a[href^="#"]')
+      if (!a) return
+      const id = a.getAttribute('href')
+      if (!id || id.length < 2) return
+      const el = document.querySelector(id)
+      if (!el) return
+      e.preventDefault()
+      const top = el.getBoundingClientRect().top + window.scrollY - 70
+      if (reduce) { window.scrollTo(0, top); return }
+      const start = window.scrollY
+      const dist = top - start
+      const dur = 900
+      let t0 = null
+      const step = (ts) => {
+        if (!t0) t0 = ts
+        const p = Math.min((ts - t0) / dur, 1)
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2
+        window.scrollTo(0, start + dist * ease)
+        if (p < 1) requestAnimationFrame(step)
+      }
+      requestAnimationFrame(step)
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .ccard, .stat, .about__media, .about__text')
@@ -360,6 +391,7 @@ export default function App() {
   })
   const t = content[lang || 'tr']
   useReveal()
+  useSmoothAnchors()
   useEffect(() => {
     document.documentElement.lang = lang === 'en' ? 'en' : 'tr'
   }, [lang])

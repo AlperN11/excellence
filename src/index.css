@@ -44,6 +44,7 @@ em { font-optical-sizing: auto; }
 em { font-style: italic; }
 
 .section { max-width: var(--wrap); margin: 0 auto; padding: clamp(64px, 9vw, 128px) 24px; }
+section[id], footer[id] { scroll-margin-top: 60px; }
 .section--dark { max-width: none; padding-left: 0; padding-right: 0; }
 .kicker {
   font-family: var(--sans);
