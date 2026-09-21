@@ -216,9 +216,7 @@ function ProductModal({ p, onClose }) {
           <Firmness level={p.firmness} />
 
           <div className="specs">
-            <div><span>Kumaş Kodu</span><strong>{p.fabricCode}</strong></div>
             <div><span>Yatak Yüksekliği</span><strong>{p.heights.yatak}</strong></div>
-            <div><span>Başlık Yüksekliği</span><strong>{p.heights.baslik}</strong></div>
             <div><span>Baza / Ayak</span><strong>{p.heights.baza} / {p.heights.ayak}</strong></div>
           </div>
 
@@ -227,20 +225,6 @@ function ProductModal({ p, onClose }) {
             <div className="chips">
               {p.sizes.map((s) => <span key={s} className="chip">{s}</span>)}
             </div>
-          </div>
-
-          <div className="modal__block">
-            <span className="modal__blocklabel">Öne Çıkan Özellikler</span>
-            <div className="chips">
-              {p.tags.map((t) => <span key={t} className="chip chip--soft">{t}</span>)}
-            </div>
-          </div>
-
-          <div className="modal__block">
-            <span className="modal__blocklabel">Katman Yapısı</span>
-            <ul className="layers">
-              {p.layers.map((l) => <li key={l}>{l}</li>)}
-            </ul>
           </div>
         </div>
       </div>
@@ -257,7 +241,7 @@ function Products() {
         <h2>Yatak Serisi</h2>
         <p className="section__sub">
           Her biri belirli bir ihtiyaç için tasarlanmış yedi imza yatak. Kartlara dokunarak teknik
-          detayları, katman yapısını ve boyutları inceleyin.
+          detayları ve boyutları inceleyin.
         </p>
       </div>
       <div className="products__grid">
