@@ -77,7 +77,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 /* logo */
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
 .logo--light { color: #fff; }
-.logo__img { height: 44px; width: auto; display: block; }
+.logo__img { height: 57px; width: auto; display: block; }
 .logo__x { stroke: var(--maroon); }
 .logo--light .logo__x { stroke: #e6b9b9; }
 .logo__word { font-family: var(--serif); font-size: 1.5rem; letter-spacing: 0.02em; font-weight: 500; }
