@@ -320,7 +320,7 @@ function Contact() {
           <div className="footer__col">
             <h4>İLETİŞİM</h4>
             {contact.phones.map((ph) => (
-              <p key={ph}><a href={`tel:${ph.replace(/[^+\d]/g, '')}`}>{ph}</a></p>
+              <p key={ph.no}><a href={`tel:${ph.no.replace(/[^+\d]/g, '')}`}>{ph.label}: {ph.no}</a></p>
             ))}
             <p><a href={`mailto:${contact.email}`}>{contact.email}</a></p>
             <p><a href={`https://${contact.web}`} target="_blank" rel="noreferrer">{contact.web}</a></p>

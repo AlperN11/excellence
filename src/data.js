@@ -248,7 +248,10 @@ export const conceptProducts = [
 export const contact = {
   web: 'www.excellence.tr',
   email: 'info@excellence.tr',
-  phones: ['+90 542 503 12 04', '+90 (352) 322 25 22'],
+  phones: [
+    { label: 'İstanbul Bölge', no: '+90 542 503 12 04' },
+    { label: 'Kayseri Bölge', no: '+90 (352) 322 25 22' },
+  ],
   offices: [
     {
       city: 'İSTANBUL',
