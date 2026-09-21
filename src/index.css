@@ -239,8 +239,7 @@ em { font-style: italic; }
 /* footer */
 .footer { background: var(--ink); color: #fff; padding: clamp(56px, 8vw, 96px) 24px 30px; }
 .footer__top { max-width: var(--wrap); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; }
-.footer__brand p { color: rgba(255,255,255,0.55); font-size: 0.9rem; margin: 14px 0 0; }
-.footer__brand > p:first-of-type { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: #e6c7c7; }
+.footer__brand p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 14px 0 0; }
 .footer__muted { max-width: 40ch; }
 .footer__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .footer__col h4 { font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.18em; color: var(--lavender); margin-bottom: 14px; }
