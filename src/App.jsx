@@ -187,6 +187,7 @@ function ProductCard({ p, onOpen }) {
 }
 
 function ProductModal({ p, onClose }) {
+  const [sel, setSel] = useState(0)
   useEffect(() => {
     if (!p) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -197,13 +198,24 @@ function ProductModal({ p, onClose }) {
       document.body.style.overflow = ''
     }
   }, [p, onClose])
+  useEffect(() => { setSel(0) }, [p?.id])
   if (!p) return null
+  const gallery = p.gallery?.length ? p.gallery : [p.cut].filter(Boolean)
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel" style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label="Kapat">×</button>
         <div className="modal__media">
-          <img src={p.cut} alt={`${p.name} kesit yapısı`} />
+          <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} fotoğraf ${sel + 1}`} />
+          {gallery.length > 1 && (
+            <div className="gallery__thumbs">
+              {gallery.map((g, i) => (
+                <button key={g} className={`gthumb ${i === sel ? 'gthumb--on' : ''}`} onClick={() => setSel(i)} aria-label={`${p.name} fotoğraf ${i + 1}`}>
+                  <img src={g} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="modal__info">
           <p className="kicker">{p.spring}</p>
