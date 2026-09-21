@@ -228,6 +228,10 @@ em { font-style: italic; }
 .ccard__img img { width: 100%; height: 100%; object-fit: cover; }
 .ccard__body h3 { color: #fff; font-size: 1.6rem; margin-bottom: 8px; }
 .ccard__body p { color: rgba(255,255,255,0.66); font-size: 0.92rem; margin: 0 0 12px; }
+.ccard--btn { cursor: pointer; font: inherit; color: inherit; text-align: left; width: 100%; }
+.ccard__more { display: inline-block; margin-top: 10px; color: var(--lavender); font-weight: 600; font-size: 0.86rem; }
+.concept__features--modal { grid-template-columns: 1fr 1fr; margin: 0; }
+.concept__features--modal li { color: var(--text); }
 
 /* CTA */
 .cta { position: relative; overflow: hidden; }

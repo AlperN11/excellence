@@ -254,7 +254,49 @@ function Products() {
   )
 }
 
+function ConceptModal({ c, onClose }) {
+  useEffect(() => {
+    if (!c) return
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [c, onClose])
+  if (!c) return null
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal__panel" onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close" onClick={onClose} aria-label="Kapat">×</button>
+        <div className="modal__media">
+          <img className="gallery__main" src={c.img} alt={c.name} />
+        </div>
+        <div className="modal__info">
+          <p className="kicker">Garden Concept</p>
+          <h3>{c.name}</h3>
+          <p className="modal__desc">{c.text}</p>
+          <div className="modal__block">
+            <span className="modal__blocklabel">Renk Seçenekleri</span>
+            <div className="chips">
+              {c.colors.map((col) => <span key={col} className="chip chip--soft">{col}</span>)}
+            </div>
+          </div>
+          <div className="modal__block">
+            <span className="modal__blocklabel">Özellikler</span>
+            <ul className="concept__features concept__features--modal">
+              {conceptFeatures.map((f) => <li key={f}>{f}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Concept() {
+  const [active, setActive] = useState(null)
   return (
     <section id="konsept" className="concept section--dark">
       <div className="concept__inner">
@@ -270,7 +312,7 @@ function Concept() {
         </div>
         <div className="concept__grid">
           {conceptProducts.map((c) => (
-            <article key={c.name} className="ccard">
+            <button key={c.name} className="ccard ccard--btn" onClick={() => setActive(c)}>
               <div className="ccard__img"><img src={c.img} alt={c.name} loading="lazy" /></div>
               <div className="ccard__body">
                 <h3>{c.name}</h3>
@@ -278,11 +320,13 @@ function Concept() {
                 <div className="chips">
                   {c.colors.map((col) => <span key={col} className="chip chip--soft">{col}</span>)}
                 </div>
+                <span className="ccard__more">Büyüt →</span>
               </div>
-            </article>
+            </button>
           ))}
         </div>
       </div>
+      <ConceptModal c={active} onClose={() => setActive(null)} />
     </section>
   )
 }
