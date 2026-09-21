@@ -156,6 +156,8 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .tech__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .tech__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27,26,34,0.78), rgba(27,26,34,0.62)); }
 .tech__inner { position: relative; max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+.tech__group { color: #fff; font-size: 1.9rem; margin: 36px 0 18px; }
+.tech__grid + .tech__group { margin-top: 40px; }
 .tech .section__head { padding-left: 0; padding-right: 0; }
 .tech-card--photo { background: rgba(27,26,34,0.55); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(8px); display: flex; gap: 20px; align-items: flex-start; }
 .tech-card--photo:hover { background: rgba(27,26,34,0.68); }

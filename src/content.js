@@ -48,6 +48,51 @@ const tr = {
       },
     ],
   },
+  tech: {
+    kicker: 'Uyku Teknolojileri',
+    title: 'Konforun mühendisliği',
+    sub: 'Modern uyku deneyiminin kalbinde, her noktanıza eşsiz destek sunan yay ve sünger sistemleri yer alır.',
+    fabricsTitle: 'Kumaş Teknolojileri',
+    systemsTitle: 'Yay ve Sünger Sistemleri',
+    items: [
+      {
+        id: 'pamuk',
+        icon: '/assets/tech-icons/pamuk.jpg',
+        title: 'Pamuk Kumaş',
+        text: 'Nanoteknolojik örme kumaş vücudunuz ile temas ettiğinde yumuşak ve rahatsız etmeyen bir hissiyat verir. Konforlu ve derin uyku için idealdir. Yatak modeline göre değişiklik gösteren desen ve kapitoneler yatak odanıza estetik bir dokunuş katar.',
+      },
+      {
+        id: 'orme',
+        icon: '/assets/tech-icons/orme.jpg',
+        title: 'Örme Kumaş',
+        text: 'Pamuklu yüzey yaz gecelerini serin geçirmenizi sağlar. Pamuğun doğal olarak nemi absorbe etme özelliği sayesinde terlemeyi önler, yatağın nefes almasını sağlar ve kötü kokuların oluşumunu engelleyerek kaliteli bir uyku konforu sağlar.',
+      },
+      {
+        id: 'viscon',
+        icon: '/assets/tech-icons/viscon.jpg',
+        title: 'Viscon Kumaş',
+        text: 'Özel tuşeli viskon kumaş ipeksi ve rahat hissiyatıyla teninizle uyumlu yapısı sayesinde uykuya daha kolay geçiş yapmanıza ve dinlenme sürenizi kaliteli hale getirmenize yardımcı olur.',
+      },
+      {
+        id: 'sunger',
+        icon: '/assets/tech-icons/sunger.jpg',
+        title: 'Yüksek Yoğunluklu Sünger',
+        text: 'Yatak içinde kullanılan yüksek dansitedeki sünger ile omurga desteklenir. Sünger yüksekliğinin artması konforu daha da artırır. Yaylardan kısmen ayrılmış ped tabakası ve kalın sünger yapısı daha yumuşak bir zemin hissi verir. Yatağınız size hem dayanıklılık hem konfor sunar.',
+      },
+      {
+        id: 'pocket',
+        icon: '/assets/tech-icons/pocket.jpg',
+        title: 'Pocket Spring System',
+        text: 'Yaylar birbirinden bağımsız torbalar içerisinde pakete yerleştirilir. Bu sayede çiftlerin birbirinin hareketlerinden etkilenmesi önlenmiş olur. Bağımsız hareket eden yaylar vücut basıncının yatağa eşit dağıtılmasına yardımcı olarak daha konforlu bir uyku sunar.',
+      },
+      {
+        id: 'bonel',
+        icon: '/assets/tech-icons/bonel.jpg',
+        title: 'Bonel Yay',
+        text: 'Bonel yay sargıları spiral formdaki teller ile birbirine bağlıdır. Isıl işleme tabi tutulmuş bonel yay sistemi vücut ağırlığının yoğunlaştığı bölgelerde çökme olasılığının azalmasına yardımcı olur. Sert veya orta sert zeminde yatmaktan keyif alan kişiler için idealdir.',
+      },
+    ],
+  },
   products: {
     kicker: 'Koleksiyon',
     title: 'Yatak Serisi',
@@ -332,6 +377,51 @@ const en = {
       {
         title: 'Cotton Fabric',
         text: 'Nanotechnological knitted fabric feels soft and non-irritating against the body. Ideal for comfortable, deep sleep.',
+      },
+    ],
+  },
+  tech: {
+    kicker: 'Sleep Technologies',
+    title: 'The engineering of comfort',
+    sub: 'At the heart of the modern sleep experience lie spring and foam systems that offer unmatched support to every part of you.',
+    fabricsTitle: 'Fabric Technologies',
+    systemsTitle: 'Spring and Foam Systems',
+    items: [
+      {
+        id: 'pamuk',
+        icon: '/assets/tech-icons/pamuk.jpg',
+        title: 'Cotton Fabric',
+        text: 'Nanotechnological knitted fabric feels soft and non-irritating against your body. Ideal for comfortable, deep sleep. Patterns and quilting that vary by mattress model add an aesthetic touch to your bedroom.',
+      },
+      {
+        id: 'orme',
+        icon: '/assets/tech-icons/orme.jpg',
+        title: 'Knitted Fabric',
+        text: 'A cotton surface keeps you cool on summer nights. Thanks to cotton\u2019s natural moisture-absorbing properties, it prevents sweating, lets the mattress breathe, and prevents bad odors, providing quality sleep comfort.',
+      },
+      {
+        id: 'viscon',
+        icon: '/assets/tech-icons/viscon.jpg',
+        title: 'Viscon Fabric',
+        text: 'Special-touch viscose fabric, with its silky and comfortable feel harmonizing with your skin, helps you drift into sleep more easily and makes your rest time more valuable.',
+      },
+      {
+        id: 'sunger',
+        icon: '/assets/tech-icons/sunger.jpg',
+        title: 'High-Density Foam',
+        text: 'High-density foam used inside the mattress supports the spine. As foam height increases, comfort increases further. The partially spring-separated pad layer and thick foam structure provide a softer surface feel. Your mattress offers you both durability and comfort.',
+      },
+      {
+        id: 'pocket',
+        icon: '/assets/tech-icons/pocket.jpg',
+        title: 'Pocket Spring System',
+        text: 'Springs are placed in packages within independent bags. This prevents couples from being affected by each other\u2019s movements. Independently moving springs help distribute body pressure evenly across the mattress, offering more comfortable sleep.',
+      },
+      {
+        id: 'bonel',
+        icon: '/assets/tech-icons/bonel.jpg',
+        title: 'Bonel Spring',
+        text: 'Bonel spring coils are connected to each other with spiral-shaped wires. The heat-treated bonel spring system helps reduce the likelihood of sagging in areas where body weight concentrates. Ideal for those who enjoy sleeping on a firm or medium-firm surface.',
       },
     ],
   },

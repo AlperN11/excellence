@@ -79,7 +79,7 @@ function About({ t }) {
 
 function Fabrics({ t }) {
   return (
-    <section id="teknoloji" className="fabrics section">
+    <section className="fabrics section">
       <div className="section__head">
         <p className="kicker">{t.kicker}</p>
         <h2>{t.title}</h2>
@@ -91,6 +91,42 @@ function Fabrics({ t }) {
             <p>{f.text}</p>
           </article>
         ))}
+      </div>
+    </section>
+  )
+}
+
+function Tech({ t }) {
+  const fabrics = t.items.slice(0, 3)
+  const systems = t.items.slice(3)
+  const cards = (list, start) => (
+    <div className="tech__grid">
+      {list.map((it, i) => (
+        <article key={it.id} className="tech-card tech-card--photo">
+          <img className="tech-card__icon" src={it.icon} alt="" loading="lazy" />
+          <div className="tech-card__text">
+            <span className="tech-card__no">{String(start + i + 1).padStart(2, '0')}</span>
+            <h3>{it.title}</h3>
+            <p>{it.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+  return (
+    <section id="teknoloji" className="tech tech--photo section section--dark">
+      <img className="tech__bg" src="/assets/products/lavender/4.jpg" alt="" />
+      <div className="tech__scrim" />
+      <div className="tech__inner">
+        <div className="section__head section__head--light">
+          <p className="kicker">{t.kicker}</p>
+          <h2>{t.title}</h2>
+          <p className="section__sub">{t.sub}</p>
+        </div>
+        <h3 className="tech__group">{t.fabricsTitle}</h3>
+        {cards(fabrics, 0)}
+        <h3 className="tech__group">{t.systemsTitle}</h3>
+        {cards(systems, 3)}
       </div>
     </section>
   )
@@ -429,7 +465,7 @@ function useSmoothAnchors() {
 
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .ccard, .stat, .about__media, .about__text')
+    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text')
     els.forEach((el) => el.classList.add('reveal'))
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) } }),
@@ -465,6 +501,7 @@ export default function App() {
         <Hero t={t.hero} />
         <About t={t.about} />
         <Fabrics t={t.fabrics} />
+        <Tech t={t.tech} />
         <Products t={t.products} ui={t.ui} />
         <Concept t={t.concept} ui={t.ui} />
         <CTA t={t.cta} />
