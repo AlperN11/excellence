@@ -73,7 +73,7 @@ export const products = [
   },
   {
     id: 'lavender',
-    name: 'Lavender',
+    name: 'Lavender Serenity',
     tagline: 'Sakinliğin zamansız ritüeli',
     img: '/assets/products/lavender/1.jpg',
     gallery: [

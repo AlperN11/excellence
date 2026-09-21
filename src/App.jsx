@@ -256,7 +256,7 @@ function Products() {
     <section id="urunler" className="products section">
       <div className="section__head">
         <p className="kicker">Koleksiyon</p>
-        <h2>2026 Yatak Serisi</h2>
+        <h2>Yatak Serisi</h2>
         <p className="section__sub">
           Her biri belirli bir ihtiyaç için tasarlanmış yedi imza yatak. Kartlara dokunarak teknik
           detayları, katman yapısını ve boyutları inceleyin.
