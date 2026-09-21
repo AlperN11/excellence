@@ -142,11 +142,11 @@ em { font-style: italic; }
 .section--dark { background: var(--ink); color: #fff; padding-top: clamp(72px,9vw,130px); padding-bottom: clamp(72px,9vw,130px); }
 .tech--photo { position: relative; overflow: hidden; }
 .tech__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.tech__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27,26,34,0.9), rgba(27,26,34,0.8)); }
+.tech__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(27,26,34,0.78), rgba(27,26,34,0.62)); }
 .tech__inner { position: relative; max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
 .tech .section__head { padding-left: 0; padding-right: 0; }
-.tech-card--photo { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(8px); display: flex; gap: 20px; align-items: flex-start; }
-.tech-card--photo:hover { background: rgba(255,255,255,0.1); }
+.tech-card--photo { background: rgba(27,26,34,0.55); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(8px); display: flex; gap: 20px; align-items: flex-start; }
+.tech-card--photo:hover { background: rgba(27,26,34,0.68); }
 .tech-card__icon { width: 64px; height: 64px; flex: none; border-radius: 50%; object-fit: cover; background: var(--cream); }
 .tech__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; }
 .tech-card { background: var(--ink); padding: 44px 40px; transition: background .3s; }
