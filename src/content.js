@@ -88,7 +88,7 @@ const tr = {
           '/assets/products/bodybalance/5.jpg',
           '/assets/products/bodybalance/6.jpg',
         ],
-        accent: '#7b6c8f',
+        accent: '#5b5468',
         spring: 'Pocket Spring System',
         firmness: 2,
         heights: [
@@ -196,7 +196,7 @@ const tr = {
           '/assets/products/optimal/3.jpg',
           '/assets/products/optimal/4.jpg',
         ],
-        accent: '#5f6b8a',
+        accent: '#3d4456',
         spring: 'Herkül Yay Sistemi',
         firmness: 4,
         heights: [
@@ -372,7 +372,7 @@ const en = {
           '/assets/products/bodybalance/5.jpg',
           '/assets/products/bodybalance/6.jpg',
         ],
-        accent: '#7b6c8f',
+        accent: '#5b5468',
         spring: 'Pocket Spring System',
         firmness: 2,
         heights: [
@@ -480,7 +480,7 @@ const en = {
           '/assets/products/optimal/3.jpg',
           '/assets/products/optimal/4.jpg',
         ],
-        accent: '#5f6b8a',
+        accent: '#3d4456',
         spring: 'Hercules Spring System',
         firmness: 4,
         heights: [
