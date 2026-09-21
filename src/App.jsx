@@ -4,13 +4,7 @@ import { products, technologies, fabrics, conceptFeatures, conceptProducts, cont
 function Logo({ light }) {
   return (
     <a href="#top" className={`logo ${light ? 'logo--light' : ''}`}>
-      <span className="logo__mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" width="26" height="26">
-          <path d="M8 8 L32 32 M32 8 L8 32" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" opacity="0.35" />
-          <path d="M14 14 L26 26 M26 14 L14 26" className="logo__x" strokeWidth="3.4" strokeLinecap="round" />
-        </svg>
-      </span>
-      <span className="logo__word">e<em>X</em>cellence</span>
+      <img className="logo__img" src={light ? '/logo-white.svg' : '/logo.svg'} alt="Excellence Bedding" />
     </a>
   )
 }
