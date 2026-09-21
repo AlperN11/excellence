@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { products, fabrics, conceptFeatures, conceptProducts, contact } from './data.js'
+import { products, technologies, fabrics, conceptFeatures, conceptProducts, contact } from './data.js'
 
 function Logo({ light }) {
   return (
@@ -118,8 +118,30 @@ function Fabrics() {
 
 function Tech() {
   return (
-    <section id="teknoloji" className="tech section section--dark">
-      <img className="tech__page" src="/assets/uyku-teknolojileri.jpg" alt="Uyku Teknolojileri katalog sayfası" loading="lazy" />
+    <section id="teknoloji" className="tech tech--photo section section--dark">
+      <img className="tech__bg" src="/assets/products/lavender/4.jpg" alt="" />
+      <div className="tech__scrim" />
+      <div className="tech__inner">
+        <div className="section__head section__head--light">
+          <p className="kicker">Uyku Teknolojileri</p>
+          <h2>Konforun mühendisliği</h2>
+          <p className="section__sub">
+            Modern uyku deneyiminin kalbinde, her noktanıza eşsiz destek sunan yay ve sünger sistemleri yer alır.
+          </p>
+        </div>
+        <div className="tech__grid">
+          {technologies.map((t, i) => (
+            <article key={t.id} className="tech-card tech-card--photo">
+              <img className="tech-card__icon" src={t.icon} alt="" loading="lazy" />
+              <div className="tech-card__text">
+                <span className="tech-card__no">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{t.title}</h3>
+                <p>{t.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
