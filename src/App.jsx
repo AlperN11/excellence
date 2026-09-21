@@ -324,10 +324,8 @@ function Contact() {
       <div className="footer__top">
         <div className="footer__brand">
           <Logo light />
-          <p>“catch the comfort”</p>
           <p className="footer__muted">
-            Ürün özellikleri, fiyatları ve diğer bilgiler önceden bildirilmeksizin değiştirilebilir.
-            2026 · ver. 2026-4
+            Excellence Bedding Ürün özellikleri, fiyatları ve diğer bilgiler önceden bildirilmeksizin değiştirilebilir.
           </p>
         </div>
         <div className="footer__cols">
