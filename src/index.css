@@ -140,7 +140,7 @@ em { font-style: italic; }
 
 /* tech (dark) */
 .section--dark { background: var(--ink); color: #fff; padding-top: clamp(72px,9vw,130px); padding-bottom: clamp(72px,9vw,130px); }
-.tech .section__head, .tech__grid { max-width: var(--wrap); margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+.tech__page { display: block; width: min(920px, calc(100% - 48px)); margin: 0 auto; border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,0.45); }
 .tech__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.08); border-radius: var(--radius); overflow: hidden; }
 .tech-card { background: var(--ink); padding: 44px 40px; transition: background .3s; }
 .tech-card:hover { background: var(--ink-2); }
