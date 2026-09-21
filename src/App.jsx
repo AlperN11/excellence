@@ -146,7 +146,15 @@ function ProductModal({ p, ui, onClose }) {
       <div className="modal__panel" style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="modal__media">
-          <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} ${ui.photo} ${sel + 1}`} />
+          <div className="gallery__viewer">
+            {gallery.length > 1 && (
+              <button className="garrow" onClick={() => setSel((sel - 1 + gallery.length) % gallery.length)} aria-label={ui.prev}>‹</button>
+            )}
+            <img className="gallery__main" src={gallery[sel] ?? gallery[0]} alt={`${p.name} ${ui.photo} ${sel + 1}`} />
+            {gallery.length > 1 && (
+              <button className="garrow" onClick={() => setSel((sel + 1) % gallery.length)} aria-label={ui.next}>›</button>
+            )}
+          </div>
           {gallery.length > 1 && (
             <div className="gallery__thumbs">
               {gallery.map((g, i) => (

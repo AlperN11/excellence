@@ -197,6 +197,10 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .modal__media { background: radial-gradient(120% 90% at 50% 30%, #2c2b36, #121118); display: flex; flex-direction: column; gap: 14px; align-items: center; justify-content: center; padding: 30px; }
 .modal__media img { width: 100%; object-fit: contain; }
 .gallery__main { border-radius: 12px; max-height: 52vh; }
+.gallery__viewer { display: flex; align-items: center; gap: 10px; width: 100%; justify-content: center; }
+.gallery__viewer .gallery__main { flex: 1; min-width: 0; }
+.garrow { flex: none; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.35); background: rgba(255,255,255,0.1); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer; transition: background .2s; display: grid; place-items: center; padding: 0 0 3px; }
+.garrow:hover { background: rgba(255,255,255,0.25); }
 .gallery__thumbs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .gthumb { width: 64px; height: 64px; border-radius: 10px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: none; opacity: 0.65; transition: opacity .2s, border-color .2s; }
 .gthumb img { width: 100%; height: 100%; object-fit: cover; }
