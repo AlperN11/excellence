@@ -200,7 +200,7 @@ function ProductModal({ p, ui, onClose }) {
   )
   return (
     <div className="modal" onClick={onClose}>
-      <div className="modal__panel" style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
+      <div className={`modal__panel${p.detail && page === 0 ? ' modal__panel--detail' : ''}`} style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="modal__media" ref={mediaRef}>
           <div className="gallery__toolbar">
@@ -228,20 +228,31 @@ function ProductModal({ p, ui, onClose }) {
             </div>
           )}
         </div>
-        <div className="modal__info">
-          <p className="kicker">{p.spring}</p>
-          <h3>{p.name}</h3>
-          <p className="modal__tagline">{p.tagline}</p>
-          {p.detail && (
-            <div className="pages">
+        {p.detail && page === 0 ? (
+          <div className="modal__info modal__info--detail">
+            <div className="gallery__toolbar">
+              <button className="gtool gtool--dark" onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+              <span className="gzoom gzoom--dark">{Math.round(zoom * 100)}%</span>
+              <button className="gtool gtool--dark" onClick={() => setZoom((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+              <button className="gtool gtool--dark" onClick={toggleFull} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+            </div>
+            <div
+              className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
+              onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+            >
+              <img className="detail__img" src={p.detail.img} alt={p.name} style={{ transform: `scale(${zoom})` }} />
+            </div>
+            <div className="pages pages--bottom">
               {[0, 1, 2].map((i) => (
                 <button key={i} className={`page-dot ${page === i ? 'on' : ''}`} style={{ '--accent': p.accent }} onClick={() => setPage(i)}>{i + 1}</button>
               ))}
             </div>
-          )}
-          {p.detail && page === 0 && (
-            <img className="detail__img" src={p.detail.img} alt={`${p.name}`} loading="lazy" />
-          )}
+          </div>
+        ) : (
+        <div className="modal__info">
+          <p className="kicker">{p.spring}</p>
+          <h3>{p.name}</h3>
+          <p className="modal__tagline">{p.tagline}</p>
           {p.detail && page === 1 && (
             <p className="page-empty">{p.detail.soon}</p>
           )}
@@ -265,7 +276,15 @@ function ProductModal({ p, ui, onClose }) {
               </div>
             </>
           )}
+          {p.detail && (
+            <div className="pages pages--bottom">
+              {[0, 1, 2].map((i) => (
+                <button key={i} className={`page-dot ${page === i ? 'on' : ''}`} style={{ '--accent': p.accent }} onClick={() => setPage(i)}>{i + 1}</button>
+              ))}
+            </div>
+          )}
         </div>
+        )}
       </div>
     </div>
   )
