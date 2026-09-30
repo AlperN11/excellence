@@ -236,12 +236,12 @@ function ProductModal({ p, ui, onClose }) {
           )}
         </div>
         {p.detail && page !== 2 ? (
-          <div className="modal__info modal__info--detail" ref={detailRef}>
+          <div className="modal__info modal__info--detail" ref={detailRef} style={page === 1 ? { background: 'linear-gradient(180deg, rgb(75,107,135), rgb(241,242,244))' } : undefined}>
             <div className="gallery__toolbar">
-              <button className="gtool gtool--dark" onClick={() => setZoom2((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
-              <span className="gzoom gzoom--dark">{Math.round(zoom2 * 100)}%</span>
-              <button className="gtool gtool--dark" onClick={() => setZoom2((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
-              <button className="gtool gtool--dark" onClick={toggleFullDetail} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+              <button className={`gtool${page === 1 ? '' : ' gtool--dark'}`} onClick={() => setZoom2((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+              <span className={`gzoom${page === 1 ? '' : ' gzoom--dark'}`}>{Math.round(zoom2 * 100)}%</span>
+              <button className={`gtool${page === 1 ? '' : ' gtool--dark'}`} onClick={() => setZoom2((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+              <button className={`gtool${page === 1 ? '' : ' gtool--dark'}`} onClick={toggleFullDetail} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
             </div>
             <div
               className={`gallery__zoombox ${zoom2 > 1 ? 'zoomed' : ''}`}
