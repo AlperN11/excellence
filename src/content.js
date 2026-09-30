@@ -311,6 +311,20 @@ const tr = {
     rightsA: 'Excellence Bedding. Tüm hakları saklıdır.',
     rightsB: 'Sağlıklı ve konforlu uyku için tasarlandı.',
   },
+  cookies: {
+    title: 'Çerez Tercihleriniz',
+    text: 'Size daha iyi bir alışveriş deneyimi sunmak, site trafiğimizi analiz etmek ve kişiselleştirilmiş içerik sağlamak amacıyla çerezler kullanıyoruz.',
+    acceptAll: 'Tümünü Kabul Et',
+    necessaryOnly: 'Gerekli Olanlar',
+    customize: 'Çerezleri Özelleştir',
+    save: 'Tercihleri Kaydet',
+    necessaryTitle: 'Zorunlu Çerezler',
+    necessaryDesc: 'Sitenin çalışması için gerekli, kapatılamaz.',
+    analyticsTitle: 'Analitik Çerezler',
+    analyticsDesc: 'Site trafiğini analiz etmemize yardımcı olur.',
+    personalTitle: 'Kişiselleştirilmiş İçerik',
+    personalDesc: 'Size özel içerik sunmamızı sağlar.',
+  },
   ui: {
     menu: 'Menü',
     details: 'Detayları gör →',
@@ -643,6 +657,20 @@ const en = {
     rightsA: 'Excellence Bedding. All rights reserved.',
     rightsB: 'Designed for healthy, comfortable sleep.',
   },
+  cookies: {
+    title: 'Cookie Preferences',
+    text: 'We use cookies to provide you with a better shopping experience, analyze our site traffic, and deliver personalized content.',
+    acceptAll: 'Accept All',
+    necessaryOnly: 'Necessary Only',
+    customize: 'Customize Cookies',
+    save: 'Save Preferences',
+    necessaryTitle: 'Necessary Cookies',
+    necessaryDesc: 'Required for the site to work, cannot be disabled.',
+    analyticsTitle: 'Analytics Cookies',
+    analyticsDesc: 'Help us analyze site traffic.',
+    personalTitle: 'Personalized Content',
+    personalDesc: 'Allows us to offer you tailored content.',
+  },
   ui: {
     menu: 'Menu',
     details: 'See details →',
@@ -666,3 +694,4 @@ const en = {
 
 export const content = { tr, en }
 export const LANG_KEY = 'excellence-lang'
+export const COOKIE_KEY = 'excellence-cookies'

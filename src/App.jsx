@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { content, LANG_KEY } from './content.js'
+import { content, LANG_KEY, COOKIE_KEY } from './content.js'
 
 function Logo({ light }) {
   return (
@@ -463,6 +463,45 @@ function useSmoothAnchors() {
   }, [])
 }
 
+function CookieBanner({ t, onDone }) {
+  const [custom, setCustom] = useState(false)
+  const [analytics, setAnalytics] = useState(false)
+  const [personal, setPersonal] = useState(false)
+  return (
+    <div className="cookiebanner" role="dialog" aria-label={t.title}>
+      <h4>{t.title}</h4>
+      <p>{t.text}</p>
+      {custom && (
+        <div className="cookiebanner__opts">
+          <label className="cookieopt">
+            <span><strong>{t.necessaryTitle}</strong><small>{t.necessaryDesc}</small></span>
+            <span className="switch on locked"><span /></span>
+          </label>
+          <label className="cookieopt">
+            <span><strong>{t.analyticsTitle}</strong><small>{t.analyticsDesc}</small></span>
+            <button type="button" aria-label={t.analyticsTitle} className={`switch ${analytics ? 'on' : ''}`} onClick={() => setAnalytics((v) => !v)}><span /></button>
+          </label>
+          <label className="cookieopt">
+            <span><strong>{t.personalTitle}</strong><small>{t.personalDesc}</small></span>
+            <button type="button" aria-label={t.personalTitle} className={`switch ${personal ? 'on' : ''}`} onClick={() => setPersonal((v) => !v)}><span /></button>
+          </label>
+        </div>
+      )}
+      <div className="cookiebanner__btns">
+        {custom
+          ? <button className="btn btn--primary btn--sm" onClick={() => onDone({ necessary: true, analytics, personal })}>{t.save}</button>
+          : (
+            <>
+              <button className="btn btn--primary btn--sm" onClick={() => onDone({ necessary: true, analytics: true, personal: true })}>{t.acceptAll}</button>
+              <button className="btn btn--dark btn--sm" onClick={() => onDone({ necessary: true, analytics: false, personal: false })}>{t.necessaryOnly}</button>
+              <button className="cookiebanner__link" onClick={() => setCustom(true)}>{t.customize}</button>
+            </>
+          )}
+      </div>
+    </div>
+  )
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text')
@@ -483,6 +522,9 @@ export default function App() {
   const [showLang, setShowLang] = useState(() => {
     try { return !localStorage.getItem(LANG_KEY) } catch { return true }
   })
+  const [consent, setConsent] = useState(() => {
+    try { return localStorage.getItem(COOKIE_KEY) } catch { return null }
+  })
   const t = content[lang || 'tr']
   useReveal()
   useSmoothAnchors()
@@ -493,6 +535,10 @@ export default function App() {
     setLang(l)
     try { localStorage.setItem(LANG_KEY, l) } catch { /* ignore */ }
     setShowLang(false)
+  }
+  const saveConsent = (c) => {
+    setConsent('1')
+    try { localStorage.setItem(COOKIE_KEY, JSON.stringify(c)) } catch { /* ignore */ }
   }
   return (
     <>
@@ -508,6 +554,7 @@ export default function App() {
       </main>
       <Contact t={t.contact} />
       {showLang && <LangModal ui={t.ui} onChoose={choose} />}
+      {!consent && !showLang && <CookieBanner t={t.cookies} onDone={saveConsent} />}
     </>
   )
 }
