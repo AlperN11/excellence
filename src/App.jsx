@@ -116,14 +116,12 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
   const dragX = useRef(null)
   useEffect(() => { setPos(0); setTurn(null); setDir(1) }, [pages[0]])
   const leftOf = (p) => {
-    if (p === 0) return { type: 'backcover' }
     const i = (p - 1) * 2
     return { type: 'story', i }
   }
   const rightOf = (p) => {
-    if (p === 0) return { type: 'cover' }
     const i = (p - 1) * 2 + 1
-    return i < n ? { type: 'story', i } : { type: 'empty' }
+    return i < n ? { type: 'story', i } : { type: 'blank' }
   }
   const face = (slot) => {
     if (slot.type === 'cover') {
@@ -133,7 +131,7 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
         </button>
       )
     }
-    if (slot.type === 'empty') return <div key="empty" className="bempty" />
+    if (slot.type === 'blank') return <div key="blank" className="bblank" />
     if (slot.type === 'backcover') return <div key="back" className="bback" />
     return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${storyLabel} ${slot.i + 1}`} loading="lazy" draggable={false} />
   }
@@ -145,8 +143,12 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
     setDir(d)
     const from = pos
     setTurn(d > 0
-      ? { dir: d, fromRight: rightOf(from), toLeft: leftOf(to) }
-      : { dir: d, fromLeft: leftOf(from), toRight: rightOf(to) })
+      ? (from === 0
+        ? { dir: d, side: 'right', front: { type: 'cover' }, back: { type: 'backcover' } }
+        : { dir: d, side: 'right', front: rightOf(from), toLeft: leftOf(to) })
+      : (to === 0
+        ? { dir: d, side: 'left', front: { type: 'cover' }, back: leftOf(from) }
+        : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
     setTimeout(() => { setPos(to); setTurn(null) }, 950)
   }
   const cap = pos === 0 ? '' : (() => {
@@ -165,24 +167,30 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
   return (
     <div className="bookwrap">
       <div
-        className="book book--spread"
+        className={`book ${pos === 0 && !turn ? 'book--closed' : 'book--spread'}`}
         onPointerDown={onDown}
         onPointerMove={onMove}
         onPointerUp={onUp}
         onPointerLeave={onUp}
       >
-        <div className="bpage2">{face(leftOf(pos))}</div>
-        <div className="bpage2">{face(rightOf(pos))}</div>
-        {turn && turn.dir > 0 && (
+        {pos === 0 && !turn ? (
+          face({ type: 'cover' })
+        ) : (
+          <>
+            <div className="bpage2">{face(leftOf(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos))}</div>
+            <div className="bpage2">{face(rightOf(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos))}</div>
+          </>
+        )}
+        {turn && turn.side === 'right' && (
           <div className="bleaf bleaf--right fwd">
-            <div className="bleaf__face bleaf__front">{face(turn.fromRight)}</div>
-            <div className="bleaf__face bleaf__back">{face(turn.toLeft)}</div>
+            <div className="bleaf__face bleaf__front">{face(turn.front)}</div>
+            <div className="bleaf__face bleaf__back">{face(turn.back)}</div>
           </div>
         )}
-        {turn && turn.dir < 0 && (
+        {turn && turn.side === 'left' && (
           <div className="bleaf bleaf--left bwd">
-            <div className="bleaf__face bleaf__front">{face(turn.toRight)}</div>
-            <div className="bleaf__face bleaf__back">{face(turn.fromLeft)}</div>
+            <div className="bleaf__face bleaf__front">{face(turn.front)}</div>
+            <div className="bleaf__face bleaf__back">{face(turn.back)}</div>
           </div>
         )}
       </div>
