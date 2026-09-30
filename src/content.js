@@ -33,6 +33,7 @@ const tr = {
   fabrics: {
     title: 'Kumaş Teknolojileri',
     slogan: 'Hikayeli Kumaşlar',
+    story: 'Hikaye',
     pages: [
       '/assets/products/ozone-therapy/detail2.jpg',
       '/assets/products/bodybalance/detail2.jpg',
@@ -419,6 +420,7 @@ const en = {
   fabrics: {
     title: 'Fabric Technologies',
     slogan: 'Fabrics with Stories',
+    story: 'Story',
     pages: [
       '/assets/products/ozone-therapy/detail2.jpg',
       '/assets/products/bodybalance/detail3.jpg',

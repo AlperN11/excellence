@@ -77,35 +77,71 @@ function About({ t }) {
   )
 }
 
-function Book({ pages, prevLabel, nextLabel }) {
+let pageAudioCtx = null
+function pageSound() {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext
+    if (!AC) return
+    pageAudioCtx = pageAudioCtx || new AC()
+    const ctx = pageAudioCtx
+    if (ctx.state === 'suspended') ctx.resume()
+    const dur = 0.35
+    const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate)
+    const d = buf.getChannelData(0)
+    for (let i = 0; i < d.length; i++) {
+      const p = i / d.length
+      d[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * p) * 0.5
+    }
+    const src = ctx.createBufferSource()
+    src.buffer = buf
+    const filter = ctx.createBiquadFilter()
+    filter.type = 'bandpass'
+    filter.Q.value = 1.1
+    filter.frequency.setValueAtTime(1200, ctx.currentTime)
+    filter.frequency.exponentialRampToValueAtTime(3600, ctx.currentTime + dur)
+    const gain = ctx.createGain()
+    gain.gain.value = 0.1
+    src.connect(filter)
+    filter.connect(gain)
+    gain.connect(ctx.destination)
+    src.start()
+  } catch { /* ignore */ }
+}
+
+function Book({ cover, pages, storyLabel, prevLabel, nextLabel }) {
   const n = pages.length
-  const [flipped, setFlipped] = useState(0)
-  useEffect(() => { setFlipped(0) }, [pages[0]])
-  const next = () => setFlipped((f) => Math.min(f + 1, n))
-  const prev = () => setFlipped((f) => Math.max(f - 1, 0))
-  const cur = Math.min(flipped, n - 1)
+  const [idx, setIdx] = useState(-1)
+  const [dir, setDir] = useState(1)
+  useEffect(() => { setIdx(-1); setDir(1) }, [pages[0]])
+  const go = (d) => {
+    setDir(d)
+    setIdx((i) => {
+      const n2 = Math.min(n - 1, Math.max(-1, i + d))
+      if (n2 !== i) pageSound()
+      return n2
+    })
+  }
   return (
     <div className="bookwrap">
-      <div className="book">
-        {pages.map((src, i) => (
-          <div key={src} className={`bleaf${i < flipped ? ' turned' : ''}`} style={{ zIndex: i < flipped ? i + 1 : 20 - i }}>
-            <div className="bleaf__face bleaf__front"><img src={src} alt="" loading="lazy" /></div>
-            <div className="bleaf__face bleaf__back">
-              {pages[i + 1]
-                ? <img src={pages[i + 1]} alt="" loading="lazy" />
-                : <div className="bend"><img src="/logo.svg" alt="Excellence Bedding" /><span>catch the comfort</span></div>}
-            </div>
-          </div>
-        ))}
+      <div className="book book--single">
+        {idx === -1 ? (
+          <button key="cover" className="bookcover" onClick={() => go(1)} aria-label={nextLabel}>
+            <img src="/logo.svg" alt="Excellence Bedding" />
+            <span>Catch the comfort</span>
+          </button>
+        ) : (
+          <img key={pages[idx]} className={`bpage slide-${dir > 0 ? 'l' : 'r'}`} src={pages[idx]} alt={`${storyLabel} ${idx + 1}`} loading="lazy" />
+        )}
       </div>
+      <p className="bookcap">{idx === -1 ? '' : `${storyLabel} ${idx + 1} / ${n}`}</p>
       <div className="booknav">
-        <button className="garrow" onClick={prev} disabled={flipped === 0} aria-label={prevLabel}>‹</button>
+        <button className="garrow" onClick={() => go(-1)} disabled={idx === -1} aria-label={prevLabel}>‹</button>
         <div className="bookdots">
           {pages.map((src, i) => (
-            <button key={src} className={i === cur ? 'on' : ''} onClick={() => setFlipped(i)} aria-label={`${i + 1}`} />
+            <button key={src} className={i === idx ? 'on' : ''} onClick={() => { if (i !== idx) { setDir(i > idx ? 1 : -1); setIdx(i); pageSound() } }} aria-label={`${i + 1}`} />
           ))}
         </div>
-        <button className="garrow" onClick={next} disabled={flipped === n} aria-label={nextLabel}>›</button>
+        <button className="garrow" onClick={() => go(1)} disabled={idx === n - 1} aria-label={nextLabel}>›</button>
       </div>
     </div>
   )
@@ -118,7 +154,7 @@ function Fabrics({ t, ui }) {
         <h2>{t.title}</h2>
         <p className="section__sub">{t.slogan}</p>
       </div>
-      <Book pages={t.pages} prevLabel={ui.prev} nextLabel={ui.next} />
+      <Book pages={t.pages} storyLabel={t.story} prevLabel={ui.prev} nextLabel={ui.next} />
     </section>
   )
 }
