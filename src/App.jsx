@@ -189,6 +189,7 @@ function ProductModal({ p, ui, onClose }) {
   }, [])
   if (!p) return null
   const gallery = p.gallery?.length ? p.gallery : [p.img].filter(Boolean)
+  const photoBg = p.galleryBg?.[sel]
   const toggleFull = () => {
     if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
     else document.exitFullscreen()
@@ -209,7 +210,7 @@ function ProductModal({ p, ui, onClose }) {
     <div className="modal" onClick={onClose}>
       <div className={`modal__panel${p.detail && page !== 2 ? ' modal__panel--detail' : ''}`} style={{ '--accent': p.accent }} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose} aria-label={ui.close}>×</button>
-        <div className="modal__media" ref={mediaRef}>
+        <div className={`modal__media${photoBg ? ' modal__media--photo' : ''}`} ref={mediaRef} style={photoBg ? { background: photoBg } : undefined}>
           <div className="gallery__toolbar">
             <button className="gtool" onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
             <span className="gzoom">{Math.round(zoom * 100)}%</span>
