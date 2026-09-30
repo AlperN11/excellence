@@ -121,14 +121,22 @@ const tr = {
         sizes: ['120x200', '150x200', '160x200', '180x200'],
         desc: 'Ozone Therapy kumaşı, doğada bulunan ve belli bir enerjiye sahip minerallerin özel bir geometrik yapıda bir araya getirilmesiyle elde edilir. Günlük stres, yoğun iş temposu ve yorgunluğun sebep olduğu vücuttaki iletişim bozukluğunun uyku esnasında düzenlenmesine yardımcı olur. İçerdiği kolajen, cildin elastikiyetini destekler.',
         detail: {
-          img: '/assets/products/ozone-therapy/detail.jpg',
-          img2: '/assets/products/ozone-therapy/detail2.jpg',
+          images: [
+            { src: '/assets/products/ozone-therapy/detail.jpg', bg: null },
+            { src: '/assets/products/ozone-therapy/detail2.jpg', bg: 'linear-gradient(180deg, rgb(77,113,142), rgb(216,220,224))', dark: true },
+          ],
         },
       },
       {
         id: 'bodybalance',
         name: 'BodyBalance',
         tagline: 'Dengeli bir uyku, dengeli bir yaşam',
+        detail: {
+          images: [
+            { src: '/assets/products/bodybalance/detail.jpg', bg: null },
+            { src: '/assets/products/bodybalance/detail2.jpg', bg: 'linear-gradient(180deg, rgb(174,174,178), rgb(136,137,139))' },
+          ],
+        },
         img: '/assets/products/bodybalance/1.jpg',
         gallery: [
           '/assets/products/bodybalance/1.jpg',
@@ -153,6 +161,12 @@ const tr = {
         id: 'panthenol',
         name: 'Panthenol',
         tagline: 'Dinlendirici bir uyku deneyimi',
+        detail: {
+          images: [
+            { src: '/assets/products/panthenol/detail.jpg', bg: null },
+            { src: '/assets/products/panthenol/detail2.jpg', bg: 'linear-gradient(180deg, rgb(174,180,182), rgb(171,165,165))' },
+          ],
+        },
         img: '/assets/products/panthenol/1.jpg',
         gallery: [
           '/assets/products/panthenol/1.jpg',
@@ -176,6 +190,12 @@ const tr = {
         id: 'lavender',
         name: 'Lavender Serenity',
         tagline: 'Sakinliğin zamansız ritüeli',
+        detail: {
+          images: [
+            { src: '/assets/products/lavender/detail.jpg', bg: null },
+            { src: '/assets/products/lavender/detail2.jpg', bg: 'linear-gradient(180deg, rgb(188,179,189), rgb(205,206,220))' },
+          ],
+        },
         img: '/assets/products/lavender/1.jpg',
         gallery: [
           '/assets/products/lavender/1.jpg',
@@ -199,6 +219,12 @@ const tr = {
         id: 'anti-aging',
         name: 'Anti-Aging Supreme',
         tagline: 'Yenileyen ve onaran bir uyku',
+        detail: {
+          images: [
+            { src: '/assets/products/anti-aging/detail.jpg', bg: null },
+            { src: '/assets/products/anti-aging/detail2.jpg', bg: 'linear-gradient(180deg, rgb(164,151,143), rgb(223,222,218))' },
+          ],
+        },
         img: '/assets/products/anti-aging/1.jpg',
         gallery: [
           '/assets/products/anti-aging/1.jpg',
@@ -222,6 +248,11 @@ const tr = {
         id: 'manolya',
         name: 'Manolya',
         tagline: 'Güçlü Herkül yay sistemi',
+        detail: {
+          images: [
+            { src: '/assets/products/manolya/detail.jpg', bg: null },
+          ],
+        },
         img: '/assets/products/manolya/1.jpg',
         gallery: [
           '/assets/products/manolya/1.jpg',
@@ -244,6 +275,11 @@ const tr = {
         id: 'optimal',
         name: 'Optimal',
         tagline: 'Şıklık ve ileri uyku teknolojisi',
+        detail: {
+          images: [
+            { src: '/assets/products/optimal/detail.jpg', bg: null },
+          ],
+        },
         img: '/assets/products/optimal/1.jpg',
         gallery: [
           '/assets/products/optimal/1.jpg',
@@ -478,14 +514,22 @@ const en = {
         sizes: ['120x200', '150x200', '160x200', '180x200'],
         desc: 'Ozone Therapy fabric is created by bringing together minerals found in nature, each carrying a specific energy, in a special geometric structure. It helps regulate the disruption in the body caused by daily stress, intense work pace and fatigue while you sleep. The collagen it contains supports skin elasticity.',
         detail: {
-          img: '/assets/products/ozone-therapy/detail.jpg',
-          img2: '/assets/products/ozone-therapy/detail2.jpg',
+          images: [
+            { src: '/assets/products/ozone-therapy/detail.jpg', bg: null },
+            { src: '/assets/products/ozone-therapy/detail2.jpg', bg: 'linear-gradient(180deg, rgb(77,113,142), rgb(216,220,224))', dark: true },
+          ],
         },
       },
       {
         id: 'bodybalance',
         name: 'BodyBalance',
         tagline: 'Balanced sleep, balanced life',
+        detail: {
+          images: [
+            { src: '/assets/products/bodybalance/detail.jpg', bg: null },
+            { src: '/assets/products/bodybalance/detail3.jpg', bg: 'linear-gradient(180deg, rgb(154,157,161), rgb(205,205,205))' },
+          ],
+        },
         img: '/assets/products/bodybalance/1.jpg',
         gallery: [
           '/assets/products/bodybalance/1.jpg',
@@ -510,6 +554,12 @@ const en = {
         id: 'panthenol',
         name: 'Panthenol',
         tagline: 'A truly restful sleep experience',
+        detail: {
+          images: [
+            { src: '/assets/products/panthenol/detail.jpg', bg: null },
+            { src: '/assets/products/panthenol/detail3.jpg', bg: 'linear-gradient(180deg, rgb(171,191,206), rgb(187,175,171))' },
+          ],
+        },
         img: '/assets/products/panthenol/1.jpg',
         gallery: [
           '/assets/products/panthenol/1.jpg',
@@ -533,6 +583,12 @@ const en = {
         id: 'lavender',
         name: 'Lavender Serenity',
         tagline: 'The timeless ritual of calm',
+        detail: {
+          images: [
+            { src: '/assets/products/lavender/detail.jpg', bg: null },
+            { src: '/assets/products/lavender/detail3.jpg', bg: 'linear-gradient(180deg, rgb(160,161,178), rgb(201,202,207))' },
+          ],
+        },
         img: '/assets/products/lavender/1.jpg',
         gallery: [
           '/assets/products/lavender/1.jpg',
@@ -556,6 +612,12 @@ const en = {
         id: 'anti-aging',
         name: 'Anti-Aging Supreme',
         tagline: 'Sleep that renews and restores',
+        detail: {
+          images: [
+            { src: '/assets/products/anti-aging/detail.jpg', bg: null },
+            { src: '/assets/products/anti-aging/detail3.jpg', bg: 'linear-gradient(180deg, rgb(225,199,171), rgb(228,227,224))' },
+          ],
+        },
         img: '/assets/products/anti-aging/1.jpg',
         gallery: [
           '/assets/products/anti-aging/1.jpg',
@@ -579,6 +641,11 @@ const en = {
         id: 'manolya',
         name: 'Manolya',
         tagline: 'Powerful Hercules spring system',
+        detail: {
+          images: [
+            { src: '/assets/products/manolya/detail.jpg', bg: null },
+          ],
+        },
         img: '/assets/products/manolya/1.jpg',
         gallery: [
           '/assets/products/manolya/1.jpg',
@@ -601,6 +668,11 @@ const en = {
         id: 'optimal',
         name: 'Optimal',
         tagline: 'Elegance meets advanced sleep technology',
+        detail: {
+          images: [
+            { src: '/assets/products/optimal/detail.jpg', bg: null },
+          ],
+        },
         img: '/assets/products/optimal/1.jpg',
         gallery: [
           '/assets/products/optimal/1.jpg',
