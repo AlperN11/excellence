@@ -113,55 +113,88 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
   const [pos, setPos] = useState(0)
   const [dir, setDir] = useState(1)
   const [turn, setTurn] = useState(null)
+  const dragX = useRef(null)
   useEffect(() => { setPos(0); setTurn(null); setDir(1) }, [pages[0]])
-  const face = (p) => p === 0
-    ? (<button key="cover" className="bookcover" onClick={() => go(1)} aria-label={nextLabel}>
-        <img src="/logo.svg" alt="Excellence Bedding" />
-      </button>)
-    : (<img key={pages[p - 1]} className="bpage" src={pages[p - 1]} alt={`${storyLabel} ${p}`} loading="lazy" />)
+  const leftOf = (p) => {
+    if (p === 0) return { type: 'backcover' }
+    const i = (p - 1) * 2
+    return { type: 'story', i }
+  }
+  const rightOf = (p) => {
+    if (p === 0) return { type: 'cover' }
+    const i = (p - 1) * 2 + 1
+    return i < n ? { type: 'story', i } : { type: 'empty' }
+  }
+  const face = (slot) => {
+    if (slot.type === 'cover') {
+      return (
+        <button key="cover" className="bookcover" onClick={() => go(1)} aria-label={nextLabel}>
+          <img src="/logo.svg" alt="Excellence Bedding" />
+        </button>
+      )
+    }
+    if (slot.type === 'empty') return <div key="empty" className="bempty" />
+    if (slot.type === 'backcover') return <div key="back" className="bback" />
+    return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${storyLabel} ${slot.i + 1}`} loading="lazy" draggable={false} />
+  }
   const go = (d) => {
     if (turn) return
-    const to = Math.min(n, Math.max(0, pos + d))
+    const to = Math.min(3, Math.max(0, pos + d))
     if (to === pos) return
     pageSound()
     setDir(d)
-    setTurn({ from: pos, to })
+    const from = pos
+    setTurn(d > 0
+      ? { dir: d, fromRight: rightOf(from), toLeft: leftOf(to) }
+      : { dir: d, fromLeft: leftOf(from), toRight: rightOf(to) })
     setTimeout(() => { setPos(to); setTurn(null) }, 950)
   }
-  const cur = pos === 0 ? -1 : pos - 1
+  const cap = pos === 0 ? '' : (() => {
+    const a = (pos - 1) * 2 + 1
+    const b = a + 1
+    return b <= n ? `${storyLabel} ${a} - ${b}` : `${storyLabel} ${a}`
+  })()
+  const onDown = (e) => { dragX.current = e.clientX }
+  const onMove = (e) => {
+    if (dragX.current === null || turn) return
+    const dx = e.clientX - dragX.current
+    if (dx < -70) { dragX.current = null; go(1) }
+    else if (dx > 70) { dragX.current = null; go(-1) }
+  }
+  const onUp = () => { dragX.current = null }
   return (
     <div className="bookwrap">
-      <div className="book book--single">
-        {face(turn ? turn.to : pos)}
-        {turn && (
-          <div className={`bleaf ${dir > 0 ? 'fwd' : 'bwd'}`}>
-            <div className="bleaf__face bleaf__front">{dir > 0 ? face(turn.from) : face(turn.to)}</div>
-            <div className="bleaf__face bleaf__back">{dir > 0 ? face(turn.to) : face(turn.from)}</div>
+      <div
+        className="book book--spread"
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerLeave={onUp}
+      >
+        <div className="bpage2">{face(leftOf(pos))}</div>
+        <div className="bpage2">{face(rightOf(pos))}</div>
+        {turn && turn.dir > 0 && (
+          <div className="bleaf bleaf--right fwd">
+            <div className="bleaf__face bleaf__front">{face(turn.fromRight)}</div>
+            <div className="bleaf__face bleaf__back">{face(turn.toLeft)}</div>
+          </div>
+        )}
+        {turn && turn.dir < 0 && (
+          <div className="bleaf bleaf--left bwd">
+            <div className="bleaf__face bleaf__front">{face(turn.toRight)}</div>
+            <div className="bleaf__face bleaf__back">{face(turn.fromLeft)}</div>
           </div>
         )}
       </div>
-      <p className="bookcap">{pos === 0 ? '' : `${storyLabel} ${pos} / ${n}`}</p>
+      <p className="bookcap">{cap}</p>
       <div className="booknav">
-        <button className="garrow" onClick={() => go(-1)} disabled={pos === 0} aria-label={prevLabel}>‹</button>
+        <button className="garrow garrow--sm" onClick={() => go(-1)} disabled={pos === 0} aria-label={prevLabel}>‹</button>
         <div className="bookdots">
-          {pages.map((src, i) => (
-            <button
-              key={src}
-              className={i === cur ? 'on' : ''}
-              onClick={() => {
-                const to = i + 1
-                if (to === pos || turn) return
-                pageSound()
-                setDir(to > pos ? 1 : -1)
-                const from = pos
-                setTurn({ from, to })
-                setTimeout(() => { setPos(to); setTurn(null) }, 950)
-              }}
-              aria-label={`${i + 1}`}
-            />
+          {[0, 1, 2, 3].map((p) => (
+            <button key={p} className={p === pos ? 'on' : ''} onClick={() => { if (p !== pos && !turn) { pageSound(); setDir(p > pos ? 1 : -1); setPos(p) } }} aria-label={`${p + 1}`} />
           ))}
         </div>
-        <button className="garrow" onClick={() => go(1)} disabled={pos === n} aria-label={nextLabel}>›</button>
+        <button className="garrow garrow--sm" onClick={() => go(1)} disabled={pos === 3} aria-label={nextLabel}>›</button>
       </div>
     </div>
   )
