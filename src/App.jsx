@@ -77,25 +77,6 @@ function About({ t }) {
   )
 }
 
-function Fabrics({ t }) {
-  return (
-    <section className="fabrics section">
-      <div className="section__head">
-        <p className="kicker">{t.kicker}</p>
-        <h2>{t.title}</h2>
-      </div>
-      <div className="fabrics__grid">
-        {t.items.map((f) => (
-          <article key={f.title} className="fabric-card">
-            <h3>{f.title}</h3>
-            <p>{f.text}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function Tech({ t }) {
   const fabrics = t.items.slice(0, 3)
   const systems = t.items.slice(3)
@@ -592,7 +573,6 @@ export default function App() {
       <main>
         <Hero t={t.hero} />
         <About t={t.about} />
-        <Fabrics t={t.fabrics} />
         <Tech t={t.tech} />
         <Products t={t.products} ui={t.ui} />
         <Concept t={t.concept} ui={t.ui} />
