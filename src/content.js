@@ -119,6 +119,14 @@ const tr = {
         ],
         sizes: ['120x200', '150x200', '160x200', '180x200'],
         desc: 'Ozone Therapy kumaşı, doğada bulunan ve belli bir enerjiye sahip minerallerin özel bir geometrik yapıda bir araya getirilmesiyle elde edilir. Günlük stres, yoğun iş temposu ve yorgunluğun sebep olduğu vücuttaki iletişim bozukluğunun uyku esnasında düzenlenmesine yardımcı olur. İçerdiği kolajen, cildin elastikiyetini destekler.',
+        detail: {
+          intro: 'Ozone Therapy yatak kumaşı, doğada bulunan ve belli bir enerjiye sahip minerallerin özel bir geometrik yapıda bir araya getirilmesiyle elde edilir. Günlük stres, yoğun iş temposu ve yorgunluğun sebep olduğu vücuttaki iletişim bozukluğunun uyku esnasında düzenlenmesine yardımcı olur.',
+          layersTitle: 'Katman Yapısı',
+          layers: ['Ozone Therapy Kumaş', 'Thermobond Elyaf Katman', 'Thermobond Vatka Katman', 'Kapitone Süngeri', 'Tela', 'Yüksek Yoğunluklu Plaka Sünger', 'Pocket Spring System'],
+          fabricCodeLabel: 'Kumaş Kodu',
+          fabricCode: 'GYTEX-İNCİ 03 / KARACA 02',
+          soon: 'Yakında',
+        },
       },
       {
         id: 'bodybalance',
@@ -465,6 +473,14 @@ const en = {
         ],
         sizes: ['120x200', '150x200', '160x200', '180x200'],
         desc: 'Ozone Therapy fabric is created by bringing together minerals found in nature, each carrying a specific energy, in a special geometric structure. It helps regulate the disruption in the body caused by daily stress, intense work pace and fatigue while you sleep. The collagen it contains supports skin elasticity.',
+        detail: {
+          intro: 'Ozone Therapy mattress fabric is created by combining minerals found in nature that possess a specific energy, arranged in a unique geometric structure. It helps regulate communication disorders in the body caused by daily stress, intense work pace, and fatigue during sleep.',
+          layersTitle: 'Layer Structure',
+          layers: ['Ozone Therapy Fabric', 'Thermobond Fiber Layer', 'Thermobond Wadding Layer', 'Quilting Sponge', 'Tulle', 'High-Density Plate Foam', 'Pocket Spring System'],
+          fabricCodeLabel: 'Fabric Code',
+          fabricCode: 'GYTEX-İNCİ 03 / KARACA 02',
+          soon: 'Coming soon',
+        },
       },
       {
         id: 'bodybalance',

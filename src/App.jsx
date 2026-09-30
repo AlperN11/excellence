@@ -166,6 +166,7 @@ function ProductModal({ p, ui, onClose }) {
   const [sel, setSel] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [isFull, setIsFull] = useState(false)
+  const [page, setPage] = useState(0)
   const mediaRef = useRef(null)
   useEffect(() => {
     if (!p) return
@@ -177,7 +178,7 @@ function ProductModal({ p, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [p, onClose])
-  useEffect(() => { setSel(0); setZoom(1) }, [p?.id])
+  useEffect(() => { setSel(0); setZoom(1); setPage(0) }, [p?.id])
   useEffect(() => {
     const onFs = () => setIsFull(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onFs)
@@ -231,22 +232,50 @@ function ProductModal({ p, ui, onClose }) {
           <p className="kicker">{p.spring}</p>
           <h3>{p.name}</h3>
           <p className="modal__tagline">{p.tagline}</p>
-          <p className="modal__desc">{p.desc}</p>
-
-          <Firmness level={p.firmness} soft={ui.soft} hard={ui.firm} />
-
-          <div className="specs">
-            {p.heights.map((h) => (
-              <div key={h.label}><span>{h.label}</span><strong>{h.value}</strong></div>
-            ))}
-          </div>
-
-          <div className="modal__block">
-            <span className="modal__blocklabel">{ui.sizes}</span>
-            <div className="chips">
-              {p.sizes.map((s) => <span key={s} className="chip">{s}</span>)}
+          {p.detail && (
+            <div className="pages">
+              {[0, 1, 2].map((i) => (
+                <button key={i} className={`page-dot ${page === i ? 'on' : ''}`} style={{ '--accent': p.accent }} onClick={() => setPage(i)}>{i + 1}</button>
+              ))}
             </div>
-          </div>
+          )}
+          {p.detail && page === 0 && (
+            <>
+              <p className="modal__desc">{p.detail.intro}</p>
+              <div className="modal__block">
+                <span className="modal__blocklabel">{p.detail.layersTitle}</span>
+                <ul className="layers">
+                  {p.detail.layers.map((l) => <li key={l}>{l}</li>)}
+                </ul>
+              </div>
+              <div className="specs">
+                <div><span>{p.detail.fabricCodeLabel}</span><strong>{p.detail.fabricCode}</strong></div>
+              </div>
+            </>
+          )}
+          {p.detail && page === 1 && (
+            <p className="page-empty">{p.detail.soon}</p>
+          )}
+          {(!p.detail || page === 2) && (
+            <>
+              <p className="modal__desc">{p.desc}</p>
+
+              <Firmness level={p.firmness} soft={ui.soft} hard={ui.firm} />
+
+              <div className="specs">
+                {p.heights.map((h) => (
+                  <div key={h.label}><span>{h.label}</span><strong>{h.value}</strong></div>
+                ))}
+              </div>
+
+              <div className="modal__block">
+                <span className="modal__blocklabel">{ui.sizes}</span>
+                <div className="chips">
+                  {p.sizes.map((s) => <span key={s} className="chip">{s}</span>)}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
