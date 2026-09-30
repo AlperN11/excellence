@@ -31,21 +31,14 @@ const tr = {
     ],
   },
   fabrics: {
-    kicker: 'Kumaş Teknolojileri',
-    title: 'Teninizle uyum içinde',
-    items: [
-      {
-        title: 'Viscon Kumaş',
-        text: 'Özel tuşeli viskon kumaş; ipeksi ve rahat hissiyatıyla teninizle uyumlu yapısı sayesinde uykuya daha kolay geçiş yapmanıza yardımcı olur.',
-      },
-      {
-        title: 'Örme Kumaş',
-        text: 'Pamuklu yüzey yaz gecelerini serin geçirmenizi sağlar. Nemi doğal olarak absorbe ederek terlemeyi önler, yatağın nefes almasını sağlar.',
-      },
-      {
-        title: 'Pamuk Kumaş',
-        text: 'Nanoteknolojik örme kumaş vücutla temas ettiğinde yumuşak ve rahatsız etmeyen bir hissiyat verir. Konforlu ve derin uyku için idealdir.',
-      },
+    title: 'Kumaş Teknolojileri',
+    slogan: 'Hikayeli Kumaşlar',
+    pages: [
+      '/assets/products/ozone-therapy/detail2.jpg',
+      '/assets/products/bodybalance/detail2.jpg',
+      '/assets/products/panthenol/detail2.jpg',
+      '/assets/products/lavender/detail2.jpg',
+      '/assets/products/anti-aging/detail2.jpg',
     ],
   },
   tech: {
@@ -424,21 +417,14 @@ const en = {
     ],
   },
   fabrics: {
-    kicker: 'Fabric Technologies',
-    title: 'In harmony with your skin',
-    items: [
-      {
-        title: 'Viscon Fabric',
-        text: 'Special-touch viscose fabric; with its silky, comfortable feel that harmonizes with your skin, it helps you drift into sleep more easily.',
-      },
-      {
-        title: 'Knitted Fabric',
-        text: 'A cotton surface keeps you cool on summer nights. By naturally absorbing moisture, it prevents sweating and lets the mattress breathe.',
-      },
-      {
-        title: 'Cotton Fabric',
-        text: 'Nanotechnological knitted fabric feels soft and non-irritating against the body. Ideal for comfortable, deep sleep.',
-      },
+    title: 'Fabric Technologies',
+    slogan: 'Fabrics with Stories',
+    pages: [
+      '/assets/products/ozone-therapy/detail2.jpg',
+      '/assets/products/bodybalance/detail3.jpg',
+      '/assets/products/panthenol/detail3.jpg',
+      '/assets/products/lavender/detail3.jpg',
+      '/assets/products/anti-aging/detail3.jpg',
     ],
   },
   tech: {

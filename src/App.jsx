@@ -77,6 +77,52 @@ function About({ t }) {
   )
 }
 
+function Book({ pages, prevLabel, nextLabel }) {
+  const n = pages.length
+  const [flipped, setFlipped] = useState(0)
+  useEffect(() => { setFlipped(0) }, [pages[0]])
+  const next = () => setFlipped((f) => Math.min(f + 1, n))
+  const prev = () => setFlipped((f) => Math.max(f - 1, 0))
+  const cur = Math.min(flipped, n - 1)
+  return (
+    <div className="bookwrap">
+      <div className="book">
+        {pages.map((src, i) => (
+          <div key={src} className={`bleaf${i < flipped ? ' turned' : ''}`} style={{ zIndex: i < flipped ? i + 1 : 20 - i }}>
+            <div className="bleaf__face bleaf__front"><img src={src} alt="" loading="lazy" /></div>
+            <div className="bleaf__face bleaf__back">
+              {pages[i + 1]
+                ? <img src={pages[i + 1]} alt="" loading="lazy" />
+                : <div className="bend"><img src="/logo.svg" alt="Excellence Bedding" /><span>catch the comfort</span></div>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="booknav">
+        <button className="garrow" onClick={prev} disabled={flipped === 0} aria-label={prevLabel}>‹</button>
+        <div className="bookdots">
+          {pages.map((src, i) => (
+            <button key={src} className={i === cur ? 'on' : ''} onClick={() => setFlipped(i)} aria-label={`${i + 1}`} />
+          ))}
+        </div>
+        <button className="garrow" onClick={next} disabled={flipped === n} aria-label={nextLabel}>›</button>
+      </div>
+    </div>
+  )
+}
+
+function Fabrics({ t, ui }) {
+  return (
+    <section className="fabrics fabrics--book section">
+      <div className="section__head">
+        <h2>{t.title}</h2>
+        <p className="section__sub">{t.slogan}</p>
+      </div>
+      <Book pages={t.pages} prevLabel={ui.prev} nextLabel={ui.next} />
+    </section>
+  )
+}
+
 function Tech({ t }) {
   const fabrics = t.items.slice(0, 3)
   const systems = t.items.slice(3)
@@ -531,7 +577,7 @@ function CookieBanner({ t, onDone }) {
 
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text')
+    const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text, .bookwrap')
     els.forEach((el) => el.classList.add('reveal'))
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target) } }),
@@ -573,6 +619,7 @@ export default function App() {
       <main>
         <Hero t={t.hero} />
         <About t={t.about} />
+        <Fabrics t={t.fabrics} ui={t.ui} />
         <Tech t={t.tech} />
         <Products t={t.products} ui={t.ui} />
         <Concept t={t.concept} ui={t.ui} />
