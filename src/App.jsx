@@ -165,9 +165,11 @@ function ProductCard({ p, details, onOpen }) {
 function ProductModal({ p, ui, onClose }) {
   const [sel, setSel] = useState(0)
   const [zoom, setZoom] = useState(1)
+  const [zoom2, setZoom2] = useState(1)
   const [isFull, setIsFull] = useState(false)
   const [page, setPage] = useState(0)
   const mediaRef = useRef(null)
+  const detailRef = useRef(null)
   useEffect(() => {
     if (!p) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -178,7 +180,8 @@ function ProductModal({ p, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [p, onClose])
-  useEffect(() => { setSel(0); setZoom(1); setPage(0) }, [p?.id])
+  useEffect(() => { setSel(0); setZoom(1); setZoom2(1); setPage(0) }, [p?.id])
+  useEffect(() => { setZoom2(1) }, [page])
   useEffect(() => {
     const onFs = () => setIsFull(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onFs)
@@ -188,6 +191,10 @@ function ProductModal({ p, ui, onClose }) {
   const gallery = p.gallery?.length ? p.gallery : [p.img].filter(Boolean)
   const toggleFull = () => {
     if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
+    else document.exitFullscreen()
+  }
+  const toggleFullDetail = () => {
+    if (!document.fullscreenElement) detailRef.current?.requestFullscreen?.().catch(() => {})
     else document.exitFullscreen()
   }
   const zoomBox = (src, alt) => (
@@ -229,18 +236,18 @@ function ProductModal({ p, ui, onClose }) {
           )}
         </div>
         {p.detail && page !== 2 ? (
-          <div className="modal__info modal__info--detail">
+          <div className="modal__info modal__info--detail" ref={detailRef}>
             <div className="gallery__toolbar">
-              <button className="gtool gtool--dark" onClick={() => setZoom((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
-              <span className="gzoom gzoom--dark">{Math.round(zoom * 100)}%</span>
-              <button className="gtool gtool--dark" onClick={() => setZoom((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
-              <button className="gtool gtool--dark" onClick={toggleFull} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+              <button className="gtool gtool--dark" onClick={() => setZoom2((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+              <span className="gzoom gzoom--dark">{Math.round(zoom2 * 100)}%</span>
+              <button className="gtool gtool--dark" onClick={() => setZoom2((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+              <button className="gtool gtool--dark" onClick={toggleFullDetail} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
             </div>
             <div
-              className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
-              onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
+              className={`gallery__zoombox ${zoom2 > 1 ? 'zoomed' : ''}`}
+              onClick={() => setZoom2((z) => (z > 1 ? 1 : 2))}
             >
-              <img className="detail__img" src={page === 0 ? p.detail.img : p.detail.img2} alt={p.name} style={{ transform: `scale(${zoom})` }} />
+              <img className="detail__img" src={page === 0 ? p.detail.img : p.detail.img2} alt={p.name} style={{ transform: `scale(${zoom2})` }} />
             </div>
             <div className="pages pages--bottom">
               {[0, 1, 2].map((i) => (

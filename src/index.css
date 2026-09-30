@@ -259,6 +259,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .modal__panel--detail .modal__close { background: rgba(27,26,34,0.5); color: #fff; }
 .modal__panel--detail .modal__close:hover { background: rgba(27,26,34,0.75); }
 .modal__info--detail { padding: 0; }
+.modal__info--detail:fullscreen { height: 100%; overflow: auto; background: #fff; }
 .modal__info--detail .gallery__toolbar { padding: 16px 72px 12px 18px; align-self: stretch; justify-content: flex-end; }
 .modal__info--detail .gallery__zoombox { max-height: none; border-radius: 0; }
 .gtool--dark { border-color: var(--line); background: rgba(27,26,34,0.06); color: var(--text); }
