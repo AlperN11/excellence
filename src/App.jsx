@@ -117,8 +117,9 @@ function Book({ t, prevLabel, nextLabel }) {
   useEffect(() => {
     pages.forEach((src) => { const im = new Image(); im.src = src })
   }, [pages[0]])
+  const [zoomed, setZoomed] = useState(null)
   const dragX = useRef(null)
-  useEffect(() => { setPos(0); setTurn(null); setDir(1) }, [pages[0]])
+  useEffect(() => { setPos(0); setTurn(null); setDir(1); setZoomed(null) }, [pages[0]])
   const leftOf = (p) => {
     const i = (p - 1) * 2
     return { type: 'story', i }
@@ -145,6 +146,7 @@ function Book({ t, prevLabel, nextLabel }) {
     if (to === pos) return
     pageSound()
     setDir(d)
+    setZoomed(null)
     const from = pos
     setTurn(d > 0
       ? (from === 0
@@ -166,16 +168,25 @@ function Book({ t, prevLabel, nextLabel }) {
   })()
   const onDown = (e) => { dragX.current = e.clientX }
   const onMove = (e) => {
-    if (dragX.current === null || turn) return
+    if (dragX.current === null || turn || zoomed) return
     const dx = e.clientX - dragX.current
     if (dx < -70) { dragX.current = null; go(1) }
     else if (dx > 70) { dragX.current = null; go(-1) }
   }
-  const onUp = () => { dragX.current = null }
+  const onUp = (e) => {
+    if (dragX.current !== null) {
+      const dx = e.clientX - dragX.current
+      if (Math.abs(dx) < 8 && !turn) {
+        const pg = e.target.closest('.bpage2')
+        if (pg) setZoomed((z) => (z === pg.dataset.side ? null : pg.dataset.side))
+      }
+    }
+    dragX.current = null
+  }
   const spread = (p) => (
     <>
-      <div className="bpage2">{face(leftOf(p))}</div>
-      <div className="bpage2">{face(rightOf(p))}</div>
+      <div className={`bpage2 curve-l${zoomed === 'l' ? ' zoomed' : ''}`} data-side="l">{face(leftOf(p))}</div>
+      <div className={`bpage2 curve-r${zoomed === 'r' ? ' zoomed' : ''}`} data-side="r">{face(rightOf(p))}</div>
     </>
   )
   const jump = (p) => {
@@ -189,6 +200,7 @@ function Book({ t, prevLabel, nextLabel }) {
   }
   return (
     <div className="bookwrap">
+      <div className="booktable">
       <div
         className={`book ${pos === 0 && !turn ? 'book--closed' : 'book--spread'}`}
         onPointerDown={onDown}
@@ -213,6 +225,7 @@ function Book({ t, prevLabel, nextLabel }) {
             <div className="bleaf__face bleaf__back">{face(turn.back)}</div>
           </div>
         )}
+      </div>
       </div>
       <p className="bookslogan">{slogan}</p>
       <div className="booknav">
