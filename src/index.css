@@ -178,10 +178,9 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .book::after { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 7px; z-index: 15; background: repeating-linear-gradient(90deg, #fdfcf9 0 2px, #d8d3c6 2px 3px); pointer-events: none; }
 .book--closed::before, .book--closed::after { display: none; }
 .bookcover::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 34px; background: linear-gradient(90deg, rgba(0,0,0,0.45), transparent); pointer-events: none; }
-.bpage2 { position: relative; width: 50%; height: 100%; overflow: hidden; cursor: zoom-in; }
+.bpage2 { position: relative; width: 50%; height: 100%; overflow: hidden; }
 .bpage2 .bpage { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transition: transform .25s ease; }
-.bpage2.zoomed { overflow: auto; cursor: zoom-out; }
-.bpage2.zoomed .bpage { transform: scale(1.9); }
+.book > .bpage2:first-child { box-shadow: inset -24px 0 40px -24px rgba(27,26,34,0.35); }
 .book > .bpage2:first-child { box-shadow: inset -24px 0 40px -24px rgba(27,26,34,0.35); }
 .bpage2 + .bpage2 { box-shadow: inset 24px 0 40px -24px rgba(27,26,34,0.35); }
 .bempty { width: 100%; height: 100%; background: #fff; }
@@ -207,6 +206,8 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .bookslogan { margin: 18px auto 0; max-width: 640px; font-family: var(--serif); font-style: italic; font-size: 1.25rem; color: var(--maroon); }
 .booknums { min-width: 64px; text-align: center; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; color: var(--text); }
 .booknav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 26px; }
+.booknav .garrow { background: var(--maroon); border-color: var(--maroon); color: #fff; }
+.booknav .garrow:hover { background: var(--maroon-deep); }
 .booknav .garrow:disabled { opacity: 0.3; cursor: default; }
 .bookdots { display: flex; gap: 8px; }
 .bookdots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: var(--line); cursor: pointer; padding: 0; }

@@ -114,9 +114,11 @@ function Book({ t, prevLabel, nextLabel }) {
   const [pos, setPos] = useState(0)
   const [dir, setDir] = useState(1)
   const [turn, setTurn] = useState(null)
-  const [zoomed, setZoomed] = useState(null)
+  useEffect(() => {
+    pages.forEach((src) => { const im = new Image(); im.src = src })
+  }, [pages[0]])
   const dragX = useRef(null)
-  useEffect(() => { setPos(0); setTurn(null); setDir(1); setZoomed(null) }, [pages[0]])
+  useEffect(() => { setPos(0); setTurn(null); setDir(1) }, [pages[0]])
   const leftOf = (p) => {
     const i = (p - 1) * 2
     return { type: 'story', i }
@@ -135,7 +137,7 @@ function Book({ t, prevLabel, nextLabel }) {
     }
     if (slot.type === 'blank') return <div key="blank" className="bblank" />
     if (slot.type === 'backcover') return <div key="back" className="bback" />
-    return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${t.story} ${slot.i + 1}`} loading="lazy" draggable={false} />
+    return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${t.story} ${slot.i + 1}`} loading="eager" draggable={false} />
   }
   const go = (d) => {
     if (turn) return
@@ -143,7 +145,6 @@ function Book({ t, prevLabel, nextLabel }) {
     if (to === pos) return
     pageSound()
     setDir(d)
-    setZoomed(null)
     const from = pos
     setTurn(d > 0
       ? (from === 0
@@ -165,28 +166,16 @@ function Book({ t, prevLabel, nextLabel }) {
   })()
   const onDown = (e) => { dragX.current = e.clientX }
   const onMove = (e) => {
-    if (dragX.current === null || turn || zoomed) return
+    if (dragX.current === null || turn) return
     const dx = e.clientX - dragX.current
     if (dx < -70) { dragX.current = null; go(1) }
     else if (dx > 70) { dragX.current = null; go(-1) }
   }
-  const onUp = (e) => {
-    if (dragX.current !== null) {
-      const dx = e.clientX - dragX.current
-      if (Math.abs(dx) < 8 && !turn) {
-        const pg = e.target.closest('.bpage2')
-        if (pg) {
-          const side = pg.dataset.side
-          setZoomed((z) => (z === side ? null : side))
-        }
-      }
-    }
-    dragX.current = null
-  }
+  const onUp = () => { dragX.current = null }
   const spread = (p) => (
     <>
-      <div className={`bpage2${zoomed === 'l' ? ' zoomed' : ''}`} data-side="l">{face(leftOf(p))}</div>
-      <div className={`bpage2${zoomed === 'r' ? ' zoomed' : ''}`} data-side="r">{face(rightOf(p))}</div>
+      <div className="bpage2">{face(leftOf(p))}</div>
+      <div className="bpage2">{face(rightOf(p))}</div>
     </>
   )
   const jump = (p) => {
