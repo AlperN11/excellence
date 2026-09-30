@@ -254,6 +254,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .page-dot { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: var(--muted); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: background .2s, color .2s; }
 .page-dot.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .page-empty { color: var(--muted); font-size: 0.95rem; text-align: center; padding: 40px 0; }
+.detail__img { width: 100%; border-radius: 12px; }
 .modal__blocklabel { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: color-mix(in srgb, var(--accent) 60%, #726f7e); margin-bottom: 12px; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); font-weight: 600; font-size: 0.82rem; padding: 7px 14px; border-radius: 100px; }

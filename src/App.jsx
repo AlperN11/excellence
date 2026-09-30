@@ -240,18 +240,7 @@ function ProductModal({ p, ui, onClose }) {
             </div>
           )}
           {p.detail && page === 0 && (
-            <>
-              <p className="modal__desc">{p.detail.intro}</p>
-              <div className="modal__block">
-                <span className="modal__blocklabel">{p.detail.layersTitle}</span>
-                <ul className="layers">
-                  {p.detail.layers.map((l) => <li key={l}>{l}</li>)}
-                </ul>
-              </div>
-              <div className="specs">
-                <div><span>{p.detail.fabricCodeLabel}</span><strong>{p.detail.fabricCode}</strong></div>
-              </div>
-            </>
+            <img className="detail__img" src={p.detail.img} alt={`${p.name}`} loading="lazy" />
           )}
           {p.detail && page === 1 && (
             <p className="page-empty">{p.detail.soon}</p>
