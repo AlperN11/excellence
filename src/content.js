@@ -34,6 +34,14 @@ const tr = {
     title: 'Kumaş Teknolojileri',
     slogan: 'Hikayeli Kumaşlar',
     story: 'Hikaye',
+    coverLabel: 'Kapak',
+    slogans: [
+      'Stresten arın, yenilen',
+      'Dengeni bul, tazelen',
+      'Cildin uykuda yenilensin',
+      'Lavanta ile huzura dal',
+      'Gençliğe uyan',
+    ],
     pages: [
       '/assets/products/ozone-therapy/detail2.jpg',
       '/assets/products/bodybalance/detail2.jpg',
@@ -421,6 +429,14 @@ const en = {
     title: 'Fabric Technologies',
     slogan: 'Fabrics with Stories',
     story: 'Story',
+    coverLabel: 'Cover',
+    slogans: [
+      'Release stress, renew',
+      'Find your balance',
+      'Let your skin renew as you sleep',
+      'Drift into calm with lavender',
+      'Wake up youthful',
+    ],
     pages: [
       '/assets/products/ozone-therapy/detail2.jpg',
       '/assets/products/bodybalance/detail3.jpg',

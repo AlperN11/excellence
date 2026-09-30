@@ -108,13 +108,15 @@ function pageSound() {
   } catch { /* ignore */ }
 }
 
-function Book({ pages, storyLabel, prevLabel, nextLabel }) {
+function Book({ t, prevLabel, nextLabel }) {
+  const pages = t.pages
   const n = pages.length
   const [pos, setPos] = useState(0)
   const [dir, setDir] = useState(1)
   const [turn, setTurn] = useState(null)
+  const [zoomed, setZoomed] = useState(null)
   const dragX = useRef(null)
-  useEffect(() => { setPos(0); setTurn(null); setDir(1) }, [pages[0]])
+  useEffect(() => { setPos(0); setTurn(null); setDir(1); setZoomed(null) }, [pages[0]])
   const leftOf = (p) => {
     const i = (p - 1) * 2
     return { type: 'story', i }
@@ -133,7 +135,7 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
     }
     if (slot.type === 'blank') return <div key="blank" className="bblank" />
     if (slot.type === 'backcover') return <div key="back" className="bback" />
-    return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${storyLabel} ${slot.i + 1}`} loading="lazy" draggable={false} />
+    return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${t.story} ${slot.i + 1}`} loading="lazy" draggable={false} />
   }
   const go = (d) => {
     if (turn) return
@@ -141,6 +143,7 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
     if (to === pos) return
     pageSound()
     setDir(d)
+    setZoomed(null)
     const from = pos
     setTurn(d > 0
       ? (from === 0
@@ -151,19 +154,50 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
         : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
     setTimeout(() => { setPos(to); setTurn(null) }, 950)
   }
-  const cap = pos === 0 ? '' : (() => {
+  const cap = pos === 0 ? t.coverLabel : (() => {
     const a = (pos - 1) * 2 + 1
     const b = a + 1
-    return b <= n ? `${storyLabel} ${a} - ${b}` : `${storyLabel} ${a}`
+    return b <= n ? `${a} - ${b}` : `${a}`
+  })()
+  const slogan = pos === 0 ? t.slogan : (() => {
+    const idx = [(pos - 1) * 2, (pos - 1) * 2 + 1].filter((i) => i < n)
+    return idx.map((i) => t.slogans[i]).join(' · ')
   })()
   const onDown = (e) => { dragX.current = e.clientX }
   const onMove = (e) => {
-    if (dragX.current === null || turn) return
+    if (dragX.current === null || turn || zoomed) return
     const dx = e.clientX - dragX.current
     if (dx < -70) { dragX.current = null; go(1) }
     else if (dx > 70) { dragX.current = null; go(-1) }
   }
-  const onUp = () => { dragX.current = null }
+  const onUp = (e) => {
+    if (dragX.current !== null) {
+      const dx = e.clientX - dragX.current
+      if (Math.abs(dx) < 8 && !turn) {
+        const pg = e.target.closest('.bpage2')
+        if (pg) {
+          const side = pg.dataset.side
+          setZoomed((z) => (z === side ? null : side))
+        }
+      }
+    }
+    dragX.current = null
+  }
+  const spread = (p) => (
+    <>
+      <div className={`bpage2${zoomed === 'l' ? ' zoomed' : ''}`} data-side="l">{face(leftOf(p))}</div>
+      <div className={`bpage2${zoomed === 'r' ? ' zoomed' : ''}`} data-side="r">{face(rightOf(p))}</div>
+    </>
+  )
+  const jump = (p) => {
+    if (p === pos || turn) return
+    const step = (cur) => {
+      if (cur === p) return
+      go(cur < p ? 1 : -1)
+      setTimeout(() => step(cur + (cur < p ? 1 : -1)), 1000)
+    }
+    step(pos)
+  }
   return (
     <div className="bookwrap">
       <div
@@ -176,10 +210,7 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
         {pos === 0 && !turn ? (
           face({ type: 'cover' })
         ) : (
-          <>
-            <div className="bpage2">{face(leftOf(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos))}</div>
-            <div className="bpage2">{face(rightOf(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos))}</div>
-          </>
+          spread(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos)
         )}
         {turn && turn.side === 'right' && (
           <div className="bleaf bleaf--right fwd">
@@ -194,14 +225,10 @@ function Book({ pages, storyLabel, prevLabel, nextLabel }) {
           </div>
         )}
       </div>
-      <p className="bookcap">{cap}</p>
+      <p className="bookslogan">{slogan}</p>
       <div className="booknav">
         <button className="garrow garrow--sm" onClick={() => go(-1)} disabled={pos === 0} aria-label={prevLabel}>‹</button>
-        <div className="bookdots">
-          {[0, 1, 2, 3].map((p) => (
-            <button key={p} className={p === pos ? 'on' : ''} onClick={() => { if (p !== pos && !turn) { pageSound(); setDir(p > pos ? 1 : -1); setPos(p) } }} aria-label={`${p + 1}`} />
-          ))}
-        </div>
+        <span className="booknums">{cap}</span>
         <button className="garrow garrow--sm" onClick={() => go(1)} disabled={pos === 3} aria-label={nextLabel}>›</button>
       </div>
     </div>
@@ -213,9 +240,8 @@ function Fabrics({ t, ui }) {
     <section className="fabrics fabrics--book section">
       <div className="section__head">
         <h2>{t.title}</h2>
-        <p className="section__sub">{t.slogan}</p>
       </div>
-      <Book pages={t.pages} storyLabel={t.story} prevLabel={ui.prev} nextLabel={ui.next} />
+      <Book t={t} prevLabel={ui.prev} nextLabel={ui.next} />
     </section>
   )
 }
