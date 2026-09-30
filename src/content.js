@@ -2,10 +2,11 @@
 
 const tr = {
   nav: [
-    ['#hakkimizda', 'Hakkımızda'],
+    ['#kumas', 'Kumaş Teknolojileri'],
     ['#teknoloji', 'Uyku Teknolojileri'],
     ['#urunler', 'Yatak Koleksiyonu'],
     ['#konsept', 'Bahçe Konsepti'],
+    ['#hakkimizda', 'Hakkımızda'],
     ['#iletisim', 'İletişim'],
   ],
   hero: {
@@ -397,10 +398,11 @@ const tr = {
 
 const en = {
   nav: [
-    ['#hakkimizda', 'About'],
+    ['#kumas', 'Fabric Technologies'],
     ['#teknoloji', 'Sleep Technologies'],
     ['#urunler', 'Mattress Collection'],
     ['#konsept', 'Garden Concept'],
+    ['#hakkimizda', 'About'],
     ['#iletisim', 'Contact'],
   ],
   hero: {

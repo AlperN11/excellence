@@ -237,7 +237,7 @@ function Book({ t, prevLabel, nextLabel }) {
 
 function Fabrics({ t, ui }) {
   return (
-    <section className="fabrics fabrics--book section">
+    <section id="kumas" className="fabrics fabrics--book section">
       <div className="section__head">
         <h2>{t.title}</h2>
       </div>
