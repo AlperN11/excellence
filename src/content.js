@@ -121,7 +121,7 @@ const tr = {
         desc: 'Ozone Therapy kumaşı, doğada bulunan ve belli bir enerjiye sahip minerallerin özel bir geometrik yapıda bir araya getirilmesiyle elde edilir. Günlük stres, yoğun iş temposu ve yorgunluğun sebep olduğu vücuttaki iletişim bozukluğunun uyku esnasında düzenlenmesine yardımcı olur. İçerdiği kolajen, cildin elastikiyetini destekler.',
         detail: {
           img: '/assets/products/ozone-therapy/detail.jpg',
-          soon: 'Yakında',
+          img2: '/assets/products/ozone-therapy/detail2.jpg',
         },
       },
       {
@@ -471,7 +471,7 @@ const en = {
         desc: 'Ozone Therapy fabric is created by bringing together minerals found in nature, each carrying a specific energy, in a special geometric structure. It helps regulate the disruption in the body caused by daily stress, intense work pace and fatigue while you sleep. The collagen it contains supports skin elasticity.',
         detail: {
           img: '/assets/products/ozone-therapy/detail.jpg',
-          soon: 'Coming soon',
+          img2: '/assets/products/ozone-therapy/detail2.jpg',
         },
       },
       {
