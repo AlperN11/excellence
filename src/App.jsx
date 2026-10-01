@@ -162,10 +162,6 @@ function Book({ t, prevLabel, nextLabel }) {
     const b = a + 1
     return b <= n ? `${a} - ${b}` : `${a}`
   })()
-  const slogan = pos === 0 ? t.slogan : (() => {
-    const idx = [(pos - 1) * 2, (pos - 1) * 2 + 1].filter((i) => i < n)
-    return idx.map((i) => t.slogans[i]).join(' · ')
-  })()
   const onDown = (e) => { dragX.current = e.clientX }
   const onMove = (e) => {
     if (dragX.current === null || turn || zoomed) return
@@ -185,8 +181,8 @@ function Book({ t, prevLabel, nextLabel }) {
   }
   const spread = (p) => (
     <>
-      <div className={`bpage2 curve-l${zoomed === 'l' ? ' zoomed' : ''}`} data-side="l">{face(leftOf(p))}</div>
-      <div className={`bpage2 curve-r${zoomed === 'r' ? ' zoomed' : ''}`} data-side="r">{face(rightOf(p))}</div>
+      <div className={`bpage2${zoomed === 'l' ? ' zoomed' : ''}`} data-side="l">{face(leftOf(p))}</div>
+      <div className={`bpage2${zoomed === 'r' ? ' zoomed' : ''}`} data-side="r">{face(rightOf(p))}</div>
     </>
   )
   const jump = (p) => {
@@ -200,7 +196,6 @@ function Book({ t, prevLabel, nextLabel }) {
   }
   return (
     <div className="bookwrap">
-      <div className="booktable">
       <div
         className={`book ${pos === 0 && !turn ? 'book--closed' : 'book--spread'}`}
         onPointerDown={onDown}
@@ -226,8 +221,6 @@ function Book({ t, prevLabel, nextLabel }) {
           </div>
         )}
       </div>
-      </div>
-      <p className="bookslogan">{slogan}</p>
       <div className="booknav">
         <button className="garrow garrow--sm" onClick={() => go(-1)} disabled={pos === 0} aria-label={prevLabel}>‹</button>
         <span className="booknums">{cap}</span>
@@ -242,6 +235,7 @@ function Fabrics({ t, ui }) {
     <section id="kumas" className="fabrics fabrics--book section">
       <div className="section__head">
         <h2>{t.title}</h2>
+        <p className="section__sub">{t.slogan}</p>
       </div>
       <Book t={t} prevLabel={ui.prev} nextLabel={ui.next} />
     </section>
