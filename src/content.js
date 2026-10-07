@@ -323,6 +323,7 @@ const tr = {
       {
         name: 'Space Swing',
         img: '/assets/swing.jpeg',
+        gallery: ['/assets/swing.jpeg', '/assets/concept/swing/chairs.jpg'],
         detail: {
           images: [
             { src: '/assets/concept/swing/detail.jpg', bg: null },
@@ -335,6 +336,7 @@ const tr = {
       {
         name: 'Gondol',
         img: '/assets/gondol.jpeg',
+        gallery: ['/assets/gondol.jpeg', '/assets/concept/gondol/cream.jpg'],
         detail: {
           images: [
             { src: '/assets/concept/gondol/detail.jpg', bg: null },
@@ -788,6 +790,7 @@ const en = {
       {
         name: 'Space Swing',
         img: '/assets/swing.jpeg',
+        gallery: ['/assets/swing.jpeg', '/assets/concept/swing/chairs.jpg'],
         detail: {
           images: [
             { src: '/assets/concept/swing/detail.jpg', bg: null },
@@ -800,6 +803,7 @@ const en = {
       {
         name: 'Gondol',
         img: '/assets/gondol.jpeg',
+        gallery: ['/assets/gondol.jpeg', '/assets/concept/gondol/cream.jpg'],
         detail: {
           images: [
             { src: '/assets/concept/gondol/detail.jpg', bg: null },

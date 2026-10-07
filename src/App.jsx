@@ -468,6 +468,7 @@ function ConceptModal({ c, t, ui, onClose }) {
   const [zoom, setZoom] = useState(1)
   const [zoom2, setZoom2] = useState(1)
   const [page, setPage] = useState(0)
+  const [sel, setSel] = useState(0)
   const [isFull, setIsFull] = useState(false)
   const mediaRef = useRef(null)
   const detailRef = useRef(null)
@@ -481,13 +482,14 @@ function ConceptModal({ c, t, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [c, onClose])
-  useEffect(() => { setZoom(1); setZoom2(1); setPage(0) }, [c?.name])
+  useEffect(() => { setZoom(1); setZoom2(1); setPage(0); setSel(0) }, [c?.name])
   useEffect(() => {
     const onFs = () => setIsFull(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onFs)
     return () => document.removeEventListener('fullscreenchange', onFs)
   }, [])
   if (!c) return null
+  const cg = c.gallery?.length ? c.gallery : [c.img]
   const dimgs = c.detail?.images || []
   const lastPage = dimgs.length
   const curDetail = dimgs[page]
@@ -515,8 +517,15 @@ function ConceptModal({ c, t, ui, onClose }) {
             className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
             onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
           >
-            <img className="gallery__main" src={c.img} alt={c.name} style={{ transform: `scale(${zoom})` }} />
+            <img className="gallery__main" src={cg[sel] ?? cg[0]} alt={c.name} style={{ transform: `scale(${zoom})` }} />
           </div>
+          {cg.length > 1 && (
+            <div className="gallery__viewer">
+              <button className="garrow" onClick={() => setSel((sel - 1 + cg.length) % cg.length)} aria-label={ui.prev}>‹</button>
+              <span className="gzoom">{sel + 1} / {cg.length}</span>
+              <button className="garrow" onClick={() => setSel((sel + 1) % cg.length)} aria-label={ui.next}>›</button>
+            </div>
+          )}
         </div>
         {dimgs.length > 0 && page !== lastPage ? (
           <div className="modal__info modal__info--detail" ref={detailRef} style={curDetail?.bg ? { background: curDetail.bg } : undefined}>
