@@ -736,6 +736,7 @@ const JSONBIN_BIN = '6ac6b41eac6210605a1d9ed9'
 const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
+const FORMSUBMIT_ID = '1e288f991b39aa98635024d7aad4da6'
 const CALLMEBOT_KEY = '4286132'
 
 function loadOrders() {
@@ -882,7 +883,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       }
     } catch { /* ignore */ }
     try {
-      fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
+      fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_ID}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
