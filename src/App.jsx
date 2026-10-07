@@ -177,7 +177,7 @@ function Book({ t, contact, prevLabel, nextLabel }) {
       : (to === 0
         ? { dir: d, side: 'left', front: { type: 'cover' }, back: leftOf(from) }
         : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
-    setTimeout(() => { setPos(to); setTurn(null) }, 950)
+    setTimeout(() => { setPos(to); setTurn(null) }, 1050)
   }
   const cap = pos === 0 ? t.coverLabel : (() => {
     const a = (pos - 1) * 2 + 1
@@ -212,7 +212,7 @@ function Book({ t, contact, prevLabel, nextLabel }) {
     const step = (cur) => {
       if (cur === p) return
       go(cur < p ? 1 : -1)
-      setTimeout(() => step(cur + (cur < p ? 1 : -1)), 1000)
+      setTimeout(() => step(cur + (cur < p ? 1 : -1)), 1100)
     }
     step(pos)
   }
@@ -230,6 +230,7 @@ function Book({ t, contact, prevLabel, nextLabel }) {
         ) : (
           spread(turn ? (turn.dir > 0 ? pos + 1 : pos) : pos)
         )}
+        {turn && <div className="bshadow" />}
         {turn && turn.side === 'right' && (
           <div className="bleaf bleaf--right fwd">
             <div className="bleaf__face bleaf__front">{face(turn.front)}</div>
