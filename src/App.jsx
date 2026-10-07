@@ -699,6 +699,7 @@ const ORDER_KEY = 'excellence-orders'
 const ADMIN_PASS = 'Excellence2026'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
+const CALLMEBOT_KEY = ''
 
 function loadOrders() {
   try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || [] } catch { return [] }
@@ -769,6 +770,11 @@ function OrderModal({ t, ui, lang, products, onClose }) {
         }),
       }).catch(() => {})
     } catch { /* ignore */ }
+    if (CALLMEBOT_KEY) {
+      try {
+        fetch(`https://api.callmebot.com/whatsapp.php?phone=${ORDER_WHATSAPP}&text=${encodeURIComponent(orderText(order))}&apikey=${CALLMEBOT_KEY}`, { mode: 'no-cors' }).catch(() => {})
+      } catch { /* ignore */ }
+    }
     setErr('')
     setDone(order)
   }
