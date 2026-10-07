@@ -742,6 +742,19 @@ function loadOrders() {
   try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || [] } catch { return [] }
 }
 
+function mergeOrders(a, b) {
+  const seen = new Set()
+  const out = []
+  for (const o of [...(a || []), ...(b || [])]) {
+    if (o && o.id && !seen.has(o.id)) {
+      seen.add(o.id)
+      out.push(o)
+    }
+  }
+  out.sort((x, y) => new Date(y.date) - new Date(x.date))
+  return out
+}
+
 async function loadCloudOrders() {
   const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}/latest`, {
     headers: { 'X-Master-Key': JSONBIN_KEY },
@@ -860,9 +873,13 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer))
     } catch { /* ignore */ }
     try {
-      const cloud = await loadCloudOrders()
+      let cloud = await loadCloudOrders()
       cloud.unshift(order)
       await saveCloudOrders(cloud)
+      const check = await loadCloudOrders()
+      if (!check.some((o) => o.id === order.id)) {
+        await saveCloudOrders(mergeOrders(check, [order]))
+      }
     } catch { /* ignore */ }
     try {
       fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
@@ -1029,7 +1046,7 @@ function AdminModal({ t, ui, orderT, onClose }) {
   const refresh = async () => {
     setOpenId(null)
     try {
-      setOrders(await loadCloudOrders())
+      setOrders(mergeOrders(await loadCloudOrders(), loadOrders()))
     } catch {
       setOrders(loadOrders())
     }
