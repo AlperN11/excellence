@@ -763,7 +763,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `${t.newOrderText} ${order.id}`,
+          _subject: `SİPARİŞİNİZ VAR - ${order.id}`,
           message: orderText(order),
           firma: order.customer.company,
           yetkili: `${order.customer.contact} - ${order.customer.phone}`,
@@ -779,7 +779,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
     setDone(order)
   }
   const orderText = (o) => [
-    `${t.newOrderText} ${o.id}`,
+    `SİPARİŞİNİZ VAR - ${o.id}`,
     `${t.company}: ${o.customer.company}`,
     `${t.contact}: ${o.customer.contact} - ${o.customer.phone}`,
     `${t.address}: ${o.customer.address}`,
