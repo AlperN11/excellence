@@ -126,7 +126,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 }
 .modal__close--dark { background: rgba(27,26,34,0.08); color: var(--text); }
 .modal__close--dark:hover { background: rgba(27,26,34,0.16); }
-.orderbox { padding: 44px 44px 48px; }
+.orderbox { padding: 44px 44px 48px; max-width: 680px; margin: 0 auto; }
 .orderbox h3 { font-size: 2rem; margin: 0 0 20px; }
 .ordertabs { display: flex; gap: 8px; margin-bottom: 22px; }
 .ordertabs button { flex: 1; border: 1px solid var(--line); background: transparent; border-radius: 100px; padding: 10px; font-family: var(--sans); font-weight: 700; font-size: 0.88rem; color: var(--muted); cursor: pointer; }
@@ -140,7 +140,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .field > span { display: block; font-weight: 600; margin-bottom: 5px; color: var(--text); }
 .field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 0.9rem; background: #fff; color: var(--text); }
 .field textarea { resize: vertical; }
-.oline { display: grid; grid-template-columns: 1fr 110px 130px 32px; gap: 8px; align-items: end; background: var(--cream); border-radius: 12px; padding: 10px 12px; }
+.oline { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) auto auto; gap: 10px; align-items: end; background: var(--cream); border-radius: 12px; padding: 12px 14px; }
 .oline .field { margin-bottom: 0; }
 .olines { display: grid; gap: 10px; margin: 6px 0 12px; }
 .qty { display: flex; align-items: center; gap: 8px; }
