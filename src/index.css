@@ -120,6 +120,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .ordersoon, .ordersuccess { text-align: center; padding: 24px 0; }
 .ordersoon__title, .ordersuccess__title { font-family: var(--serif); font-size: 1.6rem; margin: 0 0 8px; }
 .ordersuccess strong { display: block; font-size: 1.4rem; color: var(--maroon); margin: 6px 0 20px; }
+.ordersuccess__btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
 .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .field { display: block; margin-bottom: 12px; font-size: 0.85rem; }
 .field > span { display: block; font-weight: 600; margin-bottom: 5px; color: var(--text); }

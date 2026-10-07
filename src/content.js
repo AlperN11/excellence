@@ -401,6 +401,9 @@ const tr = {
     successTitle: 'Siparişiniz Alındı',
     successText: 'Sipariş numaranız:',
     newOrder: 'Yeni Sipariş',
+    newOrderText: 'Yeni Sipariş',
+    whatsapp: 'WhatsApp ile Gönder',
+    emailSend: 'E-posta ile Gönder',
     adminLink: 'Yönetim',
   },
   admin: {
@@ -837,6 +840,9 @@ const en = {
     successTitle: 'Order Received',
     successText: 'Your order number:',
     newOrder: 'New Order',
+    newOrderText: 'New Order',
+    whatsapp: 'Send via WhatsApp',
+    emailSend: 'Send via Email',
     adminLink: 'Admin',
   },
   admin: {
