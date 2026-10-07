@@ -730,6 +730,7 @@ function CookieBanner({ t, onDone }) {
 }
 
 const ORDER_KEY = 'excellence-orders'
+const CUSTOMER_KEY = 'excellence-customer'
 const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
@@ -782,7 +783,14 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
     ...garden.map((c) => ({ id: 'g-' + c.name, name: c.name, options: c.colors })),
   ]
   const [tab, setTab] = useState('corp')
-  const [form, setForm] = useState({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
+  const [form, setForm] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CUSTOMER_KEY)) || {}
+      return { company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '', ...saved, note: '' }
+    } catch {
+      return { company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' }
+    }
+  })
   const [lines, setLines] = useState([{ product: '', variant: '', set: '', qty: 1 }])
   const [err, setErr] = useState('')
   const [done, setDone] = useState(null)
@@ -830,6 +838,8 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       const all = loadOrders()
       all.unshift(order)
       localStorage.setItem(ORDER_KEY, JSON.stringify(all))
+      const { note, ...customer } = form
+      localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer))
     } catch { /* ignore */ }
     try {
       fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
@@ -861,7 +871,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
     o.note ? `${t.note}: ${o.note}` : '',
   ].filter(Boolean).join('\n')
   const reset = () => {
-    setForm({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
+    setForm((f) => ({ ...f, note: '' }))
     setLines([{ product: '', variant: '', set: '', qty: 1 }])
     setDone(null)
     setShowSheet(false)
