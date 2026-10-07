@@ -730,7 +730,7 @@ function OrderSheet({ t, order, onClose }) {
             <thead><tr><th>{t.product}</th><th>{t.size} / {t.color}</th><th>{t.setType}</th><th>{t.qty}</th></tr></thead>
             <tbody>
               {order.items.map((it, i) => (
-                <tr key={i}><td>{it.product}</td><td>{it.variant}</td><td>{it.set}</td><td>{it.qty}</td></tr>
+                <tr key={i}><td>{it.product}</td><td>{it.variant}</td><td>{it.set || '-'}</td><td>{it.qty}</td></tr>
               ))}
             </tbody>
           </table>
@@ -749,7 +749,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
   ]
   const [tab, setTab] = useState('corp')
   const [form, setForm] = useState({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
-  const [lines, setLines] = useState([{ product: catalog[0].id, variant: catalog[0].options[0], set: t.fullSet, qty: 1 }])
+  const [lines, setLines] = useState([{ product: '', variant: '', set: '', qty: 1 }])
   const [err, setErr] = useState('')
   const [done, setDone] = useState(null)
   const [showSheet, setShowSheet] = useState(false)
@@ -765,18 +765,19 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
   }, [t, onClose])
   if (!t) return null
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
-  const addLine = () => setLines([...lines, { product: catalog[0].id, variant: catalog[0].options[0], set: t.fullSet, qty: 1 }])
+  const addLine = () => setLines([...lines, { product: '', variant: '', set: '', qty: 1 }])
   const updLine = (i, k, v) => setLines(lines.map((l, j) => {
     if (j !== i) return l
     const nl = { ...l, [k]: v }
-    if (k === 'product') {
-      const p = catalog.find((x) => x.id === v)
-      if (p) nl.variant = p.options[0]
-    }
+    if (k === 'product') { nl.variant = ''; nl.set = '' }
     return nl
   }))
+  const lineOk = (l) => {
+    if (!l.product || !l.variant) return false
+    return String(l.product).startsWith('g-') ? true : !!l.set
+  }
   const submit = () => {
-    if (!form.company || !form.taxOffice || !form.taxNo || !form.contact || !form.phone || !form.email || !form.address || lines.length === 0) {
+    if (!form.company || !form.taxOffice || !form.taxNo || !form.contact || !form.phone || !form.email || !form.address || lines.length === 0 || !lines.every(lineOk)) {
       setErr(t.required)
       return
     }
@@ -822,12 +823,12 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
     `${t.contact}: ${o.customer.contact} - ${o.customer.phone}`,
     `${t.address}: ${o.customer.address}`,
     `${t.product}:`,
-    ...o.items.map((it) => `- ${it.product} — ${it.variant} — ${it.set} × ${it.qty}`),
+    ...o.items.map((it) => `- ${it.product} — ${it.variant} — ${it.set || '-'} × ${it.qty}`),
     o.note ? `${t.note}: ${o.note}` : '',
   ].filter(Boolean).join('\n')
   const reset = () => {
     setForm({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
-    setLines([{ product: catalog[0].id, variant: catalog[0].options[0], set: t.fullSet, qty: 1 }])
+    setLines([{ product: '', variant: '', set: '', qty: 1 }])
     setDone(null)
     setShowSheet(false)
     setTab('corp')
@@ -875,12 +876,13 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
                   <label className="field"><span>{t.address}</span><textarea rows={2} value={form.address} onChange={set('address')} /></label>
                   <div className="olines">
                     {lines.map((l, i) => {
-                      const p = catalog.find((x) => x.id === l.product) || catalog[0]
+                      const p = catalog.find((x) => x.id === l.product)
                       const isBed = !String(l.product).startsWith('g-')
                       return (
                         <div key={i} className="oline">
                           <label className="field"><span>{t.product}</span>
                             <select value={l.product} onChange={(e) => updLine(i, 'product', e.target.value)}>
+                              <option value="">{t.phProduct}</option>
                               <optgroup label={bedLabel}>
                                 {beds.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
                               </optgroup>
@@ -891,17 +893,21 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
                           </label>
                           <label className="field field--sm"><span>{isBed ? t.size : t.color}</span>
                             <select value={l.variant} onChange={(e) => updLine(i, 'variant', e.target.value)}>
-                              {p.options.map((s) => <option key={s} value={s}>{s}</option>)}
+                              <option value="">{isBed ? t.phSize : t.phColor}</option>
+                              {(p ? p.options : []).map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
                           </label>
+                          {isBed && (
                           <label className="field field--sm"><span>{t.setType}</span>
                             <select value={l.set} onChange={(e) => updLine(i, 'set', e.target.value)}>
+                              <option value="">{t.phSet}</option>
                               <option value={t.fullSet}>{t.fullSet}</option>
                               <option value={t.onlyMattress}>{t.onlyMattress}</option>
                               <option value={t.headboard}>{t.headboard}</option>
                               <option value={t.base}>{t.base}</option>
                             </select>
                           </label>
+                          )}
                           <div className="field field--sm"><span>{t.qty}</span>
                             <div className="qty">
                               <button type="button" onClick={() => updLine(i, 'qty', Math.max(1, l.qty - 1))}>−</button>
@@ -997,7 +1003,7 @@ function AdminModal({ t, ui, onClose }) {
                         <p>{o.customer.address}</p>
                         <p><strong>{t.items}:</strong></p>
                         <ul>
-                          {o.items.map((it, i) => <li key={i}>{it.product} — {it.variant} — {it.set} × {it.qty} {t.pcs}</li>)}
+                          {o.items.map((it, i) => <li key={i}>{it.product} — {it.variant} — {it.set || '-'} × {it.qty} {t.pcs}</li>)}
                         </ul>
                         {o.note && <p>{o.note}</p>}
                         <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
