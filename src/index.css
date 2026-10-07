@@ -119,8 +119,8 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .sheet__table th, .sheet__table td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
 .sheet__table th { background: var(--cream); }
 @media print {
-  body * { visibility: hidden; }
-  .printsheet, .printsheet * { visibility: visible; }
+  #root { display: none !important; }
+  .printsheet-modal { position: static; display: block; padding: 0; background: none; }
   .printsheet { position: static; max-width: none; max-height: none; overflow: visible; border-radius: 0; box-shadow: none; }
   .no-print, .modal__close { display: none !important; }
   .printsheet .orderbox { padding: 0; max-width: none; }

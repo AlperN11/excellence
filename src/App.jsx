@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { content, LANG_KEY, COOKIE_KEY } from './content.js'
 import { orderSubtotal, unitPrice, fmtTL, fmtUSD } from './prices.js'
 
@@ -781,8 +782,8 @@ function OrderSheet({ t, order, onClose, showPrices, rate, at }) {
   const sub = showPrices ? orderSubtotal(order) : 0
   const d = showPrices ? (Number(order.discount) || 0) : 0
   const net = Math.round(sub * (1 - d / 100))
-  return (
-    <div className="modal" onClick={onClose}>
+  return createPortal((
+    <div className="modal printsheet-modal" onClick={onClose}>
       <div className="modal__panel modal__panel--wide modal__panel--single printsheet" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close modal__close--dark no-print" onClick={onClose} aria-label="×">×</button>
         <div className="orderbox">
@@ -817,7 +818,7 @@ function OrderSheet({ t, order, onClose, showPrices, rate, at }) {
         </div>
       </div>
     </div>
-  )
+  ), document.body)
 }
 
 function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose }) {
