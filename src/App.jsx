@@ -235,12 +235,14 @@ function Book({ t, contact, prevLabel, nextLabel }) {
           <div className="bleaf bleaf--right fwd">
             <div className="bleaf__face bleaf__front">{face(turn.front)}</div>
             <div className="bleaf__face bleaf__back">{face(turn.back)}</div>
+            <div className="bglare" />
           </div>
         )}
         {turn && turn.side === 'left' && (
           <div className="bleaf bleaf--left bwd">
             <div className="bleaf__face bleaf__front">{face(turn.front)}</div>
             <div className="bleaf__face bleaf__back">{face(turn.back)}</div>
+            <div className="bglare" />
           </div>
         )}
       </div>
