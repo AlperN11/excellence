@@ -1038,9 +1038,7 @@ export default function App() {
   const [showLang, setShowLang] = useState(() => {
     try { return !localStorage.getItem(LANG_KEY) } catch { return true }
   })
-  const [consent, setConsent] = useState(() => {
-    try { return localStorage.getItem(COOKIE_KEY) } catch { return null }
-  })
+  const [consent, setConsent] = useState(null)
   const [showOrder, setShowOrder] = useState(false)
   const [showAdmin, setShowAdmin] = useState(false)
   const t = content[lang || 'tr']
