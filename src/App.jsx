@@ -576,7 +576,7 @@ function CTA({ t }) {
   )
 }
 
-function Contact({ t }) {
+function Contact({ t, adminLabel, onAdmin }) {
   return (
     <footer id="iletisim" className="footer">
       <div className="footer__top">
@@ -604,6 +604,7 @@ function Contact({ t }) {
       <div className="footer__bottom">
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
+        <button type="button" className="adminlink" onClick={onAdmin}>{adminLabel}</button>
       </div>
     </footer>
   )
@@ -694,6 +695,240 @@ function CookieBanner({ t, onDone }) {
   )
 }
 
+const ORDER_KEY = 'excellence-orders'
+const ADMIN_PASS = 'Excellence2026'
+
+function loadOrders() {
+  try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || [] } catch { return [] }
+}
+
+function OrderFab({ label, onOpen }) {
+  return <button className="orderfab" onClick={onOpen}>{label}</button>
+}
+
+function OrderModal({ t, ui, lang, products, onClose }) {
+  const [tab, setTab] = useState('corp')
+  const [form, setForm] = useState({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
+  const [lines, setLines] = useState([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+  const [err, setErr] = useState('')
+  const [doneId, setDoneId] = useState(null)
+  useEffect(() => {
+    if (!t) return
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [t, onClose])
+  if (!t) return null
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
+  const addLine = () => setLines([...lines, { product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+  const updLine = (i, k, v) => setLines(lines.map((l, j) => {
+    if (j !== i) return l
+    const nl = { ...l, [k]: v }
+    if (k === 'product') {
+      const p = products.find((x) => x.id === v)
+      if (p) nl.size = p.sizes[0]
+    }
+    return nl
+  }))
+  const submit = () => {
+    if (!form.company || !form.taxOffice || !form.taxNo || !form.contact || !form.phone || !form.email || !form.address || lines.length === 0) {
+      setErr(t.required)
+      return
+    }
+    const order = {
+      id: 'EX-' + Date.now().toString(36).toUpperCase(),
+      date: new Date().toISOString(),
+      lang,
+      customer: { ...form },
+      items: lines.map((l) => {
+        const p = products.find((x) => x.id === l.product)
+        return { product: p ? p.name : l.product, size: l.size, qty: l.qty }
+      }),
+      note: form.note,
+    }
+    try {
+      const all = loadOrders()
+      all.unshift(order)
+      localStorage.setItem(ORDER_KEY, JSON.stringify(all))
+    } catch { /* ignore */ }
+    setErr('')
+    setDoneId(order.id)
+  }
+  const reset = () => {
+    setForm({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
+    setLines([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+    setDoneId(null)
+    setTab('corp')
+  }
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal__panel modal__panel--wide" onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
+        <div className="orderbox">
+          <h3>{t.title}</h3>
+          {doneId ? (
+            <div className="ordersuccess">
+              <p className="ordersuccess__title">{t.successTitle}</p>
+              <p>{t.successText}</p>
+              <strong>{doneId}</strong>
+              <div><button className="btn btn--primary btn--sm" onClick={reset}>{t.newOrder}</button></div>
+            </div>
+          ) : (
+            <>
+              <div className="ordertabs">
+                <button className={tab === 'corp' ? 'on' : ''} onClick={() => setTab('corp')}>{t.corporate}</button>
+                <button className={tab === 'ind' ? 'on' : ''} onClick={() => setTab('ind')}>{t.individual}</button>
+              </div>
+              {tab === 'ind' ? (
+                <div className="ordersoon">
+                  <p className="ordersoon__title">{t.soonTitle}</p>
+                  <p>{t.soonText}</p>
+                </div>
+              ) : (
+                <>
+                  <div className="frow">
+                    <label className="field"><span>{t.company}</span><input value={form.company} onChange={set('company')} /></label>
+                    <label className="field"><span>{t.contact}</span><input value={form.contact} onChange={set('contact')} /></label>
+                  </div>
+                  <div className="frow">
+                    <label className="field"><span>{t.taxOffice}</span><input value={form.taxOffice} onChange={set('taxOffice')} /></label>
+                    <label className="field"><span>{t.taxNo}</span><input value={form.taxNo} onChange={set('taxNo')} /></label>
+                  </div>
+                  <div className="frow">
+                    <label className="field"><span>{t.phone}</span><input value={form.phone} onChange={set('phone')} inputMode="tel" /></label>
+                    <label className="field"><span>{t.email}</span><input value={form.email} onChange={set('email')} inputMode="email" /></label>
+                  </div>
+                  <label className="field"><span>{t.address}</span><textarea rows={2} value={form.address} onChange={set('address')} /></label>
+                  <div className="olines">
+                    {lines.map((l, i) => {
+                      const p = products.find((x) => x.id === l.product) || products[0]
+                      return (
+                        <div key={i} className="oline">
+                          <label className="field"><span>{t.product}</span>
+                            <select value={l.product} onChange={(e) => updLine(i, 'product', e.target.value)}>
+                              {products.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
+                            </select>
+                          </label>
+                          <label className="field field--sm"><span>{t.size}</span>
+                            <select value={l.size} onChange={(e) => updLine(i, 'size', e.target.value)}>
+                              {p.sizes.map((s) => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          </label>
+                          <div className="field field--sm"><span>{t.qty}</span>
+                            <div className="qty">
+                              <button type="button" onClick={() => updLine(i, 'qty', Math.max(1, l.qty - 1))}>−</button>
+                              <strong>{l.qty}</strong>
+                              <button type="button" onClick={() => updLine(i, 'qty', Math.min(99, l.qty + 1))}>+</button>
+                            </div>
+                          </div>
+                          <button type="button" className="olines__rm" onClick={() => setLines(lines.filter((_, j) => j !== i))} aria-label={t.remove}>×</button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <button type="button" className="btn btn--dark btn--sm" onClick={addLine}>+ {t.addProduct}</button>
+                  <label className="field"><span>{t.note}</span><textarea rows={2} placeholder={t.notePh} value={form.note} onChange={set('note')} /></label>
+                  {err && <p className="ordererr">{err}</p>}
+                  <button type="button" className="btn btn--primary" onClick={submit}>{t.submit}</button>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AdminModal({ t, ui, onClose }) {
+  const [authed, setAuthed] = useState(() => {
+    try { return sessionStorage.getItem('ex-admin') === '1' } catch { return false }
+  })
+  const [pass, setPass] = useState('')
+  const [wrong, setWrong] = useState(false)
+  const [orders, setOrders] = useState(loadOrders)
+  const [openId, setOpenId] = useState(null)
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+  const login = () => {
+    if (pass === ADMIN_PASS) {
+      try { sessionStorage.setItem('ex-admin', '1') } catch { /* ignore */ }
+      setAuthed(true)
+      setWrong(false)
+    } else setWrong(true)
+  }
+  const del = (id) => {
+    const next = orders.filter((o) => o.id !== id)
+    setOrders(next)
+    try { localStorage.setItem(ORDER_KEY, JSON.stringify(next)) } catch { /* ignore */ }
+  }
+  const clearAll = () => {
+    if (!window.confirm(t.clear + '?')) return
+    setOrders([])
+    try { localStorage.removeItem(ORDER_KEY) } catch { /* ignore */ }
+  }
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal__panel modal__panel--wide" onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
+        <div className="orderbox">
+          <h3>{t.title}</h3>
+          {!authed ? (
+            <div className="admlogin">
+              <label className="field"><span>{t.passLabel}</span>
+                <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') login() }} />
+              </label>
+              {wrong && <p className="ordererr">{t.wrong}</p>}
+              <button type="button" className="btn btn--primary btn--sm" onClick={login}>{t.login}</button>
+            </div>
+          ) : orders.length === 0 ? (
+            <p className="page-empty">{t.empty}</p>
+          ) : (
+            <>
+              <div className="admlist">
+                {orders.map((o) => (
+                  <div key={o.id} className="admrow">
+                    <button type="button" className="admrow__head" onClick={() => setOpenId(openId === o.id ? null : o.id)}>
+                      <strong>{o.id}</strong>
+                      <span>{new Date(o.date).toLocaleString()}</span>
+                      <span>{o.customer.company}</span>
+                    </button>
+                    {openId === o.id && (
+                      <div className="admrow__body">
+                        <p><strong>{t.customer}:</strong> {o.customer.company} — {o.customer.contact} — {o.customer.phone} — {o.customer.email}</p>
+                        <p>{o.customer.taxOffice} / {o.customer.taxNo}</p>
+                        <p>{o.customer.address}</p>
+                        <p><strong>{t.items}:</strong></p>
+                        <ul>
+                          {o.items.map((it, i) => <li key={i}>{it.product} — {it.size} × {it.qty} {t.pcs}</li>)}
+                        </ul>
+                        {o.note && <p>{o.note}</p>}
+                        <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <button type="button" className="btn btn--dark btn--sm" onClick={clearAll}>{t.clear}</button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text, .bookwrap')
@@ -717,6 +952,8 @@ export default function App() {
   const [consent, setConsent] = useState(() => {
     try { return localStorage.getItem(COOKIE_KEY) } catch { return null }
   })
+  const [showOrder, setShowOrder] = useState(false)
+  const [showAdmin, setShowAdmin] = useState(false)
   const t = content[lang || 'tr']
   useReveal()
   useSmoothAnchors()
@@ -744,9 +981,12 @@ export default function App() {
         <Concept t={t.concept} ui={t.ui} />
         <CTA t={t.cta} />
       </main>
-      <Contact t={t.contact} />
+      <Contact t={t.contact} adminLabel={t.order.adminLink} onAdmin={() => setShowAdmin(true)} />
       {showLang && <LangModal ui={t.ui} onChoose={choose} />}
       {!consent && !showLang && <CookieBanner t={t.cookies} onDone={saveConsent} />}
+      {!showLang && <OrderFab label={t.order.button} onOpen={() => setShowOrder(true)} />}
+      {showOrder && <OrderModal t={t.order} ui={t.ui} lang={lang || 'tr'} products={t.products.items} onClose={() => setShowOrder(false)} />}
+      {showAdmin && <AdminModal t={t.admin} ui={t.ui} onClose={() => setShowAdmin(false)} />}
     </>
   )
 }

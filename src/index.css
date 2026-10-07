@@ -105,6 +105,46 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .btn--dark { border-color: var(--line); color: var(--text); }
 .btn--dark:hover { background: var(--cream); }
 .btn--sm { padding: 10px 20px; font-size: 0.82rem; }
+.adminlink { background: none; border: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.45); text-decoration: underline; }
+.adminlink:hover { color: #fff; }
+.orderfab { position: fixed; right: 18px; bottom: 18px; z-index: 110; background: var(--maroon); color: #fff; border: 0; border-radius: 100px; padding: 15px 26px; font-family: var(--sans); font-weight: 700; font-size: 0.92rem; cursor: pointer; box-shadow: 0 14px 36px rgba(139,74,74,0.4); transition: transform .2s, background .2s; }
+.orderfab:hover { background: var(--maroon-deep); transform: translateY(-2px); }
+.modal__panel--wide { max-width: 760px; }
+.modal__close--dark { background: rgba(27,26,34,0.08); color: var(--text); }
+.modal__close--dark:hover { background: rgba(27,26,34,0.16); }
+.orderbox { padding: 44px 44px 48px; }
+.orderbox h3 { font-size: 2rem; margin: 0 0 20px; }
+.ordertabs { display: flex; gap: 8px; margin-bottom: 22px; }
+.ordertabs button { flex: 1; border: 1px solid var(--line); background: transparent; border-radius: 100px; padding: 10px; font-family: var(--sans); font-weight: 700; font-size: 0.88rem; color: var(--muted); cursor: pointer; }
+.ordertabs button.on { background: var(--maroon); border-color: var(--maroon); color: #fff; }
+.ordersoon, .ordersuccess { text-align: center; padding: 24px 0; }
+.ordersoon__title, .ordersuccess__title { font-family: var(--serif); font-size: 1.6rem; margin: 0 0 8px; }
+.ordersuccess strong { display: block; font-size: 1.4rem; color: var(--maroon); margin: 6px 0 20px; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: block; margin-bottom: 12px; font-size: 0.85rem; }
+.field > span { display: block; font-weight: 600; margin-bottom: 5px; color: var(--text); }
+.field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 0.9rem; background: #fff; color: var(--text); }
+.field textarea { resize: vertical; }
+.oline { display: grid; grid-template-columns: 1fr 110px 130px 32px; gap: 8px; align-items: end; background: var(--cream); border-radius: 12px; padding: 10px 12px; }
+.oline .field { margin-bottom: 0; }
+.olines { display: grid; gap: 10px; margin: 6px 0 12px; }
+.qty { display: flex; align-items: center; gap: 8px; }
+.qty button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); background: #fff; font-size: 1rem; cursor: pointer; line-height: 1; }
+.qty strong { min-width: 22px; text-align: center; }
+.olines__rm { width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(27,26,34,0.08); font-size: 1.2rem; cursor: pointer; color: var(--text); }
+.ordererr { color: var(--maroon); font-weight: 600; font-size: 0.88rem; }
+.admlogin { display: grid; gap: 4px; max-width: 320px; }
+.admlist { display: grid; gap: 10px; margin-bottom: 16px; }
+.admrow { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.admrow__head { width: 100%; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; background: var(--cream); border: 0; padding: 12px 16px; cursor: pointer; font: inherit; font-size: 0.88rem; text-align: left; }
+.admrow__body { padding: 14px 16px; font-size: 0.88rem; }
+.admrow__body p { margin: 0 0 8px; }
+.admrow__body ul { margin: 4px 0 12px; padding-left: 18px; }
+@media (max-width: 560px) {
+  .frow { grid-template-columns: 1fr; }
+  .oline { grid-template-columns: 1fr 1fr; }
+  .orderbox { padding: 30px 22px 34px; }
+}
 .cookiebanner { position: fixed; left: 18px; bottom: 18px; z-index: 120; width: min(360px, calc(100vw - 36px)); background: var(--paper); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 24px 60px rgba(27,26,34,0.22); padding: 22px; animation: pop .3s cubic-bezier(.2,.7,.3,1); }
 .cookiebanner h4 { font-size: 1.25rem; margin: 0 0 8px; }
 .cookiebanner p { font-size: 0.85rem; color: var(--muted); margin: 0 0 16px; }
