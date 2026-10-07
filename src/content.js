@@ -322,13 +322,25 @@ const tr = {
     items: [
       {
         name: 'Space Swing',
-        img: '/assets/swing.jpeg',
+        img: '/assets/concept/swing/1.jpg',
+        gallery: [
+          '/assets/concept/swing/1.jpg',
+          '/assets/concept/swing/2.jpg',
+          '/assets/concept/swing/3.jpg',
+          '/assets/concept/swing/4.jpg',
+        ],
         text: 'Metal iskeletli, tek kişilik konforlu dış mekân koltuğu. Antrasit ve Kapuçino şasi renk seçenekleriyle her bahçeye uyum sağlar.',
         colors: ['Antrasit', 'Kapuçino'],
       },
       {
         name: 'Gondol',
-        img: '/assets/gondol.jpeg',
+        img: '/assets/concept/gondol/1.jpg',
+        gallery: [
+          '/assets/concept/gondol/1.jpg',
+          '/assets/concept/gondol/2.jpg',
+          '/assets/concept/gondol/3.jpg',
+          '/assets/concept/gondol/4.jpg',
+        ],
         text: 'Tenteli, çok kişilik salıncak gondol. Dış mekân kumaşı ve elektrostatik toz boyalı gövdesiyle her mevsim dayanıklılık sunar.',
         colors: ['Antrasit', 'Kapuçino'],
       },
@@ -775,13 +787,25 @@ const en = {
     items: [
       {
         name: 'Space Swing',
-        img: '/assets/swing.jpeg',
+        img: '/assets/concept/swing/1.jpg',
+        gallery: [
+          '/assets/concept/swing/1.jpg',
+          '/assets/concept/swing/2.jpg',
+          '/assets/concept/swing/3.jpg',
+          '/assets/concept/swing/4.jpg',
+        ],
         text: 'A comfortable single metal-frame outdoor chair. With Anthracite and Cappuccino chassis color options, it suits every garden.',
         colors: ['Anthracite', 'Cappuccino'],
       },
       {
         name: 'Gondol',
-        img: '/assets/gondol.jpeg',
+        img: '/assets/concept/gondol/1.jpg',
+        gallery: [
+          '/assets/concept/gondol/1.jpg',
+          '/assets/concept/gondol/2.jpg',
+          '/assets/concept/gondol/3.jpg',
+          '/assets/concept/gondol/4.jpg',
+        ],
         text: 'A canopied multi-person swing gondola. With outdoor fabric and an electrostatic powder-coated frame, it offers durability in every season.',
         colors: ['Anthracite', 'Cappuccino'],
       },

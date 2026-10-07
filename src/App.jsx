@@ -466,6 +466,7 @@ function Products({ t, ui }) {
 
 function ConceptModal({ c, t, ui, onClose }) {
   const [zoom, setZoom] = useState(1)
+  const [sel, setSel] = useState(0)
   const [isFull, setIsFull] = useState(false)
   const mediaRef = useRef(null)
   useEffect(() => {
@@ -478,13 +479,14 @@ function ConceptModal({ c, t, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [c, onClose])
-  useEffect(() => { setZoom(1) }, [c?.name])
+  useEffect(() => { setZoom(1); setSel(0) }, [c?.name])
   useEffect(() => {
     const onFs = () => setIsFull(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onFs)
     return () => document.removeEventListener('fullscreenchange', onFs)
   }, [])
   if (!c) return null
+  const cg = c.gallery?.length ? c.gallery : [c.img]
   const toggleFull = () => {
     if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
     else document.exitFullscreen()
@@ -504,8 +506,15 @@ function ConceptModal({ c, t, ui, onClose }) {
             className={`gallery__zoombox ${zoom > 1 ? 'zoomed' : ''}`}
             onClick={() => setZoom((z) => (z > 1 ? 1 : 2))}
           >
-            <img className="gallery__main" src={c.img} alt={c.name} style={{ transform: `scale(${zoom})` }} />
+            <img className="gallery__main" src={cg[sel] ?? cg[0]} alt={c.name} style={{ transform: `scale(${zoom})` }} />
           </div>
+          {cg.length > 1 && (
+            <div className="gallery__viewer">
+              <button className="garrow" onClick={() => setSel((sel - 1 + cg.length) % cg.length)} aria-label={ui.prev}>‹</button>
+              <span className="gzoom">{sel + 1} / {cg.length}</span>
+              <button className="garrow" onClick={() => setSel((sel + 1) % cg.length)} aria-label={ui.next}>›</button>
+            </div>
+          )}
         </div>
         <div className="modal__info modal__info--concept">
           <p className="kicker">{t.kicker}</p>
