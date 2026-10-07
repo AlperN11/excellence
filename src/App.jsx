@@ -176,7 +176,7 @@ function Book({ t, contact, prevLabel, nextLabel }) {
         : { dir: d, side: 'right', front: rightOf(from), back: leftOf(to) })
       : (to === 0
         ? { dir: d, side: 'left', front: { type: 'cover' }, back: leftOf(from) }
-        : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
+        : { dir: d, side: 'left', front: leftOf(to), back: leftOf(from) }))
     setTimeout(() => { setPos(to); setTurn(null) }, 1050)
   }
   const cap = pos === 0 ? t.coverLabel : (() => {
