@@ -176,7 +176,7 @@ function Book({ t, contact, prevLabel, nextLabel }) {
         : { dir: d, side: 'right', front: rightOf(from), back: leftOf(to) })
       : (to === 0
         ? { dir: d, side: 'left', front: { type: 'cover' }, back: leftOf(from) }
-        : { dir: d, side: 'left', front: leftOf(to), back: leftOf(from) }))
+        : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
     setTimeout(() => { setPos(to); setTurn(null) }, 1050)
   }
   const cap = pos === 0 ? t.coverLabel : (() => {
@@ -969,12 +969,13 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
   )
 }
 
-function AdminModal({ t, ui, onClose }) {
+function AdminModal({ t, ui, orderT, onClose }) {
   const [authed, setAuthed] = useState(false)
   const [pass, setPass] = useState('')
   const [wrong, setWrong] = useState(false)
   const [orders, setOrders] = useState(loadOrders)
   const [openId, setOpenId] = useState(null)
+  const [printId, setPrintId] = useState(null)
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
@@ -1040,7 +1041,10 @@ function AdminModal({ t, ui, onClose }) {
                           {o.items.map((it, i) => <li key={i}>{it.product} — {it.variant} — {it.set || '-'} × {it.qty} {t.pcs}</li>)}
                         </ul>
                         {o.note && <p>{o.note}</p>}
-                        <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
+                        <div className="admtools">
+                          <button type="button" className="btn btn--dark btn--sm" onClick={() => setPrintId(o.id)}>{t.pdf}</button>
+                          <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1054,6 +1058,10 @@ function AdminModal({ t, ui, onClose }) {
           )}
         </div>
       </div>
+      {printId && (() => {
+        const o = orders.find((x) => x.id === printId)
+        return o ? <OrderSheet t={orderT} order={o} onClose={() => setPrintId(null)} /> : null
+      })()}
     </div>
   )
 }
@@ -1113,7 +1121,7 @@ export default function App() {
       {!consent && !showLang && <CookieBanner t={t.cookies} onDone={saveConsent} />}
       {!showLang && <OrderFab label={t.order.button} onOpen={() => setShowOrder(true)} />}
       {showOrder && <OrderModal t={t.order} ui={t.ui} lang={lang || 'tr'} beds={t.products.items} garden={t.concept.items} bedLabel={t.products.title} gardenLabel={t.concept.kicker} onClose={() => setShowOrder(false)} />}
-      {showAdmin && <AdminModal t={t.admin} ui={t.ui} onClose={() => setShowAdmin(false)} />}
+      {showAdmin && <AdminModal t={t.admin} ui={t.ui} orderT={t.order} onClose={() => setShowAdmin(false)} />}
     </>
   )
 }

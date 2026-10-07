@@ -442,6 +442,7 @@ const tr = {
     delete: 'Sil',
     clear: 'Tümünü Temizle',
     refresh: 'Yenile',
+    pdf: 'PDF',
     pcs: 'adet',
   },
   ui: {
@@ -907,6 +908,7 @@ const en = {
     delete: 'Delete',
     clear: 'Clear All',
     refresh: 'Refresh',
+    pdf: 'PDF',
     pcs: 'pcs',
   },
   ui: {
