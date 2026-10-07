@@ -135,6 +135,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .olines__rm { width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(27,26,34,0.08); font-size: 1.2rem; cursor: pointer; color: var(--text); }
 .ordererr { color: var(--maroon); font-weight: 600; font-size: 0.88rem; }
 .admlogin { display: grid; gap: 4px; max-width: 320px; }
+.admtools { display: flex; gap: 10px; flex-wrap: wrap; }
 .admlist { display: grid; gap: 10px; margin-bottom: 16px; }
 .admrow { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
 .admrow__head { width: 100%; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; background: var(--cream); border: 0; padding: 12px 16px; cursor: pointer; font: inherit; font-size: 0.88rem; text-align: left; }

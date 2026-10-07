@@ -417,6 +417,7 @@ const tr = {
     items: 'Ürünler',
     delete: 'Sil',
     clear: 'Tümünü Temizle',
+    refresh: 'Yenile',
     pcs: 'adet',
   },
   ui: {
@@ -857,6 +858,7 @@ const en = {
     items: 'Items',
     delete: 'Delete',
     clear: 'Clear All',
+    refresh: 'Refresh',
     pcs: 'pcs',
   },
   ui: {

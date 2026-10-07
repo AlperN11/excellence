@@ -696,7 +696,7 @@ function CookieBanner({ t, onDone }) {
 }
 
 const ORDER_KEY = 'excellence-orders'
-const ADMIN_PASS = 'Excellence2026'
+const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
 const CALLMEBOT_KEY = '4286132'
@@ -872,9 +872,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
 }
 
 function AdminModal({ t, ui, onClose }) {
-  const [authed, setAuthed] = useState(() => {
-    try { return sessionStorage.getItem('ex-admin') === '1' } catch { return false }
-  })
+  const [authed, setAuthed] = useState(false)
   const [pass, setPass] = useState('')
   const [wrong, setWrong] = useState(false)
   const [orders, setOrders] = useState(loadOrders)
@@ -890,10 +888,13 @@ function AdminModal({ t, ui, onClose }) {
   }, [onClose])
   const login = () => {
     if (pass === ADMIN_PASS) {
-      try { sessionStorage.setItem('ex-admin', '1') } catch { /* ignore */ }
       setAuthed(true)
       setWrong(false)
     } else setWrong(true)
+  }
+  const refresh = () => {
+    setOrders(loadOrders())
+    setOpenId(null)
   }
   const del = (id) => {
     const next = orders.filter((o) => o.id !== id)
@@ -947,7 +948,10 @@ function AdminModal({ t, ui, onClose }) {
                   </div>
                 ))}
               </div>
-              <button type="button" className="btn btn--dark btn--sm" onClick={clearAll}>{t.clear}</button>
+              <div className="admtools">
+                <button type="button" className="btn btn--dark btn--sm" onClick={refresh}>{t.refresh}</button>
+                <button type="button" className="btn btn--dark btn--sm" onClick={clearAll}>{t.clear}</button>
+              </div>
             </>
           )}
         </div>
