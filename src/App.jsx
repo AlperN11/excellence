@@ -108,7 +108,7 @@ function pageSound() {
   } catch { /* ignore */ }
 }
 
-function Book({ t, prevLabel, nextLabel }) {
+function Book({ t, contact, prevLabel, nextLabel }) {
   const pages = t.pages
   const n = pages.length
   const [pos, setPos] = useState(0)
@@ -126,7 +126,7 @@ function Book({ t, prevLabel, nextLabel }) {
   }
   const rightOf = (p) => {
     const i = (p - 1) * 2 + 1
-    return i < n ? { type: 'story', i } : { type: 'blank' }
+    return i < n ? { type: 'story', i } : { type: 'contact' }
   }
   const face = (slot) => {
     if (!slot) return null
@@ -138,6 +138,27 @@ function Book({ t, prevLabel, nextLabel }) {
       )
     }
     if (slot.type === 'blank') return <div key="blank" className="bblank" />
+    if (slot.type === 'contact') {
+      return (
+        <div key="contact" className="bcontact">
+          <img src="/logo.svg" alt="Excellence Bedding" />
+          {contact.offices.map((o) => (
+            <div key={o.city} className="bcontact__block">
+              <strong>{o.city}</strong>
+              <p>{o.address.split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}</p>
+            </div>
+          ))}
+          <div className="bcontact__block">
+            <strong>{contact.contactTitle}</strong>
+            {contact.phones.map((ph) => (
+              <p key={ph.no}>{ph.label}:<br />{ph.no}</p>
+            ))}
+            <p>{contact.email}</p>
+            <p>{contact.web}</p>
+          </div>
+        </div>
+      )
+    }
     if (slot.type === 'backcover') return <div key="back" className="bback" />
     return <img key={pages[slot.i]} className="bpage" src={pages[slot.i]} alt={`${t.story} ${slot.i + 1}`} loading="eager" draggable={false} />
   }
@@ -231,14 +252,14 @@ function Book({ t, prevLabel, nextLabel }) {
   )
 }
 
-function Fabrics({ t, ui }) {
+function Fabrics({ t, ui, contact }) {
   return (
     <section id="kumas" className="fabrics fabrics--book section">
       <div className="section__head">
         <h2>{t.title}</h2>
         <p className="section__sub">{t.slogan}</p>
       </div>
-      <Book t={t} prevLabel={ui.prev} nextLabel={ui.next} />
+      <Book t={t} contact={contact} prevLabel={ui.prev} nextLabel={ui.next} />
     </section>
   )
 }
@@ -1078,7 +1099,7 @@ export default function App() {
       <main>
         <Hero t={t.hero} />
         <About t={t.about} />
-        <Fabrics t={t.fabrics} ui={t.ui} />
+        <Fabrics t={t.fabrics} ui={t.ui} contact={t.contact} />
         <Tech t={t.tech} />
         <Products t={t.products} ui={t.ui} />
         <Concept t={t.concept} ui={t.ui} />
