@@ -847,6 +847,8 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           _subject: `SİPARİŞİNİZ VAR - ${order.id}`,
+          _template: 'table',
+          _captcha: 'false',
           message: orderText(order),
           firma: order.customer.company,
           yetkili: `${order.customer.contact} - ${order.customer.phone}`,
