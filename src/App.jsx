@@ -731,6 +731,8 @@ function CookieBanner({ t, onDone }) {
 
 const ORDER_KEY = 'excellence-orders'
 const CUSTOMER_KEY = 'excellence-customer'
+const JSONBIN_KEY = '$2a$10$6NzuJCSGAb1ww9PJL99fbe6JzJTy8FqkuxKJPqOxzG9rj7LhWPP.C'
+const JSONBIN_BIN = '6ac6b41eac6210605a1d9ed9'
 const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
@@ -738,6 +740,22 @@ const CALLMEBOT_KEY = '4286132'
 
 function loadOrders() {
   try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || [] } catch { return [] }
+}
+
+async function loadCloudOrders() {
+  const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}/latest`, {
+    headers: { 'X-Master-Key': JSONBIN_KEY },
+  })
+  const j = await r.json()
+  return (j.record && j.record.orders) || []
+}
+
+async function saveCloudOrders(orders) {
+  await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+    body: JSON.stringify({ orders }),
+  })
 }
 
 function OrderFab({ label, onOpen }) {
@@ -818,7 +836,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
     if (!l.product || !l.variant) return false
     return String(l.product).startsWith('g-') ? true : !!l.set
   }
-  const submit = () => {
+  const submit = async () => {
     if (!form.company || !form.taxOffice || !form.taxNo || !form.contact || !form.phone || !form.email || !form.address || lines.length === 0 || !lines.every(lineOk)) {
       setErr(t.required)
       return
@@ -840,6 +858,11 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       localStorage.setItem(ORDER_KEY, JSON.stringify(all))
       const { note, ...customer } = form
       localStorage.setItem(CUSTOMER_KEY, JSON.stringify(customer))
+    } catch { /* ignore */ }
+    try {
+      const cloud = await loadCloudOrders()
+      cloud.unshift(order)
+      await saveCloudOrders(cloud)
     } catch { /* ignore */ }
     try {
       fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
@@ -1003,19 +1026,28 @@ function AdminModal({ t, ui, orderT, onClose }) {
       setWrong(false)
     } else setWrong(true)
   }
-  const refresh = () => {
-    setOrders(loadOrders())
+  const refresh = async () => {
     setOpenId(null)
+    try {
+      setOrders(await loadCloudOrders())
+    } catch {
+      setOrders(loadOrders())
+    }
   }
-  const del = (id) => {
+  useEffect(() => {
+    if (authed) refresh()
+  }, [authed])
+  const del = async (id) => {
     const next = orders.filter((o) => o.id !== id)
     setOrders(next)
     try { localStorage.setItem(ORDER_KEY, JSON.stringify(next)) } catch { /* ignore */ }
+    try { await saveCloudOrders(next) } catch { /* ignore */ }
   }
-  const clearAll = () => {
+  const clearAll = async () => {
     if (!window.confirm(t.clear + '?')) return
     setOrders([])
     try { localStorage.removeItem(ORDER_KEY) } catch { /* ignore */ }
+    try { await saveCloudOrders([]) } catch { /* ignore */ }
   }
   return (
     <div className="modal" onClick={onClose}>
