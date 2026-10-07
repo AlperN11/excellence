@@ -889,12 +889,12 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
                               </optgroup>
                             </select>
                           </label>
-                          <label className="field field--sm"><span>{isBed ? t.size : t.color}</span>
+                          <label className="field field--sm field--big"><span>{isBed ? t.size : t.color}</span>
                             <select value={l.variant} onChange={(e) => updLine(i, 'variant', e.target.value)}>
                               {p.options.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
                           </label>
-                          <label className="field field--sm"><span>{t.setType}</span>
+                          <label className="field field--sm field--big"><span>{t.setType}</span>
                             <select value={l.set} onChange={(e) => updLine(i, 'set', e.target.value)}>
                               <option value={t.fullSet}>{t.fullSet}</option>
                               <option value={t.onlyMattress}>{t.onlyMattress}</option>
