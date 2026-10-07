@@ -697,6 +697,8 @@ function CookieBanner({ t, onDone }) {
 
 const ORDER_KEY = 'excellence-orders'
 const ADMIN_PASS = 'Excellence2026'
+const ORDER_WHATSAPP = '905425031204'
+const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
 
 function loadOrders() {
   try { return JSON.parse(localStorage.getItem(ORDER_KEY)) || [] } catch { return [] }
@@ -711,7 +713,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
   const [form, setForm] = useState({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
   const [lines, setLines] = useState([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
   const [err, setErr] = useState('')
-  const [doneId, setDoneId] = useState(null)
+  const [done, setDone] = useState(null)
   useEffect(() => {
     if (!t) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -755,13 +757,34 @@ function OrderModal({ t, ui, lang, products, onClose }) {
       all.unshift(order)
       localStorage.setItem(ORDER_KEY, JSON.stringify(all))
     } catch { /* ignore */ }
+    try {
+      fetch(`https://formsubmit.co/ajax/${ORDER_EMAIL}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `${t.newOrderText} ${order.id}`,
+          message: orderText(order),
+          firma: order.customer.company,
+          yetkili: `${order.customer.contact} - ${order.customer.phone}`,
+        }),
+      }).catch(() => {})
+    } catch { /* ignore */ }
     setErr('')
-    setDoneId(order.id)
+    setDone(order)
   }
+  const orderText = (o) => [
+    `${t.newOrderText} ${o.id}`,
+    `${t.company}: ${o.customer.company}`,
+    `${t.contact}: ${o.customer.contact} - ${o.customer.phone}`,
+    `${t.address}: ${o.customer.address}`,
+    `${t.product}:`,
+    ...o.items.map((it) => `- ${it.product} — ${it.size} × ${it.qty}`),
+    o.note ? `${t.note}: ${o.note}` : '',
+  ].filter(Boolean).join('\n')
   const reset = () => {
     setForm({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
     setLines([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
-    setDoneId(null)
+    setDone(null)
     setTab('corp')
   }
   return (
@@ -770,12 +793,16 @@ function OrderModal({ t, ui, lang, products, onClose }) {
         <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="orderbox">
           <h3>{t.title}</h3>
-          {doneId ? (
+          {done ? (
             <div className="ordersuccess">
               <p className="ordersuccess__title">{t.successTitle}</p>
               <p>{t.successText}</p>
-              <strong>{doneId}</strong>
-              <div><button className="btn btn--primary btn--sm" onClick={reset}>{t.newOrder}</button></div>
+              <strong>{done.id}</strong>
+              <div className="ordersuccess__btns">
+                <a className="btn btn--primary btn--sm" href={`https://wa.me/${ORDER_WHATSAPP}?text=${encodeURIComponent(orderText(done))}`} target="_blank" rel="noreferrer">{t.whatsapp}</a>
+                <a className="btn btn--dark btn--sm" href={`mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(`${t.newOrderText} ${done.id}`)}&body=${encodeURIComponent(orderText(done))}`}>{t.emailSend}</a>
+              </div>
+              <div><button className="btn btn--dark btn--sm" onClick={reset}>{t.newOrder}</button></div>
             </div>
           ) : (
             <>
