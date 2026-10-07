@@ -777,7 +777,10 @@ function OrderFab({ label, onOpen }) {
   return <button className="orderfab" onClick={onOpen}>{label}</button>
 }
 
-function OrderSheet({ t, order, onClose }) {
+function OrderSheet({ t, order, onClose, showPrices, rate, at }) {
+  const sub = showPrices ? orderSubtotal(order) : 0
+  const d = showPrices ? (Number(order.discount) || 0) : 0
+  const net = Math.round(sub * (1 - d / 100))
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal__panel modal__panel--wide modal__panel--single printsheet" onClick={(e) => e.stopPropagation()}>
@@ -795,13 +798,20 @@ function OrderSheet({ t, order, onClose }) {
           </div>
           <p><span>{t.address}: </span><strong>{order.customer.address}</strong></p>
           <table className="sheet__table">
-            <thead><tr><th>{t.product}</th><th>{t.size} / {t.color}</th><th>{t.setType}</th><th>{t.qty}</th></tr></thead>
+            <thead><tr><th>{t.product}</th><th>{t.size} / {t.color}</th><th>{t.setType}</th><th>{t.qty}</th>{showPrices ? <th>{at.subtotal}</th> : null}</tr></thead>
             <tbody>
               {order.items.map((it, i) => (
-                <tr key={i}><td>{it.product}</td><td>{it.variant}</td><td>{it.set || '-'}</td><td>{it.qty}</td></tr>
+                <tr key={i}><td>{it.product}</td><td>{it.variant}</td><td>{it.set || '-'}</td><td>{it.qty}</td>{showPrices ? <td>{(() => { const u = unitPrice(it); return u == null ? '-' : fmtTL(u * it.qty) })()}</td> : null}</tr>
               ))}
             </tbody>
           </table>
+          {showPrices && (
+            <div className="admprice">
+              <div className="admprice__row"><span>{at.subtotal}</span><strong>{fmtTL(sub)}</strong></div>
+              <div className="admprice__row"><span>{at.discount}: %{d}</span></div>
+              <div className="admprice__row admprice__net"><span>{at.net}</span><strong>{fmtTL(net)}{rate ? <small> (≈ {fmtUSD(net / rate)})</small> : null}</strong></div>
+            </div>
+          )}
           {order.note && <p><span>{t.note}: </span>{order.note}</p>}
           <button type="button" className="btn btn--primary btn--sm no-print" onClick={() => window.print()}>{t.savePdf}</button>
         </div>
@@ -1170,7 +1180,7 @@ function AdminModal({ t, ui, orderT, onClose }) {
       </div>
       {printId && (() => {
         const o = orders.find((x) => x.id === printId)
-        return o ? <OrderSheet t={orderT} order={o} onClose={() => setPrintId(null)} /> : null
+        return o ? <OrderSheet t={orderT} order={o} onClose={() => setPrintId(null)} showPrices rate={rate} at={t} /> : null
       })()}
     </div>
   )
