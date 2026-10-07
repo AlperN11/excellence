@@ -323,12 +323,24 @@ const tr = {
       {
         name: 'Space Swing',
         img: '/assets/swing.jpeg',
+        detail: {
+          images: [
+            { src: '/assets/concept/swing/detail.jpg', bg: null },
+            { src: '/assets/concept/swing/detail2.jpg', bg: null },
+          ],
+        },
         text: 'Metal iskeletli, tek kişilik konforlu dış mekân koltuğu. Antrasit ve Kapuçino şasi renk seçenekleriyle her bahçeye uyum sağlar.',
         colors: ['Antrasit', 'Kapuçino'],
       },
       {
         name: 'Gondol',
         img: '/assets/gondol.jpeg',
+        detail: {
+          images: [
+            { src: '/assets/concept/gondol/detail.jpg', bg: null },
+            { src: '/assets/concept/gondol/detail2.jpg', bg: null },
+          ],
+        },
         text: 'Tenteli, çok kişilik salıncak gondol. Dış mekân kumaşı ve elektrostatik toz boyalı gövdesiyle her mevsim dayanıklılık sunar.',
         colors: ['Antrasit', 'Kapuçino'],
       },
@@ -776,12 +788,24 @@ const en = {
       {
         name: 'Space Swing',
         img: '/assets/swing.jpeg',
+        detail: {
+          images: [
+            { src: '/assets/concept/swing/detail.jpg', bg: null },
+            { src: '/assets/concept/swing/detail2.jpg', bg: null },
+          ],
+        },
         text: 'A comfortable single metal-frame outdoor chair. With Anthracite and Cappuccino chassis color options, it suits every garden.',
         colors: ['Anthracite', 'Cappuccino'],
       },
       {
         name: 'Gondol',
         img: '/assets/gondol.jpeg',
+        detail: {
+          images: [
+            { src: '/assets/concept/gondol/detail.jpg', bg: null },
+            { src: '/assets/concept/gondol/detail2.jpg', bg: null },
+          ],
+        },
         text: 'A canopied multi-person swing gondola. With outdoor fabric and an electrostatic powder-coated frame, it offers durability in every season.',
         colors: ['Anthracite', 'Cappuccino'],
       },

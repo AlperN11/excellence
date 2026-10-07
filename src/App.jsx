@@ -466,8 +466,11 @@ function Products({ t, ui }) {
 
 function ConceptModal({ c, t, ui, onClose }) {
   const [zoom, setZoom] = useState(1)
+  const [zoom2, setZoom2] = useState(1)
+  const [page, setPage] = useState(0)
   const [isFull, setIsFull] = useState(false)
   const mediaRef = useRef(null)
+  const detailRef = useRef(null)
   useEffect(() => {
     if (!c) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -478,15 +481,23 @@ function ConceptModal({ c, t, ui, onClose }) {
       document.body.style.overflow = ''
     }
   }, [c, onClose])
-  useEffect(() => { setZoom(1) }, [c?.name])
+  useEffect(() => { setZoom(1); setZoom2(1); setPage(0) }, [c?.name])
   useEffect(() => {
     const onFs = () => setIsFull(!!document.fullscreenElement)
     document.addEventListener('fullscreenchange', onFs)
     return () => document.removeEventListener('fullscreenchange', onFs)
   }, [])
   if (!c) return null
+  const dimgs = c.detail?.images || []
+  const lastPage = dimgs.length
+  const curDetail = dimgs[page]
+  const lightTools = !!curDetail?.dark
   const toggleFull = () => {
     if (!document.fullscreenElement) mediaRef.current?.requestFullscreen?.().catch(() => {})
+    else document.exitFullscreen()
+  }
+  const toggleFullDetail = () => {
+    if (!document.fullscreenElement) detailRef.current?.requestFullscreen?.().catch(() => {})
     else document.exitFullscreen()
   }
   return (
@@ -507,6 +518,27 @@ function ConceptModal({ c, t, ui, onClose }) {
             <img className="gallery__main" src={c.img} alt={c.name} style={{ transform: `scale(${zoom})` }} />
           </div>
         </div>
+        {dimgs.length > 0 && page !== lastPage ? (
+          <div className="modal__info modal__info--detail" ref={detailRef} style={curDetail?.bg ? { background: curDetail.bg } : undefined}>
+            <div className="gallery__toolbar">
+              <button className={`gtool${lightTools ? '' : ' gtool--dark'}`} onClick={() => setZoom2((z) => Math.max(1, +(z - 0.5).toFixed(1)))} aria-label={ui.zoomOut}>−</button>
+              <span className={`gzoom${lightTools ? '' : ' gzoom--dark'}`}>{Math.round(zoom2 * 100)}%</span>
+              <button className={`gtool${lightTools ? '' : ' gtool--dark'}`} onClick={() => setZoom2((z) => Math.min(3, +(z + 0.5).toFixed(1)))} aria-label={ui.zoomIn}>+</button>
+              <button className={`gtool${lightTools ? '' : ' gtool--dark'}`} onClick={toggleFullDetail} aria-label={ui.full}>{isFull ? '⤡' : '⛶'}</button>
+            </div>
+            <div
+              className={`gallery__zoombox ${zoom2 > 1 ? 'zoomed' : ''}`}
+              onClick={() => setZoom2((z) => (z > 1 ? 1 : 2))}
+            >
+              <img className="detail__img" src={curDetail.src} alt={c.name} style={{ transform: `scale(${zoom2})` }} />
+            </div>
+            <div className="pages pages--bottom">
+              {[...Array(dimgs.length + 1)].map((_, i) => (
+                <button key={i} className={`page-dot ${page === i ? 'on' : ''}`} style={{ '--accent': 'var(--maroon)' }} onClick={() => setPage(i)}>{i + 1}</button>
+              ))}
+            </div>
+          </div>
+        ) : (
         <div className="modal__info modal__info--concept">
           <p className="kicker">{t.kicker}</p>
           <h3>{c.name}</h3>
@@ -523,7 +555,15 @@ function ConceptModal({ c, t, ui, onClose }) {
               {t.features.map((f) => <li key={f}>{f}</li>)}
             </ul>
           </div>
+          {dimgs.length > 0 && (
+            <div className="pages pages--bottom">
+              {[...Array(dimgs.length + 1)].map((_, i) => (
+                <button key={i} className={`page-dot ${page === i ? 'on' : ''}`} style={{ '--accent': 'var(--maroon)' }} onClick={() => setPage(i)}>{i + 1}</button>
+              ))}
+            </div>
+          )}
         </div>
+        )}
       </div>
     </div>
   )
