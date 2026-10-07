@@ -166,6 +166,12 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .admrow__body { padding: 14px 16px; font-size: 0.88rem; }
 .admrow__body p { margin: 0 0 8px; }
 .admrow__body ul { margin: 4px 0 12px; padding-left: 18px; }
+.admprice { border-top: 1px solid var(--line); margin-top: 12px; padding-top: 12px; display: grid; gap: 6px; }
+.admprice__row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 0.88rem; }
+.admprice__disc { display: flex; gap: 6px; align-items: center; }
+.admprice__disc input { width: 64px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font: inherit; font-size: 0.85rem; }
+.admprice__net { font-size: 1rem; }
+.admprice__net strong small { font-weight: 400; color: var(--muted); margin-left: 8px; }
 @media (max-width: 560px) {
   .frow { grid-template-columns: 1fr; }
   .oline { grid-template-columns: 1fr 1fr; }

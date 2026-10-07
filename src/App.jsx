@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { content, LANG_KEY, COOKIE_KEY } from './content.js'
+import { orderSubtotal, unitPrice, fmtTL, fmtUSD } from './prices.js'
 
 function Logo({ light }) {
   return (
@@ -862,7 +863,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       customer: { ...form },
       items: lines.map((l) => {
         const p = catalog.find((x) => x.id === l.product)
-        return { product: p ? p.name : l.product, variant: l.variant, set: l.set, qty: l.qty }
+        return { pid: l.product, product: p ? p.name : l.product, variant: l.variant, set: l.set, qty: l.qty }
       }),
       note: form.note,
     }
@@ -1027,6 +1028,8 @@ function AdminModal({ t, ui, orderT, onClose }) {
   const [orders, setOrders] = useState(loadOrders)
   const [openId, setOpenId] = useState(null)
   const [printId, setPrintId] = useState(null)
+  const [rate, setRate] = useState(null)
+  const [disc, setDisc] = useState('')
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
@@ -1053,6 +1056,23 @@ function AdminModal({ t, ui, orderT, onClose }) {
   useEffect(() => {
     if (authed) refresh()
   }, [authed])
+  useEffect(() => {
+    if (!authed) return
+    fetch('https://open.er-api.com/v6/latest/USD')
+      .then((r) => r.json())
+      .then((j) => { if (j && j.rates && j.rates.TRY) setRate(j.rates.TRY) })
+      .catch(() => {})
+  }, [authed])
+  useEffect(() => {
+    const o = orders.find((x) => x.id === openId)
+    setDisc(o && o.discount ? String(o.discount) : '')
+  }, [openId])
+  const updateOrder = async (id, patch) => {
+    const next = orders.map((o) => (o.id === id ? { ...o, ...patch } : o))
+    setOrders(next)
+    try { localStorage.setItem(ORDER_KEY, JSON.stringify(next)) } catch { /* ignore */ }
+    try { await saveCloudOrders(next) } catch { /* ignore */ }
+  }
   const del = async (id) => {
     const next = orders.filter((o) => o.id !== id)
     setOrders(next)
@@ -1100,6 +1120,36 @@ function AdminModal({ t, ui, orderT, onClose }) {
                         <ul>
                           {o.items.map((it, i) => <li key={i}>{it.product} — {it.variant} — {it.set || '-'} × {it.qty} {t.pcs}</li>)}
                         </ul>
+                        {(() => {
+                          const sub = orderSubtotal(o)
+                          const d = Number(o.discount) || 0
+                          const net = Math.round(sub * (1 - d / 100))
+                          return (
+                            <div className="admprice">
+                              {o.items.map((it, i) => {
+                                const u = unitPrice(it)
+                                return (
+                                  <div key={i} className="admprice__row">
+                                    <span>{it.product} — {it.variant} × {it.qty}</span>
+                                    <strong>{u == null ? '-' : fmtTL(u * it.qty)}</strong>
+                                  </div>
+                                )
+                              })}
+                              <div className="admprice__row"><span>{t.subtotal}</span><strong>{fmtTL(sub)}</strong></div>
+                              <div className="admprice__row">
+                                <span>{t.discount}</span>
+                                <span className="admprice__disc">
+                                  <input type="number" min={0} max={100} value={disc} onChange={(e) => setDisc(e.target.value)} />
+                                  <button type="button" className="btn btn--dark btn--sm" onClick={() => updateOrder(o.id, { discount: Number(disc) || 0 })}>{t.apply}</button>
+                                </span>
+                              </div>
+                              <div className="admprice__row admprice__net">
+                                <span>{t.net}</span>
+                                <strong>{fmtTL(net)}{rate ? <small> (≈ {fmtUSD(net / rate)})</small> : null}</strong>
+                              </div>
+                            </div>
+                          )
+                        })()}
                         {o.note && <p>{o.note}</p>}
                         <div className="admtools">
                           <button type="button" className="btn btn--dark btn--sm" onClick={() => setPrintId(o.id)}>{t.pdf}</button>

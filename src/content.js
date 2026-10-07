@@ -443,6 +443,10 @@ const tr = {
     clear: 'Tümünü Temizle',
     refresh: 'Yenile',
     pdf: 'PDF',
+    subtotal: 'Ara Toplam',
+    discount: 'İskonto %',
+    apply: 'Uygula',
+    net: 'Net Toplam',
     pcs: 'adet',
   },
   ui: {
@@ -909,6 +913,10 @@ const en = {
     clear: 'Clear All',
     refresh: 'Refresh',
     pdf: 'PDF',
+    subtotal: 'Subtotal',
+    discount: 'Discount %',
+    apply: 'Apply',
+    net: 'Net Total',
     pcs: 'pcs',
   },
   ui: {
