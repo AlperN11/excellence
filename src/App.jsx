@@ -709,12 +709,50 @@ function OrderFab({ label, onOpen }) {
   return <button className="orderfab" onClick={onOpen}>{label}</button>
 }
 
-function OrderModal({ t, ui, lang, products, onClose }) {
+function OrderSheet({ t, order, onClose }) {
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal__panel modal__panel--wide modal__panel--single printsheet" onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close modal__close--dark no-print" onClick={onClose} aria-label="×">×</button>
+        <div className="orderbox">
+          <h3>{t.title} — {order.id}</h3>
+          <p className="sheet__date">{new Date(order.date).toLocaleString()}</p>
+          <div className="sheet__grid">
+            <div><span>{t.company}</span><strong>{order.customer.company}</strong></div>
+            <div><span>{t.contact}</span><strong>{order.customer.contact}</strong></div>
+            <div><span>{t.phone}</span><strong>{order.customer.phone}</strong></div>
+            <div><span>{t.email}</span><strong>{order.customer.email}</strong></div>
+            <div><span>{t.taxOffice}</span><strong>{order.customer.taxOffice}</strong></div>
+            <div><span>{t.taxNo}</span><strong>{order.customer.taxNo}</strong></div>
+          </div>
+          <p><span>{t.address}: </span><strong>{order.customer.address}</strong></p>
+          <table className="sheet__table">
+            <thead><tr><th>{t.product}</th><th>{t.size} / {t.color}</th><th>{t.qty}</th></tr></thead>
+            <tbody>
+              {order.items.map((it, i) => (
+                <tr key={i}><td>{it.product}</td><td>{it.variant}</td><td>{it.qty}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          {order.note && <p><span>{t.note}: </span>{order.note}</p>}
+          <button type="button" className="btn btn--primary btn--sm no-print" onClick={() => window.print()}>{t.savePdf}</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose }) {
+  const catalog = [
+    ...beds.map((p) => ({ id: p.id, name: p.name, options: p.sizes })),
+    ...garden.map((c) => ({ id: 'g-' + c.name, name: c.name, options: c.colors })),
+  ]
   const [tab, setTab] = useState('corp')
   const [form, setForm] = useState({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
-  const [lines, setLines] = useState([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+  const [lines, setLines] = useState([{ product: catalog[0].id, variant: catalog[0].options[0], qty: 1 }])
   const [err, setErr] = useState('')
   const [done, setDone] = useState(null)
+  const [showSheet, setShowSheet] = useState(false)
   useEffect(() => {
     if (!t) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -727,13 +765,13 @@ function OrderModal({ t, ui, lang, products, onClose }) {
   }, [t, onClose])
   if (!t) return null
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
-  const addLine = () => setLines([...lines, { product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+  const addLine = () => setLines([...lines, { product: catalog[0].id, variant: catalog[0].options[0], qty: 1 }])
   const updLine = (i, k, v) => setLines(lines.map((l, j) => {
     if (j !== i) return l
     const nl = { ...l, [k]: v }
     if (k === 'product') {
-      const p = products.find((x) => x.id === v)
-      if (p) nl.size = p.sizes[0]
+      const p = catalog.find((x) => x.id === v)
+      if (p) nl.variant = p.options[0]
     }
     return nl
   }))
@@ -748,8 +786,8 @@ function OrderModal({ t, ui, lang, products, onClose }) {
       lang,
       customer: { ...form },
       items: lines.map((l) => {
-        const p = products.find((x) => x.id === l.product)
-        return { product: p ? p.name : l.product, size: l.size, qty: l.qty }
+        const p = catalog.find((x) => x.id === l.product)
+        return { product: p ? p.name : l.product, variant: l.variant, qty: l.qty }
       }),
       note: form.note,
     }
@@ -784,18 +822,19 @@ function OrderModal({ t, ui, lang, products, onClose }) {
     `${t.contact}: ${o.customer.contact} - ${o.customer.phone}`,
     `${t.address}: ${o.customer.address}`,
     `${t.product}:`,
-    ...o.items.map((it) => `- ${it.product} — ${it.size} × ${it.qty}`),
+    ...o.items.map((it) => `- ${it.product} — ${it.variant} × ${it.qty}`),
     o.note ? `${t.note}: ${o.note}` : '',
   ].filter(Boolean).join('\n')
   const reset = () => {
     setForm({ company: '', taxOffice: '', taxNo: '', contact: '', phone: '', email: '', address: '', note: '' })
-    setLines([{ product: products[0].id, size: products[0].sizes[0], qty: 1 }])
+    setLines([{ product: catalog[0].id, variant: catalog[0].options[0], qty: 1 }])
     setDone(null)
+    setShowSheet(false)
     setTab('corp')
   }
   return (
     <div className="modal" onClick={onClose}>
-      <div className="modal__panel modal__panel--wide" onClick={(e) => e.stopPropagation()}>
+      <div className="modal__panel modal__panel--wide modal__panel--single" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="orderbox">
           <h3>{t.title}</h3>
@@ -803,6 +842,10 @@ function OrderModal({ t, ui, lang, products, onClose }) {
             <div className="ordersuccess">
               <p className="ordersuccess__title">{t.successTitle}</p>
               <p>{t.createdText}</p>
+              <strong>{done.id}</strong>
+              <div className="ordersuccess__btns">
+                <button type="button" className="btn btn--dark btn--sm" onClick={() => setShowSheet(true)}>{t.viewPdf}</button>
+              </div>
             </div>
           ) : (
             <>
@@ -832,17 +875,23 @@ function OrderModal({ t, ui, lang, products, onClose }) {
                   <label className="field"><span>{t.address}</span><textarea rows={2} value={form.address} onChange={set('address')} /></label>
                   <div className="olines">
                     {lines.map((l, i) => {
-                      const p = products.find((x) => x.id === l.product) || products[0]
+                      const p = catalog.find((x) => x.id === l.product) || catalog[0]
+                      const isBed = !String(l.product).startsWith('g-')
                       return (
                         <div key={i} className="oline">
                           <label className="field"><span>{t.product}</span>
                             <select value={l.product} onChange={(e) => updLine(i, 'product', e.target.value)}>
-                              {products.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
+                              <optgroup label={bedLabel}>
+                                {beds.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
+                              </optgroup>
+                              <optgroup label={gardenLabel}>
+                                {garden.map((x) => <option key={'g-' + x.name} value={'g-' + x.name}>{x.name}</option>)}
+                              </optgroup>
                             </select>
                           </label>
-                          <label className="field field--sm"><span>{t.size}</span>
-                            <select value={l.size} onChange={(e) => updLine(i, 'size', e.target.value)}>
-                              {p.sizes.map((s) => <option key={s} value={s}>{s}</option>)}
+                          <label className="field field--sm"><span>{isBed ? t.size : t.color}</span>
+                            <select value={l.variant} onChange={(e) => updLine(i, 'variant', e.target.value)}>
+                              {p.options.map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
                           </label>
                           <div className="field field--sm"><span>{t.qty}</span>
@@ -867,6 +916,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
           )}
         </div>
       </div>
+      {showSheet && done && <OrderSheet t={t} order={done} onClose={() => setShowSheet(false)} />}
     </div>
   )
 }
@@ -908,7 +958,7 @@ function AdminModal({ t, ui, onClose }) {
   }
   return (
     <div className="modal" onClick={onClose}>
-      <div className="modal__panel modal__panel--wide" onClick={(e) => e.stopPropagation()}>
+      <div className="modal__panel modal__panel--wide modal__panel--single" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="orderbox">
           <h3>{t.title}</h3>
@@ -939,7 +989,7 @@ function AdminModal({ t, ui, onClose }) {
                         <p>{o.customer.address}</p>
                         <p><strong>{t.items}:</strong></p>
                         <ul>
-                          {o.items.map((it, i) => <li key={i}>{it.product} — {it.size} × {it.qty} {t.pcs}</li>)}
+                          {o.items.map((it, i) => <li key={i}>{it.product} — {it.variant} × {it.qty} {t.pcs}</li>)}
                         </ul>
                         {o.note && <p>{o.note}</p>}
                         <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
@@ -1016,7 +1066,7 @@ export default function App() {
       {showLang && <LangModal ui={t.ui} onChoose={choose} />}
       {!consent && !showLang && <CookieBanner t={t.cookies} onDone={saveConsent} />}
       {!showLang && <OrderFab label={t.order.button} onOpen={() => setShowOrder(true)} />}
-      {showOrder && <OrderModal t={t.order} ui={t.ui} lang={lang || 'tr'} products={t.products.items} onClose={() => setShowOrder(false)} />}
+      {showOrder && <OrderModal t={t.order} ui={t.ui} lang={lang || 'tr'} beds={t.products.items} garden={t.concept.items} bedLabel={t.products.title} gardenLabel={t.concept.kicker} onClose={() => setShowOrder(false)} />}
       {showAdmin && <AdminModal t={t.admin} ui={t.ui} onClose={() => setShowAdmin(false)} />}
     </>
   )
