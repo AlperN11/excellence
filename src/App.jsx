@@ -881,8 +881,8 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
                       return (
                         <div key={i} className="oline">
                           <label className="field"><span>{t.product}</span>
-                            <select value={l.product} onChange={(e) => updLine(i, 'product', e.target.value)}>
-                              <option value="">{t.phProduct}</option>
+                            <select required value={l.product} onChange={(e) => updLine(i, 'product', e.target.value)}>
+                              <option value="" disabled hidden>{t.phProduct}</option>
                               <optgroup label={bedLabel}>
                                 {beds.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}
                               </optgroup>
@@ -892,15 +892,15 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
                             </select>
                           </label>
                           <label className="field field--sm"><span>{isBed ? t.size : t.color}</span>
-                            <select value={l.variant} onChange={(e) => updLine(i, 'variant', e.target.value)}>
-                              <option value="">{isBed ? t.phSize : t.phColor}</option>
+                            <select required value={l.variant} onChange={(e) => updLine(i, 'variant', e.target.value)}>
+                              <option value="" disabled hidden>{isBed ? t.phSize : t.phColor}</option>
                               {(p ? p.options : []).map((s) => <option key={s} value={s}>{s}</option>)}
                             </select>
                           </label>
                           {isBed && (
                           <label className="field field--sm"><span>{t.setType}</span>
-                            <select value={l.set} onChange={(e) => updLine(i, 'set', e.target.value)}>
-                              <option value="">{t.phSet}</option>
+                            <select required value={l.set} onChange={(e) => updLine(i, 'set', e.target.value)}>
+                              <option value="" disabled hidden>{t.phSet}</option>
                               <option value={t.fullSet}>{t.fullSet}</option>
                               <option value={t.onlyMattress}>{t.onlyMattress}</option>
                               <option value={t.headboard}>{t.headboard}</option>

@@ -139,6 +139,8 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .field { display: block; margin-bottom: 12px; font-size: 0.85rem; }
 .field > span { display: block; font-weight: 600; margin-bottom: 5px; color: var(--text); }
 .field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 0.9rem; background: #fff; color: var(--text); }
+.field select:invalid { color: #9a97a3; }
+.field select option { color: var(--text); }
 .field textarea { resize: vertical; }
 .oline { display: grid; grid-template-columns: 2.6fr 2.6fr auto auto; gap: 10px; align-items: end; background: var(--cream); border-radius: 12px; padding: 14px; }
 .oline > .field:first-child { grid-column: 1 / -1; }
