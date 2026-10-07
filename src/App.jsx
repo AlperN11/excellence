@@ -129,6 +129,7 @@ function Book({ t, prevLabel, nextLabel }) {
     return i < n ? { type: 'story', i } : { type: 'blank' }
   }
   const face = (slot) => {
+    if (!slot) return null
     if (slot.type === 'cover') {
       return (
         <button key="cover" className="bookcover" onClick={() => go(1)} aria-label={nextLabel}>
@@ -151,7 +152,7 @@ function Book({ t, prevLabel, nextLabel }) {
     setTurn(d > 0
       ? (from === 0
         ? { dir: d, side: 'right', front: { type: 'cover' }, back: { type: 'backcover' } }
-        : { dir: d, side: 'right', front: rightOf(from), toLeft: leftOf(to) })
+        : { dir: d, side: 'right', front: rightOf(from), back: leftOf(to) })
       : (to === 0
         ? { dir: d, side: 'left', front: { type: 'cover' }, back: leftOf(from) }
         : { dir: d, side: 'left', front: rightOf(to), back: leftOf(from) }))
