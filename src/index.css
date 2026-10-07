@@ -140,8 +140,7 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .field > span { display: block; font-weight: 600; margin-bottom: 5px; color: var(--text); }
 .field input, .field select, .field textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 0.9rem; background: #fff; color: var(--text); }
 .field textarea { resize: vertical; }
-.field--big select { font-size: 1.17rem; padding: 13px 16px; }
-.oline { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; background: var(--cream); border-radius: 12px; padding: 14px; }
+.oline { display: grid; grid-template-columns: 1fr 1.5fr 1.5fr auto; gap: 10px; align-items: end; background: var(--cream); border-radius: 12px; padding: 14px; }
 .oline > .field:first-child { grid-column: 1 / -1; }
 .oline .field { margin-bottom: 0; }
 .olines { display: grid; gap: 10px; margin: 6px 0 12px; }
@@ -243,7 +242,6 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .curve-l { transform: perspective(2400px) rotateY(6deg); transform-origin: right center; }
 .curve-r { transform: perspective(2400px) rotateY(-6deg); transform-origin: left center; }
 .bpage2 .bpage { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; transition: transform .25s ease; }
-.book > .bpage2:first-child { box-shadow: inset -24px 0 40px -24px rgba(27,26,34,0.35); }
 .book > .bpage2:first-child { box-shadow: inset -24px 0 40px -24px rgba(27,26,34,0.35); }
 .bpage2 + .bpage2 { box-shadow: inset 24px 0 40px -24px rgba(27,26,34,0.35); }
 .bempty { width: 100%; height: 100%; background: #fff; }
