@@ -802,13 +802,7 @@ function OrderModal({ t, ui, lang, products, onClose }) {
           {done ? (
             <div className="ordersuccess">
               <p className="ordersuccess__title">{t.successTitle}</p>
-              <p>{t.successText}</p>
-              <strong>{done.id}</strong>
-              <div className="ordersuccess__btns">
-                <a className="btn btn--primary btn--sm" href={`https://wa.me/${ORDER_WHATSAPP}?text=${encodeURIComponent(orderText(done))}`} target="_blank" rel="noreferrer">{t.whatsapp}</a>
-                <a className="btn btn--dark btn--sm" href={`mailto:${ORDER_EMAIL}?subject=${encodeURIComponent(`${t.newOrderText} ${done.id}`)}&body=${encodeURIComponent(orderText(done))}`}>{t.emailSend}</a>
-              </div>
-              <div><button className="btn btn--dark btn--sm" onClick={reset}>{t.newOrder}</button></div>
+              <p>{t.createdText}</p>
             </div>
           ) : (
             <>
