@@ -9,6 +9,7 @@ const tr = {
     ['#katalog', 'Katalog'],
     ['#konsept', 'Bahçe Konsepti'],
     ['#iletisim', 'İletişim'],
+    ['#takip', 'Sipariş Takip'],
   ],
   hero: {
     titleA: 'Sağlıklı uykunun',
@@ -437,6 +438,7 @@ const tr = {
     required: 'Lütfen tüm alanları doldurun ve en az bir ürün ekleyin.',
     successTitle: 'Siparişiniz Alındı',
     createdText: 'Siparişiniz oluşturuldu.',
+    trackHint: 'Bu kodla siparişinizi takip edebilirsiniz:',
     viewPdf: 'Siparişi Görüntüle',
     savePdf: 'PDF Olarak Kaydet',
     successText: 'Sipariş numaranız:',
@@ -494,6 +496,7 @@ const en = {
     ['#katalog', 'Catalog'],
     ['#konsept', 'Garden Concept'],
     ['#iletisim', 'Contact'],
+    ['#takip', 'Order Tracking'],
   ],
   hero: {
     titleA: 'Where healthy sleep',
@@ -923,6 +926,7 @@ const en = {
     required: 'Please fill in all fields and add at least one product.',
     successTitle: 'Order Received',
     createdText: 'Your order has been created.',
+    trackHint: 'You can track your order with this code:',
     viewPdf: 'View Order',
     savePdf: 'Save as PDF',
     successText: 'Your order number:',

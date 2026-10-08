@@ -11,7 +11,7 @@ function Logo({ light }) {
   )
 }
 
-function Header({ nav, menuLabel, lang, onLang }) {
+function Header({ nav, menuLabel, lang, onLang, onTrack }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -26,7 +26,9 @@ function Header({ nav, menuLabel, lang, onLang }) {
         <Logo light={!scrolled} />
         <nav className={`nav ${open ? 'nav--open' : ''}`}>
           {nav.map(([href, label]) => (
-            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
+            href === '#takip'
+              ? <a key={href} href={href} onClick={(e) => { e.preventDefault(); setOpen(false); onTrack() }}>{label}</a>
+              : <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
           ))}
         </nav>
         <div className="langswitch" role="group" aria-label="Language">
@@ -959,6 +961,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
             <div className="ordersuccess">
               <p className="ordersuccess__title">{t.successTitle}</p>
               <p>{t.createdText}</p>
+              <p>{t.trackHint}</p>
               <strong>{done.id}</strong>
               <div className="ordersuccess__btns">
                 <button type="button" className="btn btn--dark btn--sm" onClick={() => setShowSheet(true)}>{t.viewPdf}</button>
@@ -1120,7 +1123,7 @@ function AdminModal({ t, ui, orderT, onClose }) {
       <div className="modal__panel modal__panel--wide modal__panel--single" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
         <div className="orderbox">
-          <h3>{t.title}</h3>
+          {authed && <h3>{t.title}</h3>}
           {!authed ? (
             <div className="admlogin">
               <label className="field"><span>{t.passLabel}</span>
@@ -1306,7 +1309,7 @@ export default function App() {
   }
   return (
     <>
-      <Header nav={t.nav} menuLabel={t.ui.menu} lang={lang || 'tr'} onLang={choose} />
+      <Header nav={t.nav} menuLabel={t.ui.menu} lang={lang || 'tr'} onLang={choose} onTrack={() => setShowTrack(true)} />
       <main>
         <Hero t={t.hero} />
         <About t={t.about} />
