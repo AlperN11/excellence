@@ -109,6 +109,10 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .adminlink:hover { color: #fff; }
 .trackrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 16px; }
 .trackrow .field { margin-bottom: 0; }
+.admnotify { font-size: 13px; color: var(--muted, #8b8f9a); margin-top: 8px; }
+.admnotify__i { display: inline-block; margin-left: 10px; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+.admnotify__i--ok { background: rgba(46, 160, 90, .15); color: #2ea05a; }
+.admnotify__i--bad { background: rgba(200, 60, 60, .12); color: #c83c3c; }
 .footer__bottom .adminlink + .adminlink { margin-left: 14px; }
 .orderfab { position: fixed; right: 18px; bottom: 18px; z-index: 110; background: var(--maroon); color: #fff; border: 0; border-radius: 100px; padding: 15px 26px; font-family: var(--sans); font-weight: 700; font-size: 0.92rem; cursor: pointer; box-shadow: 0 14px 36px rgba(139,74,74,0.4); transition: transform .2s, background .2s; }
 .orderfab:hover { background: var(--maroon-deep); transform: translateY(-2px); }

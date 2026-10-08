@@ -885,6 +885,10 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
     if (!l.product || !l.variant) return false
     return String(l.product).startsWith('g-') ? true : !!l.set
   }
+  const withTimeout = (p, ms) => Promise.race([
+    p,
+    new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms)),
+  ])
   const submit = async () => {
     if (!form.company || !form.taxOffice || !form.taxNo || !form.contact || !form.phone || !form.email || !form.address || lines.length === 0 || !lines.every(lineOk)) {
       setErr(t.required)
@@ -918,8 +922,9 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
         await saveCloudOrders(mergeOrders(check, [order]))
       }
     } catch { /* ignore */ }
+    const notify = {}
     try {
-      fetch('https://formspree.io/f/maeqebjb', {
+      const r = await withTimeout(fetch('https://formspree.io/f/maeqebjb', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
@@ -928,15 +933,17 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
           firma: order.customer.company,
           yetkili: `${order.customer.contact} - ${order.customer.phone}`,
         }),
-      }).catch(() => {})
-    } catch { /* ignore */ }
+      }), 12000)
+      notify.formspree = r.ok ? 'ok' : `http-${r.status}`
+    } catch (e) { notify.formspree = 'hata:' + String((e && e.message) || e) }
     if (CALLMEBOT_KEY) {
       try {
-        fetch(`https://api.callmebot.com/whatsapp.php?phone=${ORDER_WHATSAPP}&text=${encodeURIComponent(orderText(order))}&apikey=${CALLMEBOT_KEY}`, { mode: 'no-cors' }).catch(() => {})
-      } catch { /* ignore */ }
+        await withTimeout(fetch(`https://api.callmebot.com/whatsapp.php?phone=${ORDER_WHATSAPP}&text=${encodeURIComponent(orderText(order))}&apikey=${CALLMEBOT_KEY}`, { mode: 'no-cors' }), 12000)
+        notify.callmebot = 'gönderildi'
+      } catch (e) { notify.callmebot = 'hata:' + String((e && e.message) || e) }
     }
     try {
-      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      const r = await withTimeout(fetch('https://api.emailjs.com/api/v1.0/email/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -950,7 +957,22 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
             order_details: orderText(order),
           },
         }),
-      }).catch(() => {})
+      }), 12000)
+      const txt = await r.text().catch(() => '')
+      notify.emailjs = r.ok ? 'ok' : `http-${r.status}:${txt.slice(0, 120)}`
+    } catch (e) { notify.emailjs = 'hata:' + String((e && e.message) || e) }
+    order.notify = notify
+    try {
+      const all = loadOrders()
+      const ix = all.findIndex((o) => o.id === order.id)
+      if (ix >= 0) { all[ix] = order; localStorage.setItem(ORDER_KEY, JSON.stringify(all)) }
+    } catch { /* ignore */ }
+    try {
+      const cloud = await loadCloudOrders()
+      const ix = cloud.findIndex((o) => o.id === order.id)
+      if (ix >= 0) cloud[ix] = order
+      else cloud.unshift(order)
+      await saveCloudOrders(cloud)
     } catch { /* ignore */ }
     setErr('')
     setDone(order)
@@ -1211,6 +1233,20 @@ function AdminModal({ t, ui, orderT, onClose }) {
                           )
                         })()}
                         {o.note && <p>{o.note}</p>}
+                        {o.notify && (
+                          <p className="admnotify">
+                            <strong>{t.notify}:</strong>{' '}
+                            {[
+                              ['formspree', t.notifyAdmin],
+                              ['emailjs', t.notifyCustomer],
+                              ['callmebot', t.notifyWhatsapp],
+                            ].map(([k, label]) => (
+                              <span key={k} className={`admnotify__i admnotify__i--${o.notify[k] === 'ok' || o.notify[k] === 'gönderildi' ? 'ok' : 'bad'}`}>
+                                {label}: {o.notify[k] || '-'}
+                              </span>
+                            ))}
+                          </p>
+                        )}
                         <div className="admtools">
                           <button type="button" className="btn btn--dark btn--sm" onClick={() => setPrintId(o.id)}>{t.pdf}</button>
                           <button type="button" className="btn btn--dark btn--sm" onClick={() => del(o.id)}>{t.delete}</button>
