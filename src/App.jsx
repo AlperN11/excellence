@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { content, LANG_KEY, COOKIE_KEY } from './content.js'
+import emailjs from '@emailjs/browser'
 import { orderSubtotal, unitPrice, fmtTL, fmtUSD } from './prices.js'
 
 function Logo({ light }) {
@@ -758,6 +759,9 @@ const JSONBIN_BIN = '6ac6b41eac6210605a1d9ed9'
 const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
+const EMAILJS_KEY = 'QFqEWh0lY37ixB1in'
+const EMAILJS_SERVICE = 'service_qiazkj9'
+const EMAILJS_TEMPLATE = 'template_774q82d'
 const FORMSUBMIT_ID = '1e288f991b39aa98635024d7aad4da6'
 const CALLMEBOT_KEY = '4286132'
 
@@ -932,6 +936,14 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
         fetch(`https://api.callmebot.com/whatsapp.php?phone=${ORDER_WHATSAPP}&text=${encodeURIComponent(orderText(order))}&apikey=${CALLMEBOT_KEY}`, { mode: 'no-cors' }).catch(() => {})
       } catch { /* ignore */ }
     }
+    try {
+      emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+        customer_email: order.customer.email,
+        customer_name: order.customer.contact,
+        order_id: order.id,
+        order_details: orderText(order),
+      }, { publicKey: EMAILJS_KEY }).catch(() => {})
+    } catch { /* ignore */ }
     setErr('')
     setDone(order)
   }
