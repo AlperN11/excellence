@@ -661,7 +661,6 @@ function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
         <button type="button" className="adminlink" onClick={onAdmin}>{adminLabel}</button>
-        <button type="button" className="adminlink" onClick={onTrack}>{trackLabel}</button>
       </div>
     </footer>
   )
@@ -892,6 +891,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       id: 'EX-' + Date.now().toString(36).toUpperCase(),
       date: new Date().toISOString(),
       lang,
+      status: 'preparing',
       customer: { ...form },
       items: lines.map((l) => {
         const p = catalog.find((x) => x.id === l.product)
@@ -1146,6 +1146,13 @@ function AdminModal({ t, ui, orderT, onClose }) {
                     </button>
                     {openId === o.id && (
                       <div className="admrow__body">
+                        <p><strong>{o.id}</strong> — {new Date(o.date).toLocaleString()}</p>
+                        <label className="field field--sm"><span>{t.status}</span>
+                          <select value={o.status === 'done' ? 'done' : 'preparing'} onChange={(e) => updateOrder(o.id, { status: e.target.value })}>
+                            <option value="preparing">{t.preparing}</option>
+                            <option value="done">{t.done}</option>
+                          </select>
+                        </label>
                         <p><strong>{t.customer}:</strong> {o.customer.company} — {o.customer.contact} — {o.customer.phone} — {o.customer.email}</p>
                         <p>{o.customer.taxOffice} / {o.customer.taxNo}</p>
                         <p>{o.customer.address}</p>
@@ -1213,6 +1220,7 @@ function TrackModal({ t, ui, orderT, onClose }) {
   const [code, setCode] = useState('')
   const [state, setState] = useState('idle')
   const [order, setOrder] = useState(null)
+  const [showSheet, setShowSheet] = useState(false)
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
@@ -1254,16 +1262,19 @@ function TrackModal({ t, ui, orderT, onClose }) {
             <div className="admrow">
               <div className="admrow__body">
                 <p><strong>{order.id}</strong> — {new Date(order.date).toLocaleString()}</p>
+                <p><strong>{t.status}:</strong> {order.status === 'done' ? t.done : t.preparing}</p>
                 <p>{order.customer.company} — {order.customer.contact}</p>
                 <ul>
                   {order.items.map((it, i) => <li key={i}>{it.product} — {it.variant} × {it.qty}</li>)}
                 </ul>
                 {order.note && <p>{order.note}</p>}
+                <button type="button" className="btn btn--dark btn--sm" onClick={() => setShowSheet(true)}>{orderT.savePdf}</button>
               </div>
             </div>
           )}
         </div>
       </div>
+      {showSheet && order && <OrderSheet t={orderT} order={order} onClose={() => setShowSheet(false)} />}
     </div>
   )
 }
