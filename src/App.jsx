@@ -658,9 +658,13 @@ function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
         </div>
       </div>
       <div className="footer__bottom">
-        <span>© {new Date().getFullYear()} {t.rightsA}</span>
-        <span>{t.rightsB}</span>
-        <a className="adminlink" href="https://excellence.tr/admin.html">{adminLabel}</a>
+        <div className="footer__bottom-left">
+          <button type="button" className="adminlink" onClick={onAdmin}>{adminLabel}</button>
+        </div>
+        <div className="footer__bottom-legal">
+          <span>© {new Date().getFullYear()} {t.rightsA}</span>
+          <span>{t.rightsB}</span>
+        </div>
       </div>
     </footer>
   )

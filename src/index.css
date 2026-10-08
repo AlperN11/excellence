@@ -107,9 +107,6 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .btn--sm { padding: 10px 20px; font-size: 0.82rem; }
 .adminlink { background: none; border: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.45); text-decoration: underline; }
 .adminlink:hover { color: #fff; }
-.adminpage { min-height: 100vh; background: #14131a; }
-.adminpage .modal { background: #14131a; backdrop-filter: none; }
-.adminpage .modal__panel { max-height: calc(100vh - 48px); overflow: auto; }
 .trackrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 16px; }
 .trackrow .field { margin-bottom: 0; }
 .admnotify { font-size: 13px; color: var(--muted, #8b8f9a); margin-top: 8px; }
@@ -472,7 +469,11 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .footer__col h4 { font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.18em; color: var(--lavender); margin-bottom: 14px; }
 .footer__col p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0 0 8px; }
 .footer__col a:hover { color: #fff; }
-.footer__bottom { max-width: var(--wrap); margin: 48px auto 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 0.8rem; color: rgba(255,255,255,0.45); }
+.footer__bottom { max-width: var(--wrap); margin: 48px auto 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 0.8rem; color: rgba(255,255,255,0.45); }
+.footer__bottom-left { flex: 0 0 auto; }
+.footer__bottom-legal { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; }
+/* Siparis olustur butonu sag altta durdugu icin footer yonetim linki solda; ikisi cakismasin */
+.footer { padding-bottom: 12px; }
 
 /* reveal on scroll */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
