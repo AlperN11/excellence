@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { content, LANG_KEY, COOKIE_KEY } from './content.js'
-import emailjs from '@emailjs/browser'
 import { orderSubtotal, unitPrice, fmtTL, fmtUSD } from './prices.js'
 
 function Logo({ light }) {
@@ -937,12 +936,21 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
       } catch { /* ignore */ }
     }
     try {
-      emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
-        customer_email: order.customer.email,
-        customer_name: order.customer.contact,
-        order_id: order.id,
-        order_details: orderText(order),
-      }, { publicKey: EMAILJS_KEY }).catch(() => {})
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: EMAILJS_SERVICE,
+          template_id: EMAILJS_TEMPLATE,
+          user_id: EMAILJS_KEY,
+          template_params: {
+            customer_email: order.customer.email,
+            customer_name: order.customer.contact,
+            order_id: order.id,
+            order_details: orderText(order),
+          },
+        }),
+      }).catch(() => {})
     } catch { /* ignore */ }
     setErr('')
     setDone(order)
