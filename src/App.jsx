@@ -660,7 +660,7 @@ function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
       <div className="footer__bottom">
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
-        <a className="adminlink" href="https://excellenceadmin.tr">{adminLabel}</a>
+        <a className="adminlink" href="https://admin.excellence.tr">{adminLabel}</a>
       </div>
     </footer>
   )
@@ -759,7 +759,7 @@ const ADMIN_PASS = 'Alperen1204.'
 const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
 const EMAILJS_KEY = 'QFqEWh0lY37ixB1in'
-const EMAILJS_SERVICE = 'service_qiazkj9'
+const EMAILJS_SERVICE = 'service_t3necp9'
 const EMAILJS_TEMPLATE = 'template_92394pg'
 const FORMSUBMIT_ID = '1e288f991b39aa98635024d7aad4da6'
 const CALLMEBOT_KEY = '4286132'

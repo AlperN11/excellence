@@ -12,7 +12,7 @@ const t = content[lang] || content.tr
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <div className="adminpage">
-      <AdminModal t={t.admin} ui={t.ui} orderT={t.order} onClose={() => { window.location.href = '/' }} />
+      <AdminModal t={t.admin} ui={t.ui} orderT={t.order} onClose={() => { window.location.href = 'https://excellence.tr' }} />
     </div>
   </React.StrictMode>,
 )
