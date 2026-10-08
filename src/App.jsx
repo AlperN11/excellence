@@ -630,7 +630,7 @@ function CTA({ t }) {  return (
   )
 }
 
-function Contact({ t, adminLabel, onAdmin }) {
+function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
   return (
     <footer id="iletisim" className="footer">
       <div className="footer__top">
@@ -659,6 +659,7 @@ function Contact({ t, adminLabel, onAdmin }) {
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
         <button type="button" className="adminlink" onClick={onAdmin}>{adminLabel}</button>
+        <button type="button" className="adminlink" onClick={onTrack}>{trackLabel}</button>
       </div>
     </footer>
   )
@@ -1205,6 +1206,65 @@ function AdminModal({ t, ui, orderT, onClose }) {
   )
 }
 
+function TrackModal({ t, ui, orderT, onClose }) {
+  const [code, setCode] = useState('')
+  const [state, setState] = useState('idle')
+  const [order, setOrder] = useState(null)
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [onClose])
+  const search = async () => {
+    const id = code.trim().toUpperCase()
+    if (!id) return
+    setState('loading')
+    setOrder(null)
+    try {
+      const cloud = await loadCloudOrders()
+      const found = cloud.find((o) => String(o.id).toUpperCase() === id)
+      if (found) { setOrder(found); setState('done'); return }
+    } catch { /* ignore */ }
+    const local = loadOrders().find((o) => String(o.id).toUpperCase() === id)
+    if (local) { setOrder(local); setState('done'); return }
+    setState('notfound')
+  }
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal__panel modal__panel--wide modal__panel--single" onClick={(e) => e.stopPropagation()}>
+        <button className="modal__close modal__close--dark" onClick={onClose} aria-label={ui.close}>×</button>
+        <div className="orderbox">
+          <h3>{t.title}</h3>
+          <div className="trackrow">
+            <label className="field"><span>{t.code}</span>
+              <input value={code} placeholder={t.codePh} onChange={(e) => setCode(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') search() }} />
+            </label>
+            <button type="button" className="btn btn--primary btn--sm" onClick={search}>{t.search}</button>
+          </div>
+          {state === 'loading' && <p className="page-empty">{t.loading}</p>}
+          {state === 'notfound' && <p className="ordererr">{t.notFound}</p>}
+          {state === 'done' && order && (
+            <div className="admrow">
+              <div className="admrow__body">
+                <p><strong>{order.id}</strong> — {new Date(order.date).toLocaleString()}</p>
+                <p>{order.customer.company} — {order.customer.contact}</p>
+                <ul>
+                  {order.items.map((it, i) => <li key={i}>{it.product} — {it.variant} × {it.qty}</li>)}
+                </ul>
+                {order.note && <p>{order.note}</p>}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('.section__head, .pcard, .fabric-card, .tech-card, .ccard, .stat, .about__media, .about__text, .bookwrap')
@@ -1228,6 +1288,7 @@ export default function App() {
   const [consent, setConsent] = useState(null)
   const [showOrder, setShowOrder] = useState(false)
   const [showAdmin, setShowAdmin] = useState(false)
+  const [showTrack, setShowTrack] = useState(false)
   const t = content[lang || 'tr']
   useReveal()
   useSmoothAnchors()
@@ -1256,12 +1317,13 @@ export default function App() {
         <Catalog t={t.catalog} />
         <CTA t={t.cta} />
       </main>
-      <Contact t={t.contact} adminLabel={t.order.adminLink} onAdmin={() => setShowAdmin(true)} />
+      <Contact t={t.contact} adminLabel={t.order.adminLink} trackLabel={t.track.link} onAdmin={() => setShowAdmin(true)} onTrack={() => setShowTrack(true)} />
       {showLang && <LangModal ui={t.ui} onChoose={choose} />}
       {!consent && !showLang && <CookieBanner t={t.cookies} onDone={saveConsent} />}
       {!showLang && <OrderFab label={t.order.button} onOpen={() => setShowOrder(true)} />}
       {showOrder && <OrderModal t={t.order} ui={t.ui} lang={lang || 'tr'} beds={t.products.items} garden={t.concept.items} bedLabel={t.products.title} gardenLabel={t.concept.kicker} onClose={() => setShowOrder(false)} />}
       {showAdmin && <AdminModal t={t.admin} ui={t.ui} orderT={t.order} onClose={() => setShowAdmin(false)} />}
+      {showTrack && <TrackModal t={t.track} ui={t.ui} orderT={t.order} onClose={() => setShowTrack(false)} />}
     </>
   )
 }

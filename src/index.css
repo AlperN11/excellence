@@ -107,6 +107,9 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .btn--sm { padding: 10px 20px; font-size: 0.82rem; }
 .adminlink { background: none; border: 0; padding: 0; cursor: pointer; font-size: 0.8rem; color: rgba(255,255,255,0.45); text-decoration: underline; }
 .adminlink:hover { color: #fff; }
+.trackrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 16px; }
+.trackrow .field { margin-bottom: 0; }
+.footer__bottom .adminlink + .adminlink { margin-left: 14px; }
 .orderfab { position: fixed; right: 18px; bottom: 18px; z-index: 110; background: var(--maroon); color: #fff; border: 0; border-radius: 100px; padding: 15px 26px; font-family: var(--sans); font-weight: 700; font-size: 0.92rem; cursor: pointer; box-shadow: 0 14px 36px rgba(139,74,74,0.4); transition: transform .2s, background .2s; }
 .orderfab:hover { background: var(--maroon-deep); transform: translateY(-2px); }
 .modal__panel--wide { max-width: 760px; }
