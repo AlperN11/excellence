@@ -761,7 +761,7 @@ const ORDER_WHATSAPP = '905425031204'
 const ORDER_EMAIL = 'alperen.deveci123@gmail.com'
 const EMAILJS_KEY = 'QFqEWh0lY37ixB1in'
 const EMAILJS_SERVICE = 'service_qiazkj9'
-const EMAILJS_TEMPLATE = 'template_774q82d'
+const EMAILJS_TEMPLATE = 'template_92394pg'
 const FORMSUBMIT_ID = '1e288f991b39aa98635024d7aad4da6'
 const CALLMEBOT_KEY = '4286132'
 
