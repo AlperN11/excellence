@@ -660,7 +660,7 @@ function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
       <div className="footer__bottom">
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
-        <button type="button" className="adminlink" onClick={onAdmin}>{adminLabel}</button>
+        <a className="adminlink" href="https://excellenceadmin.tr">{adminLabel}</a>
       </div>
     </footer>
   )
@@ -1096,7 +1096,7 @@ function OrderModal({ t, ui, lang, beds, garden, bedLabel, gardenLabel, onClose 
   )
 }
 
-function AdminModal({ t, ui, orderT, onClose }) {
+export function AdminModal({ t, ui, orderT, onClose }) {
   const [authed, setAuthed] = useState(false)
   const [pass, setPass] = useState('')
   const [wrong, setWrong] = useState(false)
