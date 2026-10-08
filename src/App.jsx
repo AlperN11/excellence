@@ -660,7 +660,7 @@ function Contact({ t, adminLabel, trackLabel, onAdmin, onTrack }) {
       <div className="footer__bottom">
         <span>© {new Date().getFullYear()} {t.rightsA}</span>
         <span>{t.rightsB}</span>
-        <a className="adminlink" href="https://admin.excellence.tr">{adminLabel}</a>
+        <a className="adminlink" href="https://excellence.tr/admin.html">{adminLabel}</a>
       </div>
     </footer>
   )
