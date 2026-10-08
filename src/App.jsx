@@ -599,8 +599,26 @@ function Concept({ t, ui }) {
   )
 }
 
-function CTA({ t }) {
+function Catalog({ t }) {
   return (
+    <section id="katalog" className="catalog section">
+      <div className="section__head">
+        <p className="kicker">{t.kicker}</p>
+        <h2>{t.title}</h2>
+      </div>
+      <div className="catalog__viewer">
+        <object data={t.file} type="application/pdf">
+          <embed src={t.file} type="application/pdf" />
+        </object>
+      </div>
+      <div className="catalog__actions">
+        <a className="btn btn--primary" href={t.file} download>{t.download}</a>
+      </div>
+    </section>
+  )
+}
+
+function CTA({ t }) {  return (
     <section className="cta">
       <img className="cta__bg" src="/assets/products/lavender/1.jpg" alt="" />
       <div className="cta__scrim" />
@@ -1235,6 +1253,7 @@ export default function App() {
         <Tech t={t.tech} />
         <Products t={t.products} ui={t.ui} />
         <Concept t={t.concept} ui={t.ui} />
+        <Catalog t={t.catalog} />
         <CTA t={t.cta} />
       </main>
       <Contact t={t.contact} adminLabel={t.order.adminLink} onAdmin={() => setShowAdmin(true)} />

@@ -5,8 +5,9 @@ const tr = {
     ['#kumas', 'Kumaş Teknolojileri'],
     ['#teknoloji', 'Uyku Teknolojileri'],
     ['#urunler', 'Yatak Koleksiyonu'],
-    ['#konsept', 'Bahçe Konsepti'],
     ['#hakkimizda', 'Hakkımızda'],
+    ['#katalog', 'Katalog'],
+    ['#konsept', 'Bahçe Konsepti'],
     ['#iletisim', 'İletişim'],
   ],
   hero: {
@@ -351,6 +352,12 @@ const tr = {
     titleEm: 'bir yatırımdır.',
     button: 'Bize Ulaşın',
   },
+  catalog: {
+    kicker: 'Katalog',
+    title: '2026 Kataloğu',
+    download: 'PDF İndir',
+    file: '/assets/excellence-katalog.pdf',
+  },
   contact: {
     info: 'Excellence Bedding Ürün özellikleri, fiyatları ve diğer bilgiler önceden bildirilmeksizin değiştirilebilir.',
     contactTitle: 'İLETİŞİM',
@@ -475,8 +482,9 @@ const en = {
     ['#kumas', 'Fabric Technologies'],
     ['#teknoloji', 'Sleep Technologies'],
     ['#urunler', 'Mattress Collection'],
-    ['#konsept', 'Garden Concept'],
     ['#hakkimizda', 'About'],
+    ['#katalog', 'Catalog'],
+    ['#konsept', 'Garden Concept'],
     ['#iletisim', 'Contact'],
   ],
   hero: {
@@ -820,6 +828,12 @@ const en = {
     titleA: 'Quality sleep is not a choice,',
     titleEm: 'but an investment.',
     button: 'Contact Us',
+  },
+  catalog: {
+    kicker: 'Catalog',
+    title: '2026 Catalog',
+    download: 'Download PDF',
+    file: '/assets/excellence-katalog.pdf',
   },
   contact: {
     info: 'Excellence Bedding product features, prices and other information are subject to change without prior notice.',

@@ -303,6 +303,9 @@ section[id], footer[id] { scroll-margin-top: 60px; }
 .bookdots { display: flex; gap: 8px; }
 .bookdots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: var(--line); cursor: pointer; padding: 0; }
 .bookdots button.on { background: var(--maroon); }
+.catalog__viewer { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--cream); }
+.catalog__viewer object, .catalog__viewer embed { display: block; width: 100%; height: min(80vh, 900px); border: 0; }
+.catalog__actions { display: flex; justify-content: center; margin-top: 26px; }
 
 /* tech (dark) */
 .section--dark { background: var(--ink); color: #fff; padding-top: clamp(72px,9vw,130px); padding-bottom: clamp(72px,9vw,130px); }
